@@ -1,3 +1,4 @@
 phpMyAdmin/*
 vendor/cet/config.inc.php
 !.gitignore
+config.inc.php
