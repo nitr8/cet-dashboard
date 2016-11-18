@@ -134,21 +134,15 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
           </ul>
 
           <ul class="nav navbar-top-links navbar-right">
-        
             <li>
               <a href="?page=logout">
                 <i class="fa fa-sign-out"></i> Log out (<?php if (USE_AUTH) echo $userName; ?>)
               </a>
             </li>
-        
           </ul>
-        
         </div>
-
         <?php } ?>
-
       </nav>
-
     </div>
   
     <?php
