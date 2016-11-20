@@ -1,4 +1,16 @@
 <?php
+
+
+function toHHMMSS ($seconds)
+{
+
+
+$hours = floor($seconds / 3600);
+$minutes = floor(($seconds / 60) % 60);
+$seconds = $seconds % 60;
+
+return $hours.":".$minutes.":".$seconds;
+}
 $i = 0;
 $_count = 0;
 $_result = array();
@@ -39,8 +51,16 @@ while ($row = mysql_fetch_array($retval))
 	$reportTypeName = $row['ReportTypeName'];
 }
 
-
-$sql = "SELECT * from ".MYSQL_DB.".ReportData where idReport = ".$_selectedReportId; // Create connection
+switch ($reportTypeId)
+{
+case "1":
+	$sql = "SELECT * from ".MYSQL_DB.".ReportData where idReport = ".$_selectedReportId; // Create connection
+	break;
+case "3":
+	$sql = "SELECT * from ".MYSQL_DB.".ReportDataForTicket where idReport = ".$_selectedReportId; // Create connection
+	break;
+	
+}
 $retval = mysql_query( $sql, $conn );
 while ($row = mysql_fetch_array($retval))
 {
@@ -87,6 +107,11 @@ while ($row = mysql_fetch_array($SQLlistOfPropsRetVal))
                               
 			</div>
 			</div>
+			
+<?php
+if($reportTypeId ==1)			
+{
+?>
 			<div class="col-lg-4">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
@@ -182,9 +207,7 @@ while ($row = mysql_fetch_array($SQLlistOfPropsRetVal))
 			</div>
         </div>
             
-	</div>
-</div>
-</div>
+
 
 <script>
 var chart =  new Chartist.Bar('#flot-bar-product-count', 
@@ -251,9 +274,6 @@ $(function() {
 });
 
 <?php 
-
-
-
 $statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = 1 and propertyName = '".$propertyName1."' order by weeknumber", $conn );
 while ($row = mysql_fetch_array($statsSQL))
 {
@@ -378,3 +398,66 @@ function doPlot(position) {
 });
 
 </script>
+
+<?php 
+}
+else
+if($reportTypeId == 3)
+{
+?>
+<div class="col-lg-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+<?php 
+        $_html = '
+        <table cellpadding="2" cellspacing="1" border="0" style="width: 100%">
+    	<tr>
+        	<td style=" border-left: none;" class="title">Id</td>
+			<td style=" border-left: none;" class="title">Owner</td>
+			<td style=" border-left: none;" class="title">Opened</td>
+			<td style=" border-left: none;" class="title">Case</td>
+			<td style=" border-left: none;" class="title">First Reponse Time</td>
+			<td style=" border-left: none;" class="title">Average Response Time</td>
+			<td style=" border-left: none;" class="title">Total replies</td>
+			<td style=" border-left: none;" class="title">Status</td>
+        </tr>';
+        $_count = count($_result);
+        $_noclass = $_count - 1;
+
+        for($i=0; $i<$_count; $i++){
+         
+            if(($i%2) == 0){
+                $_class = 'odd';
+            }else{
+                $_class = 'even';
+            }
+                $_html .= '
+                <tr>
+                	<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['intValue1'].'</td>
+					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue1'].'</td>
+					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue2'].'</td>
+					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue3'].'</td>
+					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.toHHMMSS($_result[$i]['intValue2']).'</td>
+					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.toHHMMSS($_result[$i]['intValue3']).'</td>
+					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['intValue4'].'</td>
+					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue4'].'</td>
+                    
+                </tr>
+                ';
+        }
+
+        $_html .= '</table>';
+        echo $_html;
+        unset($_html);
+        unset($_noclass);
+?>
+                        </div>
+                    </div>
+               </div>
+
+<?php
+}
+?>
+	</div>
+</div>
+</div>
