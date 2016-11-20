@@ -254,20 +254,48 @@ $(function() {
 
 
 
-$statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = 1 and propertyName = '".$propertyName1."'", $conn );
+$statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = 1 and propertyName = '".$propertyName1."' order by weeknumber", $conn );
 while ($row = mysql_fetch_array($statsSQL))
 {
 	$stats1[] = $row;
 }
 
-$statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = 1 and propertyName = '".$propertyName2."'", $conn );
+$statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = 1 and propertyName = '".$propertyName2."' order by weeknumber", $conn );
 while ($row = mysql_fetch_array($statsSQL))
 {
 	$stats2[] = $row;
 }
 ?>
+function includes(source,k) {
+  for(var i=0; i < source.length; i++){
+    if( source[i][0] === k || ( source[i][0] !== source[i][0] && k !== k ) ){
+      return true;
+    }
+  }
+  return false;
+}
+	
+function addzeroes(data,target) 
+{
+	var newData = target;
+	for (i = 1; i <= data.length; i++) {
+		if(!includes(target,data[i-1][0]))
+			target.push([data[i-1][0],0]);
+	}
+	return newData;
+}
+
+function sortFunction(a, b) {
+    if (a[0] === b[0]) {
+        return 0;
+    }
+    else {
+        return (a[0] < b[0]) ? -1 : 1;
+    }
+}
+
 $(function() {
-    var oilprices = [
+    var statisticsLeftSide = [
     <?php
             $i =1;
             foreach($stats1 as $stat)
@@ -278,7 +306,7 @@ $(function() {
             }
         ?>];
 
-    var exchangerates = [
+	var statisticsRightSide = [
     <?php
             $i =1;
             foreach($stats2 as $stat)
@@ -289,17 +317,24 @@ $(function() {
             }
         ?>];
 
+statisticsRightSide = addzeroes (statisticsLeftSide,statisticsRightSide).sort(sortFunction);
+statisticsLeftSide = addzeroes (statisticsRightSide,statisticsLeftSide).sort(sortFunction);
 
-
-   function doPlot(position) {
+function doPlot(position) {
         $.plot($("#flot-line-chart-multi"), [{
-            data: oilprices,
+            data: statisticsLeftSide,
             label: "<?php echo $propertyName1;?>"
         }, {
-            data: exchangerates,
+            data: statisticsRightSide,
             label: "<?php echo $propertyName2;?>",
             yaxis: 2
-        }], {
+        }], 
+		{	
+			series: {
+				lines: { show: true },
+				points: { show: true }
+			},	
+		
             
             yaxes: [{
                 min: 0
