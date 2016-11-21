@@ -112,6 +112,7 @@ if(
 	$reportTypeId == MANAGED_MIGRATIONS || 
 	$reportTypeId == QFE_FIXES_PER_PRODUCT)			
 {
+$_count = count($_result);
 ?>
 			<div class="col-lg-4">
 				<div class="ibox float-e-margins">
@@ -123,7 +124,7 @@ if(
         	<td style="width: 50%; border-left: none;" class="title">Product</td>
             <td style=" padding-left: 10px;" class="title">Total</td>
         </tr>';
-        $_count = count($_result);
+        
         $_noclass = $_count - 1;
 
         for($i=0; $i<$_count; $i++){
@@ -142,6 +143,9 @@ if(
         }
 
         $_html .= '</table>';
+		if($_count==0)
+$_html ="No records found !";
+
         echo $_html;
         unset($_html);
         unset($_noclass);
@@ -149,14 +153,14 @@ if(
                         </div>
                     </div>
                </div>
-			<div class="col-lg-6">
+			<div class="col-lg-6" <?php if($_count==0) echo "style =\"visibility: hidden;\"";  ?>>
                     <div class="ibox float-e-margins">
                         <div class="ibox-content" >
                          <div class="flot-chart-content" id="flot-bar-product-count"></div>
                         </div>
                     </div>
             </div>
-			  <div class="col-lg-2">
+			  <div class="col-lg-2" <?php if($_count==0) echo "style =\"visibility: hidden;\"";  ?>>
                     <div class="ibox float-e-margins">
 
                     <div class="ibox-content">
@@ -290,6 +294,7 @@ $(function() {
 });
 
 <?php 
+
 $statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId." and propertyName = '".$propertyName1."' order by weeknumber", $conn );
 while ($row = mysql_fetch_array($statsSQL))
 {
@@ -486,8 +491,10 @@ if($reportTypeId == AGED_CASES || $reportTypeId == CLOSED_CASES || $reportTypeId
                 </tr>
                 ';
         }
-
+	
         $_html .= '</table>';
+		if($_count == 0 )
+			$_html .= "<div class=\"col-lg-12\">No records !</div>";
         echo $_html;
         unset($_html);
         unset($_noclass);
