@@ -1,5 +1,8 @@
 <?php 
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include 'vendor/cet/config.inc.php'; 
 include 'vendor/cet/helper/mysql.php'; 
 include 'vendor/cet/helper/others.php';

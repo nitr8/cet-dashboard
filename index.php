@@ -54,7 +54,6 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
   <script src="vendor/slimscroll/jquery.slimscroll.min.js"></script>
 
   <script src="vendor/inspinia/js/inspinia.js"></script>
-  <script src="vendor/pace/pace.min.js"></script>
   <script src="vendor/picker/js/datepicker.js"></script>
   <script src="vendor/chartist/js/chartist.min.js"></script>
   <script src="vendor/flot/jquery.flot.js"></script>
