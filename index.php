@@ -118,7 +118,7 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
               </a>
               <ul class="dropdown-menu" role="menu">
                 <?php
-                  $sql = "SELECT * FROM ".MYSQL_DB.".ReportType";// Create connection
+                  $sql = "SELECT * FROM ".MYSQL_DB.".ReportType order by `Order` asc";// Create connection
                   $conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
                   mysql_select_db(MYSQL_DB);
                   $retval = mysql_query( $sql, $conn );
