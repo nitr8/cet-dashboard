@@ -1,5 +1,4 @@
 <?php
-
 function secondsToTime($seconds)
 {
     // extract hours

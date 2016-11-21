@@ -1,16 +1,6 @@
 <?php
+include 'vendor/cet/helper/reporthelper.php'; 
 
-
-function toHHMMSS ($seconds)
-{
-
-
-$hours = floor($seconds / 3600);
-$minutes = floor(($seconds / 60) % 60);
-$seconds = $seconds % 60;
-
-return $hours.":".$minutes.":".$seconds;
-}
 $i = 0;
 $_count = 0;
 $_result = array();
@@ -54,6 +44,7 @@ while ($row = mysql_fetch_array($retval))
 switch ($reportTypeId)
 {
 case "1":
+case "9":
 	$sql = "SELECT * from ".MYSQL_DB.".ReportData where idReport = ".$_selectedReportId; // Create connection
 	break;
 case "3":
@@ -78,11 +69,6 @@ while ($row = mysql_fetch_array($SQLlistOfPropsRetVal))
 	if($propertyName1=="")	
 	$propertyName1=$row["PropertyName"];
 }
-	
-
-	
-
-
 
 ?>
 <div class="wrapper wrapper-content">
@@ -437,8 +423,8 @@ if($reportTypeId == 3)
 					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue1'].'</td>
 					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue2'].'</td>
 					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue3'].'</td>
-					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.toHHMMSS($_result[$i]['intValue2']).'</td>
-					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.toHHMMSS($_result[$i]['intValue3']).'</td>
+					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue2']).'</td>
+					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue3']).'</td>
 					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['intValue4'].'</td>
 					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue4'].'</td>
                     
