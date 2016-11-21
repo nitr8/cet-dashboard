@@ -58,7 +58,7 @@ while ($row = mysql_fetch_array($retval))
 	$_result[] = $row;
 }
 
-$SQLlistOfProps = "SELECT DISTINCT PropertyName from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = 1";
+$SQLlistOfProps = "SELECT DISTINCT PropertyName from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId;
 $SQLlistOfPropsRetVal = mysql_query( $SQLlistOfProps, $conn );
 while ($row = mysql_fetch_array($SQLlistOfPropsRetVal))
 {
@@ -95,7 +95,7 @@ while ($row = mysql_fetch_array($SQLlistOfPropsRetVal))
 			</div>
 			
 <?php
-if($reportTypeId ==1)			
+if($reportTypeId ==1 || $reportTypeId ==9)			
 {
 ?>
 			<div class="col-lg-4">
@@ -260,13 +260,13 @@ $(function() {
 });
 
 <?php 
-$statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = 1 and propertyName = '".$propertyName1."' order by weeknumber", $conn );
+$statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId." and propertyName = '".$propertyName1."' order by weeknumber", $conn );
 while ($row = mysql_fetch_array($statsSQL))
 {
 	$stats1[] = $row;
 }
 
-$statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = 1 and propertyName = '".$propertyName2."' order by weeknumber", $conn );
+$statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId." and propertyName = '".$propertyName2."' order by weeknumber", $conn );
 while ($row = mysql_fetch_array($statsSQL))
 {
 	$stats2[] = $row;
