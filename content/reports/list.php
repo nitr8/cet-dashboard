@@ -17,8 +17,9 @@ $reportTypeId=$_GET['reportTypeID'];
 $retval = mysql_query( "SELECT * FROM ".MYSQL_DB.".Report where reportType = '".$reportTypeId."' order by weekNumber", $conn );
 while ($row = mysql_fetch_array($retval))
 {
-if ($_selectedReportId  == 0)
+//if ($_selectedReportId  == 0)
 	$_selectedReportId  = $row['idReport'];
+	
 if($weekNumber == 0)	
 	$weekNumber = $row['weekNumber'];
 	
@@ -367,6 +368,8 @@ $(function() {
             }
         ?>];
 
+statisticsRightSide = addzeroes (statisticsmiddle,statisticsRightSide).sort(sortFunction);		
+statisticsLeftSide = addzeroes (statisticsmiddle,statisticsLeftSide).sort(sortFunction);
 statisticsRightSide = addzeroes (statisticsLeftSide,statisticsRightSide).sort(sortFunction);
 statisticsLeftSide = addzeroes (statisticsRightSide,statisticsLeftSide).sort(sortFunction);
 statisticsmiddle = addzeroes (statisticsRightSide,statisticsmiddle).sort(sortFunction);
