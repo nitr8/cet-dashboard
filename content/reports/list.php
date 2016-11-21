@@ -55,6 +55,7 @@ case QFE_FIXES_PER_PRODUCT:
 case AGED_CASES:
 case QFE_CLOSED:
 case CLOSED_CASES:
+case SLA_BROKEN:
 	$sql = "SELECT * from ".MYSQL_DB.".ReportDataForTicket where idReport = ".$_selectedReportId; // Create connection
 	break;
 	
@@ -448,7 +449,11 @@ function doPlot(position) {
 <?php 
 }
 else
-if($reportTypeId == AGED_CASES || $reportTypeId == CLOSED_CASES || $reportTypeId == QFE_CLOSED)
+if(
+	$reportTypeId == AGED_CASES || 
+	$reportTypeId == CLOSED_CASES || 
+	$reportTypeId == QFE_CLOSED ||
+	$reportTypeId == SLA_BROKEN)
 {
 ?>
 <div class="col-lg-12">
@@ -479,14 +484,14 @@ if($reportTypeId == AGED_CASES || $reportTypeId == CLOSED_CASES || $reportTypeId
             }
                 $_html .= '
                 <tr>
-                	<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['intValue1'].'</td>
-					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue1'].'</td>
+                	<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">#<b>'.$_result[$i]['intValue1'].'</b></td>
+					<td style="border-left: none; border-bottom: none; padding-left:20px;" class="'.$_class.'">'.$_result[$i]['stringValue1'].'</td>
 					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue2'].'</td>
 					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue3'].'</td>
-					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue2']).'</td>
-					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue3']).'</td>
-					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['intValue4'].'</td>
-					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue4'].'</td>
+					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue2']).'</td>
+					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue3']).'</td>
+					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.$_result[$i]['intValue4'].'</td>
+					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.$_result[$i]['stringValue4'].'</td>
                     
                 </tr>
                 ';
