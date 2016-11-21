@@ -69,13 +69,15 @@ $SQLlistOfPropsRetVal = mysql_query( $SQLlistOfProps, $conn );
 while ($row = mysql_fetch_array($SQLlistOfPropsRetVal))
 {
 	$listOfProperties[] = $row;
-	if($propertyName1!="" && $propertyName2=="")	
-	$propertyName2=$row["PropertyName"];
+	
+	if(($propertyName1<>"") and  ($propertyName2<>"") and  ($propertyName3==""))	
+		$propertyName3=$row["PropertyName"];	
+	
+	if($propertyName1!="" and  $propertyName2=="")	
+		$propertyName2=$row["PropertyName"];
 
 	if($propertyName1=="")	
-	$propertyName1=$row["PropertyName"];
-	if($propertyName3=="")	
-	$propertyName3=$row["PropertyName"];	
+		$propertyName1=$row["PropertyName"];
 }
 ?>
 
@@ -377,12 +379,12 @@ function doPlot(position) {
         }, {
             data: statisticsRightSide,
             label: "<?php echo $propertyName2;?>",
-            yaxis: 2
+           
         },
 		{
             data: statisticsmiddle,
             label: "<?php echo $propertyName3;?>",
-            yaxis: 2
+            
         }
 		], 
 		{	
