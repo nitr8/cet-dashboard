@@ -8,6 +8,7 @@ $_selectedReportId = 0;
 $weekNumber = 0;
 $propertyName1="";
 $propertyName2="";
+$propertyName3="";
 
 $conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
 mysql_select_db(MYSQL_DB);
@@ -30,8 +31,10 @@ if(isset($_GET['propertyName1']))
 	$propertyName1 = $_GET['propertyName1'];	
 
 if(isset($_GET['propertyName2']))
-	$propertyName2 = $_GET['propertyName2'];	
+	$propertyName2 = $_GET['propertyName2'];
 	
+if(isset($_GET['propertyName3']))
+	$propertyName3 = $_GET['propertyName3'];	
 	
 $sql = "SELECT * from ".MYSQL_DB.".ReportType where idReportType = ".$reportTypeId;// Create connection
 $retval = mysql_query( $sql, $conn );
@@ -71,10 +74,10 @@ while ($row = mysql_fetch_array($SQLlistOfPropsRetVal))
 
 	if($propertyName1=="")	
 	$propertyName1=$row["PropertyName"];
+	if($propertyName3=="")	
+	$propertyName3=$row["PropertyName"];	
 }
-
 ?>
-
 
 <div class="wrapper wrapper-content">
     <div class="row">
@@ -87,16 +90,14 @@ while ($row = mysql_fetch_array($SQLlistOfPropsRetVal))
 					<?php
 					   for($i=0; $i<count($_reports); $i++)
 					   {
-							echo "<option value =\"?page=reports_list&reportTypeID=".$reportTypeId."&selectedReportId=".$_reports[$i]['idReport']."&propertyName1=".$propertyName1."&propertyName2=".$propertyName2."\"";
+							echo "<option value =\"?page=reports_list&reportTypeID=".$reportTypeId."&selectedReportId=".$_reports[$i]['idReport']."&propertyName1=".$propertyName1."&propertyName2=".$propertyName2."&propertyName3=".$propertyName3."\"";
 							
 							if($_reports[$i]['idReport'] == $_selectedReportId) echo " SELECTED";
 							echo ">";
 							echo"Week number : ".$_reports[$i]['weekNumber']." (".date('d/m/Y',strtotime($_reports[$i]['dateFrom']))." - ".date('d/m/Y',strtotime($_reports[$i]['dateTo'])).")</option>";
 						}
-
 					?>
 					</select>
-                              
 			</div>
 			</div>
 			
@@ -167,13 +168,13 @@ if(
 	</div>
 	<div class="row">
 	  <div class="col-lg-12 ibox-title">
-		<div class="col-lg-6">
+		<div class="col-lg-4">
                 <div class="ibox-title">
                      <select name="listofProps" class="form-control m-b" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
 				<?php
 				   for($i=0; $i<count($listOfProperties); $i++)
 				   {
-						echo "<option value =\"?page=reports_list&reportTypeID=".$reportTypeId."&selectedReportId=".$_selectedReportId."&propertyName1=".$listOfProperties[$i]['PropertyName']."&propertyName2=".$propertyName2."\"";
+						echo "<option value =\"?page=reports_list&reportTypeID=".$reportTypeId."&selectedReportId=".$_selectedReportId."&propertyName1=".$listOfProperties[$i]['PropertyName']."&propertyName2=".$propertyName2."&propertyName3=".$propertyName3."\"";
 						if($listOfProperties[$i]['PropertyName'] == $propertyName1) echo " SELECTED";
 						echo ">";
 						echo $listOfProperties[$i]['PropertyName']."</option>";
@@ -182,13 +183,13 @@ if(
 				</select>
 			</div>
         </div>
-		<div class="col-lg-6">
+		<div class="col-lg-4">
                 <div class="ibox-title">
                      <select name="listofProps" class="form-control m-b" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
 				<?php
 				   for($i=0; $i<count($listOfProperties); $i++)
 				   {
-						echo "<option value =\"?page=reports_list&reportTypeID=".$reportTypeId."&selectedReportId=".$_selectedReportId."&propertyName1=".$propertyName1."&propertyName2=".$listOfProperties[$i]['PropertyName']."\"";
+						echo "<option value =\"?page=reports_list&reportTypeID=".$reportTypeId."&selectedReportId=".$_selectedReportId."&propertyName1=".$propertyName1."&propertyName2=".$listOfProperties[$i]['PropertyName']."&propertyName3=".$propertyName3."\"";
 						if($listOfProperties[$i]['PropertyName'] == $propertyName2) echo " SELECTED";
 						echo ">";
 						echo $listOfProperties[$i]['PropertyName']."</option>";
@@ -196,7 +197,22 @@ if(
 				?>
 				</select>
 			</div>
-        </div>		
+        </div>	
+		<div class="col-lg-4">
+                <div class="ibox-title">
+                     <select name="listofProps" class="form-control m-b" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+				<?php
+				   for($i=0; $i<count($listOfProperties); $i++)
+				   {
+						echo "<option value =\"?page=reports_list&reportTypeID=".$reportTypeId."&selectedReportId=".$_selectedReportId."&propertyName1=".$propertyName1."&propertyName3=".$listOfProperties[$i]['PropertyName']."&propertyName2=".$propertyName2."\"";
+						if($listOfProperties[$i]['PropertyName'] == $propertyName3) echo " SELECTED";
+						echo ">";
+						echo $listOfProperties[$i]['PropertyName']."</option>";
+					}
+				?>
+				</select>
+			</div>
+        </div>			
 		<div class="ibox-content">
 				<div class="flot-chart">
 					<div class="flot-chart-content" id="flot-line-chart-multi"</div>
@@ -282,6 +298,11 @@ while ($row = mysql_fetch_array($statsSQL))
 {
 	$stats2[] = $row;
 }
+$statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId." and propertyName = '".$propertyName3."' order by weeknumber", $conn );
+while ($row = mysql_fetch_array($statsSQL))
+{
+	$stats3[] = $row;
+}
 ?>
 function includes(source,k) {
   for(var i=0; i < source.length; i++){
@@ -333,9 +354,21 @@ $(function() {
             $i++;
             }
         ?>];
+			var statisticsmiddle = [
+    <?php
+            $i =1;
+            foreach($stats3 as $stat)
+            {
+            if($i>1)echo","; 
+               echo "[".$stat["weekNumber"].",".$stat["value"]."]";
+            $i++;
+            }
+        ?>];
 
 statisticsRightSide = addzeroes (statisticsLeftSide,statisticsRightSide).sort(sortFunction);
 statisticsLeftSide = addzeroes (statisticsRightSide,statisticsLeftSide).sort(sortFunction);
+statisticsmiddle = addzeroes (statisticsRightSide,statisticsmiddle).sort(sortFunction);
+statisticsmiddle = addzeroes (statisticsLeftSide,statisticsmiddle).sort(sortFunction);
 
 function doPlot(position) {
         $.plot($("#flot-line-chart-multi"), [{
@@ -345,7 +378,13 @@ function doPlot(position) {
             data: statisticsRightSide,
             label: "<?php echo $propertyName2;?>",
             yaxis: 2
-        }], 
+        },
+		{
+            data: statisticsmiddle,
+            label: "<?php echo $propertyName3;?>",
+            yaxis: 2
+        }
+		], 
 		{	
 			series: {
 				lines: { show: true },
