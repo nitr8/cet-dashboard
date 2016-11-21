@@ -71,6 +71,7 @@ case TICKETS_PER_PRODUCT:
 case NEW_ISSUES_PER_PRODUCT:
 case MANAGED_MIGRATIONS:
 case QFE_FIXES_PER_PRODUCT:
+case TOP_TEN_TIME_TAKERS:
 	$sql = "SELECT * from ".MYSQL_DB.".ReportData where idReport = ".$_selectedReportId; // Create connection
 	break;
 case AGED_CASES:
@@ -133,7 +134,8 @@ if(
 	$reportTypeId == TICKETS_PER_PRODUCT || 
 	$reportTypeId == NEW_ISSUES_PER_PRODUCT || 
 	$reportTypeId == MANAGED_MIGRATIONS || 
-	$reportTypeId == QFE_FIXES_PER_PRODUCT)			
+	$reportTypeId == QFE_FIXES_PER_PRODUCT || 
+	$reportTypeId == TOP_TEN_TIME_TAKERS)			
 {
 $_count = count($_result);
 ?>
@@ -157,10 +159,14 @@ $_count = count($_result);
             }else{
                 $_class = 'even';
             }
+			
+			 $value= $_result[$i]['value'];
+			 if($reportTypeId == TOP_TEN_TIME_TAKERS)
+			 $value= secondsToTime($_result[$i]['value']);
                 $_html .= '
                 <tr>
                 	<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['propertyName'].'</td>
-                    <td style="padding-left: 10px; border-bottom: none; text-align:center; " class="'.$_class.'">'.$_result[$i]['value'].'</td>
+                    <td style="padding-left: 10px; border-bottom: none; text-align:center; " class="'.$_class.'">'.$value.'</td>
                 </tr>
                 ';
         }

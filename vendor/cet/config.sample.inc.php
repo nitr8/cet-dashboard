@@ -18,7 +18,7 @@ define('KSQL_PRFX', 'kayako');
 define('KSQL_TPRFX', KSQL_PRFX.".sw");
 
 define('TICKETS_PER_PRODUCT','1');
-define('TICKET_OVERVIEW','2');
+define('TOP_TEN_TIME_TAKERS','2');
 define('AGED_CASES','3');
 define('URGENT_CASES','4');
 define('SLA_BROKEN','5');
