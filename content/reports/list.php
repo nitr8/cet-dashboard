@@ -1,5 +1,4 @@
 <?php
-include 'vendor/cet/helper/reporthelper.php'; 
 
 $i = 0;
 $_count = 0;
@@ -43,11 +42,15 @@ while ($row = mysql_fetch_array($retval))
 
 switch ($reportTypeId)
 {
-case "1":
-case "9":
+case TICKETS_PER_PRODUCT:
+case NEW_ISSUES_PER_PRODUCT:
+case MANAGED_MIGRATIONS:
+case QFE_FIXES_PER_PRODUCT:
 	$sql = "SELECT * from ".MYSQL_DB.".ReportData where idReport = ".$_selectedReportId; // Create connection
 	break;
-case "3":
+case AGED_CASES:
+case QFE_CLOSED:
+case CLOSED_CASES:
 	$sql = "SELECT * from ".MYSQL_DB.".ReportDataForTicket where idReport = ".$_selectedReportId; // Create connection
 	break;
 	
@@ -71,10 +74,13 @@ while ($row = mysql_fetch_array($SQLlistOfPropsRetVal))
 }
 
 ?>
+
+
 <div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-lg-12 ibox-title">
             <h2> <?php echo $reportTypeName; ?> </h2>
+			
 			<div class="row">
 				<div class="col-sm-4">
 					<select name="week" class="form-control m-b" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
@@ -95,7 +101,12 @@ while ($row = mysql_fetch_array($SQLlistOfPropsRetVal))
 			</div>
 			
 <?php
-if($reportTypeId ==1 || $reportTypeId ==9)			
+
+if(
+	$reportTypeId == TICKETS_PER_PRODUCT || 
+	$reportTypeId == NEW_ISSUES_PER_PRODUCT || 
+	$reportTypeId == MANAGED_MIGRATIONS || 
+	$reportTypeId == QFE_FIXES_PER_PRODUCT)			
 {
 ?>
 			<div class="col-lg-4">
@@ -388,7 +399,7 @@ function doPlot(position) {
 <?php 
 }
 else
-if($reportTypeId == 3)
+if($reportTypeId == AGED_CASES || $reportTypeId == CLOSED_CASES || $reportTypeId == QFE_CLOSED)
 {
 ?>
 <div class="col-lg-12">
