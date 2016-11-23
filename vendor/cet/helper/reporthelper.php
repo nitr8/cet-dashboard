@@ -20,14 +20,14 @@ function generateReportWithCharts($reportTypeId)
 		$selectedWeekNumber = $row['weekNumber'];
 	}
 		
-	$sql = "SELECT * from ".MYSQL_DB.".ReportType where idReportType = ".$reportTypeId;// Create connection
+	$sql = "SELECT * from ".MYSQL_DB.".ReportType where idReportType = ".$reportTypeId;
 	$retval = mysql_query( $sql, $conn );
 	while ($row = mysql_fetch_array($retval))
 	{
 		$reportTypeName = $row['ReportTypeName'];
 	}
 
-	$sql = "SELECT * from ".MYSQL_DB.".ReportData where idReport = ".$_selectedReportId; // Create connection
+	$sql = "SELECT * from ".MYSQL_DB.".ReportData where idReport = ".$_selectedReportId; 
 	$retval = mysql_query( $sql, $conn );
 	while ($row = mysql_fetch_array($retval))
 	{
@@ -165,8 +165,20 @@ function generateReportWithCharts($reportTypeId)
 					show: true
 				}
 			},
+			legend: 
+				{
+					position: 'nw'
+					
+					
+				},
 			grid: {
-				hoverable: true
+				hoverable: true,
+				margin: {
+					top: 150,
+					left: 0,
+					bottom: 0,
+					right: 0
+				}
 			},
 			tooltip: true,
 			tooltipOpts: {
@@ -221,6 +233,7 @@ function generateReportWithCharts($reportTypeId)
 			?>
 			], 
 			{	
+			
 				series: 
 				{
 					lines: { show: true },
@@ -237,7 +250,13 @@ function generateReportWithCharts($reportTypeId)
 				}],
 				legend: 
 				{
-					position: 'nw'
+					position: 'nw',
+					margin: {
+					top: 0,
+					left: 0,
+					bottom: 0,
+					right: 0
+				}
 				},
 				colors: ["#1ab394","#444444"],
 				grid: {
@@ -246,7 +265,14 @@ function generateReportWithCharts($reportTypeId)
 					clickable: true,
 					tickColor: "#D4D4D4",
 					borderWidth:0,
-					hoverable: true 
+					hoverable: true,
+					margin: {
+						top: 0,
+						left: 150,
+						bottom: 0,
+						right: 0
+					},
+					
 				},
 				tooltip: true,
 				tooltipOpts: 
