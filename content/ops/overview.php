@@ -1,5 +1,6 @@
 <?php 
 	require_once 'vendor/cet/table_gen.php';
+	require_once 'vendor/cet/helper/reporthelper.php';
 ?>			
 <form action="index.php" method="get">
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -325,26 +326,7 @@ $chart2.on('mousemove', function(event2) {
 
 
 
-function toHHMMSS(seconds) 
-{
-    var h, m, s, result='';
-    // HOURs
-    h = Math.floor(seconds/3600);
-    seconds -= h*3600;
-    if(h){
-        result = h<10 ? '0'+h+':' : h+':';
-    }
-	else result='00:';
-    // MINUTEs
-    m = Math.floor(seconds/60);
-    seconds -= m*60;
-    result += m<10 ? '0'+m+':' : m+':';
-    // SECONDs
-    s=seconds%60;
-    result += s<10 ? '0'+s : s;
-   
-    return result;
-}
+
 
 function newDataArray(data) {
   var startDay = data[0][0],
