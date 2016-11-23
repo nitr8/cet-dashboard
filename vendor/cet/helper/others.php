@@ -137,6 +137,28 @@ function getlastmonth(){
     
     return $_month;
 }
+function getColorByPriority ($priority)
+{
+	switch ($priority)
+	{
+		case "Low":
+			return "color:#1AB394;" ;
+			break;
+		case "Medium":
+			return "color:#1c84c6;" ;
+			break;
+		case "High":
+			return "color:orange;";
+			break;
+		case "Urgent":
+			return "color:red;";
+			break;
+		case "Critical":
+			return "color:red;" ;
+			break;
+	}
+	return "color:silver;";
+}
 
 function getlastmonthyr(){
     $_month = date('n');

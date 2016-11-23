@@ -1,0 +1,26 @@
+function includes(source,k) {
+  for(var i=0; i < source.length; i++){
+    if( source[i][0] === k || ( source[i][0] !== source[i][0] && k !== k ) ){
+      return true;
+    }
+  }
+  return false;
+}
+function addzeroes(data,target) 
+{
+	var newData = target;
+	for (i = 1; i <= data.length; i++) {
+		if(!includes(target,data[i-1][0]))
+			target.push([data[i-1][0],0]);
+	}
+	return newData;
+}
+
+function sortFunction(a, b) {
+    if (a[0] === b[0]) {
+        return 0;
+    }
+    else {
+        return (a[0] < b[0]) ? -1 : 1;
+    }
+}

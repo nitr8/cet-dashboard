@@ -61,8 +61,7 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
   <script src="vendor/flot/jquery.flot.resize.js"></script>
   <script src="vendor/flot/jquery.flot.pie.js"></script>
   <script src="vendor/flot/jquery.flot.time.js"></script>
-
-
+  <script src="vendor/cet/js/helper.js"></script>
   <div id="page-wrapper" class="gray-bg">
  
     <div class="row white-bg">
@@ -117,6 +116,7 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
               </a>
               <ul class="dropdown-menu" role="menu">
                 <?php
+				 echo ("<li><a href=\"?page=reports_lastweekreport\"</a> STATIC</li>");
                   $sql = "SELECT * FROM ".MYSQL_DB.".ReportType order by `Order` asc";// Create connection
                   $conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
                   mysql_select_db(MYSQL_DB);

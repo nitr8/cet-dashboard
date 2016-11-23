@@ -1,26 +1,5 @@
 <?php
-function getColorByPriority ($priority)
-{
-	switch ($priority)
-	{
-		case "Low":
-			return "color:#1AB394;" ;
-			break;
-		case "Medium":
-			return "color:#1c84c6;" ;
-			break;
-		case "High":
-			return "color:orange;";
-			break;
-		case "Urgent":
-			return "color:red;";
-			break;
-		case "Critical":
-			return "color:red;" ;
-			break;
-	}
-	return "color:silver;";
-}
+
 $i = 0;
 $_count = 0;
 $_result = array();
@@ -341,33 +320,6 @@ while ($row = mysql_fetch_array($statsSQL))
 	$stats3[] = $row;
 }
 ?>
-function includes(source,k) {
-  for(var i=0; i < source.length; i++){
-    if( source[i][0] === k || ( source[i][0] !== source[i][0] && k !== k ) ){
-      return true;
-    }
-  }
-  return false;
-}
-	
-function addzeroes(data,target) 
-{
-	var newData = target;
-	for (i = 1; i <= data.length; i++) {
-		if(!includes(target,data[i-1][0]))
-			target.push([data[i-1][0],0]);
-	}
-	return newData;
-}
-
-function sortFunction(a, b) {
-    if (a[0] === b[0]) {
-        return 0;
-    }
-    else {
-        return (a[0] < b[0]) ? -1 : 1;
-    }
-}
 
 $(function() {
     var statisticsLeftSide = [
@@ -402,12 +354,12 @@ $(function() {
             }
         ?>];
 
-statisticsRightSide = addzeroes (statisticsmiddle,statisticsRightSide).sort(sortFunction);		
-statisticsLeftSide = addzeroes (statisticsmiddle,statisticsLeftSide).sort(sortFunction);
-statisticsRightSide = addzeroes (statisticsLeftSide,statisticsRightSide).sort(sortFunction);
-statisticsLeftSide = addzeroes (statisticsRightSide,statisticsLeftSide).sort(sortFunction);
-statisticsmiddle = addzeroes (statisticsRightSide,statisticsmiddle).sort(sortFunction);
-statisticsmiddle = addzeroes (statisticsLeftSide,statisticsmiddle).sort(sortFunction);
+statisticsRightSide = addzeroes(statisticsmiddle,statisticsRightSide).sort(sortFunction);		
+statisticsLeftSide = addzeroes(statisticsmiddle,statisticsLeftSide).sort(sortFunction);
+statisticsRightSide = addzeroes(statisticsLeftSide,statisticsRightSide).sort(sortFunction);
+statisticsLeftSide = addzeroes(statisticsRightSide,statisticsLeftSide).sort(sortFunction);
+statisticsmiddle = addzeroes(statisticsRightSide,statisticsmiddle).sort(sortFunction);
+statisticsmiddle = addzeroes(statisticsLeftSide,statisticsmiddle).sort(sortFunction);
 
 function doPlot(position) {
         $.plot($("#flot-line-chart-multi"), [{
