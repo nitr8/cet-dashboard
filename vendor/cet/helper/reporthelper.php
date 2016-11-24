@@ -43,6 +43,7 @@ function generateReportWithCharts($reportTypeId)
 	while ($productSQLrow = mysql_fetch_array($productSQL))
 	{
 		$statistics = array();
+//		echo "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId." and propertyName = '".$productSQLrow['product']."' order by weeknumber <br />";
 		$statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId." and propertyName = '".$productSQLrow['product']."' order by weeknumber", $conn );
 		while ($row = mysql_fetch_array($statsSQL))
 		{
@@ -122,6 +123,7 @@ function generateReportWithCharts($reportTypeId)
 				<?php }echo $reportTypeDecription;?>
 			</div>
 		</div>
+<?php if($_count>0){ ?>
 <script>
 	var chart =  new Chartist.Bar('#flot-bar-product-count<?php echo $reportTypeId?>', 
 	{
@@ -156,8 +158,8 @@ function generateReportWithCharts($reportTypeId)
 						$i =1;
 					 foreach($_result as $record)
 						{
-							if($i>1)echo""; 
-							echo"{label: \"".$record["propertyName"]." (".$record["value"].")\",data: ".$record["value"]."},";
+							if($i>1)echo","; 
+							echo"{label: \"".$record["propertyName"]." (".$record["value"].")\",data: ".$record["value"]."}";
 							$i++;
 							$colorIndex++;
 						}
@@ -231,8 +233,8 @@ function generateReportWithCharts($reportTypeId)
 				if($j>1)
 				echo ", \n";
 				echo "{";
-				echo " data: statistics".$statsindex.",";
-				echo " label: \"".$statisticsArray[$statsindex][0]["propertyName"]."\"";
+				echo " data: statistics".$statsindex.",\n";
+				echo " label: \"".$statisticsArray[$statsindex][0]["propertyName"]."\"\n";
 				echo "}";
 				$j++;
 			}
@@ -300,7 +302,7 @@ function generateReportWithCharts($reportTypeId)
 	});
 	</script>	
 <?php 
-	} 
+	} }
 function generateTableReport($reportTypeId)
 {
 	$selectedWeekNumber = date("W");
