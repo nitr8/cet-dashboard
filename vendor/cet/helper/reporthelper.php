@@ -43,7 +43,6 @@ function generateReportWithCharts($reportTypeId)
 	while ($productSQLrow = mysql_fetch_array($productSQL))
 	{
 		$statistics = array();
-//		echo "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId." and propertyName = '".$productSQLrow['product']."' order by weeknumber <br />";
 		$statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId." and propertyName = '".$productSQLrow['product']."' order by weeknumber", $conn );
 		while ($row = mysql_fetch_array($statsSQL))
 		{
