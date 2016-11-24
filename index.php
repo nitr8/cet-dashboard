@@ -122,8 +122,6 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
                 <?php
 				 echo ("<li><a href=\"?page=reports_lastweekreport\"</a> Full weekly report</li>");
                   $sql = "SELECT * FROM ".MYSQL_DB.".ReportType order by `Order` asc";// Create connection
-                  $conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
-                  mysql_select_db(MYSQL_DB);
                   $retval = mysql_query( $sql, $conn );
 
                   while ($row = mysql_fetch_array($retval))

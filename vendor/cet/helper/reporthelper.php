@@ -25,6 +25,7 @@ function generateReportWithCharts($reportTypeId)
 	while ($row = mysql_fetch_array($retval))
 	{
 		$reportTypeName = $row['ReportTypeName'];
+		$reportTypeDecription = $row['ReportDescription'];
 	}
 
 	$sql = "SELECT * from ".MYSQL_DB.".ReportData where idReport = ".$_selectedReportId; 
@@ -57,6 +58,8 @@ function generateReportWithCharts($reportTypeId)
 				<div class="col-lg-4">
 					<div class="ibox float-e-margins">
 						<div class="ibox-content">
+						
+			
 					<?php 
 							$_html = '
 							<table cellpadding="2" cellspacing="1" border="0" style="width: 100%">
@@ -94,7 +97,8 @@ function generateReportWithCharts($reportTypeId)
 					?>
 							</div>
 						</div>
-				   </div>			
+				   </div>	
+			   
 				<div class="col-lg-6" <?php if($_count==0) echo "style =\"visibility: hidden;\"";  ?>>
 					<div class="ibox-content" >
 						 <div class="flot-chart-content" id="flot-bar-product-count<?php echo $reportTypeId?>"></div>
@@ -114,6 +118,7 @@ function generateReportWithCharts($reportTypeId)
 				<div class="flot-chart">
 					<div class="flot-chart-content" id="flot-line-chart-multi<?php echo $reportTypeId?>"></div>
 				</div>
+				<?php echo $reportTypeDecription;?>
 			</div>
 		</div>
 <script>
