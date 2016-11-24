@@ -1,8 +1,13 @@
 <?php
-function GetAllCustomers(  $db )
+function GetAllCustomers($conn)
 {
-    $result = $db->fetch_array("SELECT * From ".MYSQL_DB.".Customer");
-    return $result;
-}
+	$result = array ();
 
+	$retval = mysql_query( "SELECT * From ".MYSQL_DB.".Customer", $conn );
+	while ($row = mysql_fetch_array($retval))
+	{
+			array_push($result,$row);
+	}
+	return $result;
+}
 ?>

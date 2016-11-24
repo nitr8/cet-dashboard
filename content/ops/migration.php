@@ -1,6 +1,6 @@
 <div class="wrapper wrapper-content animated fadeInRight">
 <?php
-$allLinks = GetAllLinkInforForCustomerID($db, $_GET['CustomerID']);
+$allLinks = GetAllLinkInforForCustomerID($conn, $_GET['CustomerID']);
 foreach($allLinks as $record)
 {
 ?>
@@ -212,7 +212,14 @@ $(function() {
 
 
 <?php
-$stats = $db->fetch_array("SELECT ItemCount, ItemSize, UNIX_TIMESTAMP(Timestamp) as TimeStamp FROM ".MYSQL_DB.".CustomerStats where  LinkInfoId='". $record['LinkInfoId']."' order by timestamp desc limit 1440  ");
+	$stats = array ();
+
+	$retval = mysql_query( "SELECT ItemCount, ItemSize, UNIX_TIMESTAMP(Timestamp) as TimeStamp FROM ".MYSQL_DB.".CustomerStats where  LinkInfoId='". $record['LinkInfoId']."' order by timestamp desc limit 1440  ", $conn );
+	while ($row = mysql_fetch_array($retval))
+	{
+		array_push($stats,$row);
+	}
+
 
 ?>
 $(function() {

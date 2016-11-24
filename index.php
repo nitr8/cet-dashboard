@@ -13,6 +13,14 @@ ini_set('display_errors', 'On');
 $db = Database::obtain(KSQL_SERVER, KSQL_USER, KSQL_PASS, KSQL_DB);
 $db->connect();
 
+$conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
+if(! $conn ) 
+{
+   die('Could not connect: ' . mysql_error());
+}
+
+mysql_select_db(MYSQL_DB);
+
 $userName ="";
 $pwd = "";;
 if($_POST){ 
@@ -98,7 +106,7 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
                  <a href="?page=ops_list">List of Customers</a>
                 </li>
                 <?php
-                foreach(GetAllCustomers($db) as $record)
+                foreach(GetAllCustomers($conn) as $record)
                 {
                   echo ("<li><a href=\"?page=ops_migration&CustomerID=".$record['CustomerId']."\">".$record['CustomerName']."</a></li>");
                 }
