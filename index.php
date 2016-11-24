@@ -105,18 +105,14 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
                 ?>
                 </ul>
             </li>
-   
-            <li class="dropdown <?php isActive("ManagedMigrations");?>">
-              <a aria-expanded="false" role="button" href="?page=managment_overview"> Management </a>
-            </li>
 
-            <li class="dropdown">
-              <a class="dropdown-toggle" role="button" aria-expanded="false" href="#" data-toggle="dropdown" href="?page=reports_list"> Reports 
+            <li class="dropdown <?php isActive("ManagedMigrations");?>">
+              <a aria-expanded="false" role="button" href="?page=managment_overview"> Management
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
                 <?php
-				 echo ("<li><a href=\"?page=reports_lastweekreport\"</a> STATIC</li>");
+				 echo ("<li><a href=\"?page=reports_lastweekreport\"</a> Full weekly report</li>");
                   $sql = "SELECT * FROM ".MYSQL_DB.".ReportType order by `Order` asc";// Create connection
                   $conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
                   mysql_select_db(MYSQL_DB);
