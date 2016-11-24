@@ -126,7 +126,7 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
 
                   while ($row = mysql_fetch_array($retval))
                   {
-                    echo ("<li><a href=\"?page=managment_overview&reportTypeID=".$row['idReportType']."\">".$row['ReportTypeName']."</a></li>");
+                    echo ("<li><a href=\"?page=managment_reports&reportTypeID=".$row['idReportType']."\">".$row['ReportTypeName']."</a></li>");
                   }
                 ?>
               </ul>
