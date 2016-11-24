@@ -95,7 +95,7 @@ while ($row = mysql_fetch_array($SQLlistOfPropsRetVal))
 					<?php
 					   for($i=0; $i<count($_reports); $i++)
 					   {
-							echo "<option value =\"?page=reports_overview&reportTypeID=".$reportTypeId."&selectedReportId=".$_reports[$i]['idReport']."&propertyName1=".$propertyName1."&propertyName2=".$propertyName2."&propertyName3=".$propertyName3."\"";
+							echo "<option value =\"?page=managment_overview&reportTypeID=".$reportTypeId."&selectedReportId=".$_reports[$i]['idReport']."&propertyName1=".$propertyName1."&propertyName2=".$propertyName2."&propertyName3=".$propertyName3."\"";
 							
 							if($_reports[$i]['idReport'] == $_selectedReportId) echo " SELECTED";
 							echo ">";
@@ -188,7 +188,7 @@ $_html ="No records found !";
 				<?php
 				   for($i=0; $i<count($listOfProperties); $i++)
 				   {
-						echo "<option value =\"?page=reports_overview&reportTypeID=".$reportTypeId."&selectedReportId=".$_selectedReportId."&propertyName1=".$listOfProperties[$i]['PropertyName']."&propertyName2=".$propertyName2."&propertyName3=".$propertyName3."\"";
+						echo "<option value =\"?page=managment_overview&reportTypeID=".$reportTypeId."&selectedReportId=".$_selectedReportId."&propertyName1=".$listOfProperties[$i]['PropertyName']."&propertyName2=".$propertyName2."&propertyName3=".$propertyName3."\"";
 						if($listOfProperties[$i]['PropertyName'] == $propertyName1) echo " SELECTED";
 						echo ">";
 						echo $listOfProperties[$i]['PropertyName']."</option>";
@@ -203,7 +203,7 @@ $_html ="No records found !";
 				<?php
 				   for($i=0; $i<count($listOfProperties); $i++)
 				   {
-						echo "<option value =\"?page=reports_overview&reportTypeID=".$reportTypeId."&selectedReportId=".$_selectedReportId."&propertyName1=".$propertyName1."&propertyName2=".$listOfProperties[$i]['PropertyName']."&propertyName3=".$propertyName3."\"";
+						echo "<option value =\"?page=managment_overview&reportTypeID=".$reportTypeId."&selectedReportId=".$_selectedReportId."&propertyName1=".$propertyName1."&propertyName2=".$listOfProperties[$i]['PropertyName']."&propertyName3=".$propertyName3."\"";
 						if($listOfProperties[$i]['PropertyName'] == $propertyName2) echo " SELECTED";
 						echo ">";
 						echo $listOfProperties[$i]['PropertyName']."</option>";
@@ -218,7 +218,7 @@ $_html ="No records found !";
 				<?php
 				   for($i=0; $i<count($listOfProperties); $i++)
 				   {
-						echo "<option value =\"?page=reports_overview&reportTypeID=".$reportTypeId."&selectedReportId=".$_selectedReportId."&propertyName1=".$propertyName1."&propertyName3=".$listOfProperties[$i]['PropertyName']."&propertyName2=".$propertyName2."\"";
+						echo "<option value =\"?page=managment_overview&reportTypeID=".$reportTypeId."&selectedReportId=".$_selectedReportId."&propertyName1=".$propertyName1."&propertyName3=".$listOfProperties[$i]['PropertyName']."&propertyName2=".$propertyName2."\"";
 						if($listOfProperties[$i]['PropertyName'] == $propertyName3) echo " SELECTED";
 						echo ">";
 						echo $listOfProperties[$i]['PropertyName']."</option>";

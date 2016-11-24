@@ -120,13 +120,13 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
               </a>
               <ul class="dropdown-menu" role="menu">
                 <?php
-				 echo ("<li><a href=\"?page=reports_lastweekreport\"</a> Full weekly report</li>");
+				 echo ("<li><a href=\"?page=managment_lastweekreport\"</a> Full weekly report</li>");
                   $sql = "SELECT * FROM ".MYSQL_DB.".ReportType order by `Order` asc";// Create connection
                   $retval = mysql_query( $sql, $conn );
 
                   while ($row = mysql_fetch_array($retval))
                   {
-                    echo ("<li><a href=\"?page=reports_overview&reportTypeID=".$row['idReportType']."\">".$row['ReportTypeName']."</a></li>");
+                    echo ("<li><a href=\"?page=managment_overview&reportTypeID=".$row['idReportType']."\">".$row['ReportTypeName']."</a></li>");
                   }
                 ?>
               </ul>
