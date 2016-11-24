@@ -16,7 +16,8 @@ define('CLOSED_CASES','10');
 error_reporting(-1);
 ini_set('display_errors', 'On');
 
-$db = Database::obtain("127.0.0.1", "admin", "admin", "kayako");
+
+$db = Database::obtain(KSQL_SERVER,KSQL_USER, KSQL_PASS, KSQL_DB);
 $db->connect();
 
 $reporttypeId = 1;
@@ -165,7 +166,7 @@ $db->close();
 
 echo "<hr>Connecting to 139.162.176.38";
 
-$conn = @mysql_connect("127.0.0.1","admin","admin");
+$conn = @mysql_connect("localhost","root","toor");
 
 if(! $conn ) 
 {
