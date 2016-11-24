@@ -43,8 +43,8 @@ switch ($reporttypeId)
 		$sqlQuery.="LEFT JOIN swcustomfieldvalues ON tickets.ticketid = swcustomfieldvalues.typeid LEFT JOIN swcustomfieldoptions  scfo ON swcustomfieldvalues.fieldvalue = scfo.customfieldoptionId ";
 		$sqlQuery.="WHERE tickets.dateline > UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')) ";
 		$sqlQuery.="AND tickets.dateline < UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')) ";
-		$sqlQuery.="AND tickets.departmenttitle != 'IT'   AND tickets.departmenttitle != 'QFE' AND tickets.departmenttitle != 'OPS' ";
-		$sqlQuery.="AND tickets.departmenttitle != 'TimeTracking'    AND scfo.customfieldid = 9 group by scfo.optionvalue";
+		$sqlQuery.="AND tickets.departmenttitle != 'IT' AND tickets.departmenttitle != 'QFE' AND tickets.departmenttitle != 'OPS' ";
+		$sqlQuery.="AND tickets.departmenttitle != 'TimeTracking' AND tickets.departmenttitle != 'FE'  AND scfo.customfieldid = 9 group by scfo.optionvalue";
 	break;
 	
 	case NEW_ISSUES_PER_PRODUCT :
@@ -52,8 +52,8 @@ switch ($reporttypeId)
 		$sqlQuery.="LEFT JOIN swcustomfieldvalues ON tickets.ticketid = swcustomfieldvalues.typeid LEFT JOIN swcustomfieldoptions  scfo ON swcustomfieldvalues.fieldvalue = scfo.customfieldoptionId ";
 		$sqlQuery.="WHERE tickets.dateline > UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')) ";
 		$sqlQuery.="AND tickets.dateline < UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')) ";
-		$sqlQuery.="AND tickets.departmenttitle != 'IT'   AND tickets.departmenttitle != 'QFE' AND tickets.departmenttitle != 'OPS' ";
-		$sqlQuery.="AND tickets.departmenttitle != 'TimeTracking'    AND scfo.customfieldid = 9 group by ticketTypetitle";
+		$sqlQuery.="AND tickets.departmenttitle != 'IT' AND tickets.departmenttitle != 'FE' AND tickets.departmenttitle != 'QFE' AND tickets.departmenttitle != 'OPS' ";
+		$sqlQuery.="AND tickets.departmenttitle != 'TimeTracking' AND scfo.customfieldid = 9 group by ticketTypetitle";
 	break;
 
 	case AGED_CASES: //aged cases
@@ -139,7 +139,7 @@ switch ($reporttypeId)
 		$sqlQuery.="swtickets.AverageResponseTime AS 'ar', swtickets.TotalReplies AS 'tr',  ";
 		$sqlQuery.="swtickets.TimeWorked AS 'tw', swtickets.ticketStatustitle AS 'Status' ";
 		$sqlQuery.="FROM swtickets ";
-		$sqlQuery.="WHERE swtickets.Departmenttitle ='CET'  AND swtickets.ticketStatustitle <> 'Closed' AND  swtickets.priorityTitle = 'Urgent' ";
+		$sqlQuery.="WHERE swtickets.Departmenttitle ='CET' AND swtickets.ticketStatustitle <> 'Closed' AND swtickets.priorityTitle = 'Urgent' ";
 	break;
 	
 		case TOP_TEN_TIME_TAKERS:
