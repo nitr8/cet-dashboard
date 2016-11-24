@@ -2,3 +2,5 @@ phpMyAdmin/*
 vendor/cet/config.inc.php
 !.gitignore
 config.inc.php
+config-userfrosting.php
+UserFrosting/*

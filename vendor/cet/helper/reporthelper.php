@@ -116,6 +116,7 @@ function generateReportWithCharts($reportTypeId)
 		</div>
 		<div class="row">
 			<div class="ibox-content"><?php if($_count>0){ ?>
+				<h4><span style="color:silver;font-size:12px;">Overview</span></h4>
 				<div class="flot-chart">
 					<div class="flot-chart-content" id="flot-line-chart-multi<?php echo $reportTypeId?>"></div>
 				</div>
