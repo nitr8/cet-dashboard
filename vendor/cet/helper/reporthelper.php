@@ -30,6 +30,7 @@ function generateReportWithCharts($reportTypeId)
 
 	$sql = "SELECT * from ".MYSQL_DB.".ReportData where idReport = ".$_selectedReportId; 
 	$retval = mysql_query( $sql, $conn );
+	if($retval!=null)
 	while ($row = mysql_fetch_array($retval))
 	{
 		$_result[] = $row;
@@ -114,11 +115,11 @@ function generateReportWithCharts($reportTypeId)
 			</div>
 		</div>
 		<div class="row">
-			<div class="ibox-content">
+			<div class="ibox-content"><?php if($_count>0){ ?>
 				<div class="flot-chart">
 					<div class="flot-chart-content" id="flot-line-chart-multi<?php echo $reportTypeId?>"></div>
 				</div>
-				<?php echo $reportTypeDecription;?>
+				<?php }echo $reportTypeDecription;?>
 			</div>
 		</div>
 <script>
@@ -304,7 +305,9 @@ function generateTableReport($reportTypeId)
 {
 	$selectedWeekNumber = date("W");
 	$selectedYearNumber = date("Y");
-$_result = array();
+	$_result = array();
+	$_reports = array();
+	$_selectedReportId = 0;
 	$conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
 	mysql_select_db(MYSQL_DB);
 
@@ -322,14 +325,15 @@ $_result = array();
 	{
 		$reportTypeName = $row['ReportTypeName'];
 	}
-	
-	$sql = "SELECT * from ".MYSQL_DB.".ReportDataForTicket where idReport = ".$_selectedReportId;
-	$retval = mysql_query( $sql, $conn );
-	while ($row = mysql_fetch_array($retval))
+	if(count($_reports) > 0)
 	{
-		$_result[] = $row;
+		$sql = "SELECT * from ".MYSQL_DB.".ReportDataForTicket where idReport = ".$_selectedReportId;
+		$retval = mysql_query( $sql, $conn );
+		while ($row = mysql_fetch_array($retval))
+		{
+			$_result[] = $row;
+		}
 	}
-
 	$_count = count($_result);
 	echo ("<div class=\"row\"><div class=\"col-lg-12 ibox-title\"><h3>". $reportTypeName."<span style=\"color:silver;font-size:12px;\"> (".$selectedWeekNumber."|".$selectedYearNumber.")</span></h3>");
 $_html = '
