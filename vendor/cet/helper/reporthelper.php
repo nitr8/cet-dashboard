@@ -326,6 +326,7 @@ function generateTableReport($reportTypeId)
 	while ($row = mysql_fetch_array($retval))
 	{
 		$reportTypeName = $row['ReportTypeName'];
+		$reportTypeDecription = $row['ReportDescription'];
 	}
 	if(count($_reports) > 0)
 	{
@@ -382,7 +383,7 @@ $_html = '
                 ';
         }
 	
-        $_html .= '</table>';
+        $_html .= '</table>'.$reportTypeDecription;
 
 		if($_count == 0 )
 			$_html .= "<div class=\"col-lg-12\">No records !</div>";
