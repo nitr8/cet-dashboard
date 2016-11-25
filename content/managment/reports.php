@@ -41,6 +41,7 @@ $retval = mysql_query( $sql, $conn );
 while ($row = mysql_fetch_array($retval))
 {
 	$reportTypeName = $row['ReportTypeName'];
+	$reportTypeDecription = $row['ReportDescription'];
 }
 
 switch ($reportTypeId)
@@ -121,6 +122,8 @@ $_count = count($_result);
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
 <?php 
+		if($_count>0)
+		{
         $_html = '
         <table cellpadding="2" cellspacing="1" border="0" style="width: 100%">
     	<tr>
@@ -150,8 +153,12 @@ $_count = count($_result);
         }
 
         $_html .= '</table>';
-		if($_count==0)
-$_html ="No records found !";
+		}
+		else
+		{
+		$_html ="<img src=\"vendor/cet/img/smiley.png\" />";
+		}
+		
 
         echo $_html;
         unset($_html);
@@ -182,6 +189,8 @@ $_html ="No records found !";
 	</div>
 	<div class="row">
 	  <div class="col-lg-12 ibox-title">
+	  <h4><span style="color:silver;font-size:12px;">Overview</span></h4>
+	  
 		<div class="col-lg-4">
                 <div class="ibox-title">
                      <select name="listofProps" class="form-control m-b" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
@@ -227,10 +236,11 @@ $_html ="No records found !";
 				</select>
 			</div>
         </div>			
-		<div class="ibox-content">
+		<div class="ibox-content"><?php if($_count>0){?>
 				<div class="flot-chart">
-					<div class="flot-chart-content" id="flot-line-chart-multi"</div>
+					<div class="flot-chart-content" id="flot-line-chart-multi"></div>
 				</div>
+				<?php }echo $reportTypeDecription;?>
 			</div>
         </div>
             
@@ -440,6 +450,9 @@ if(
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
 <?php 
+   $_count = count($_result);
+   if($_count > 0 )
+   {
         $_html = '
         <table cellpadding="2" cellspacing="1" border="0" style="width: 100%">
     	<tr>
@@ -453,7 +466,7 @@ if(
 			<td style=" border-left: none;" class="title">Priority</td>
 			<td style=" border-left: none;" class="title">Status</td>
         </tr>';
-        $_count = count($_result);
+     
         $_noclass = $_count - 1;
 
         for($i=0; $i<$_count; $i++){
@@ -480,8 +493,11 @@ if(
         }
 	
         $_html .= '</table>';
-		if($_count == 0 )
-			$_html .= "<div class=\"col-lg-12\">No records !</div>";
+		}
+		else
+		{
+			$_html = "<div class=\"col-lg-12\" style=\"text-align:center;\"><img src=\"vendor/cet/img/smiley.png\" /></div>";
+		}
         echo $_html;
         unset($_html);
         unset($_noclass);

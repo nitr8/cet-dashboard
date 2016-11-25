@@ -339,10 +339,13 @@ function generateTableReport($reportTypeId)
 	}
 	$_count = count($_result);
 	echo ("<div class=\"row\"><div class=\"col-lg-12 ibox-title\"><h3>". $reportTypeName."<span style=\"color:silver;font-size:12px;\"> (".$selectedWeekNumber."|".$selectedYearNumber.")</span></h3>");
-$_html = '
-<div class="col-lg-12">
-	<div class="ibox float-e-margins">
-		<div class="ibox-content">		
+	$_html = '
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-content">';
+	if ($_count==0)
+	{
+		$_html.=	'	
         <table cellpadding="2" cellspacing="1" border="0" style="width: 100%">
     	<tr>
         	<td style=" border-left: none;" class="title">Id</td>
@@ -355,7 +358,7 @@ $_html = '
 			<td style=" border-left: none;" class="title">Priority</td>
 			<td style=" border-left: none;" class="title">Status</td>
         </tr>';
-        $_count = count($_result);
+        
         $_noclass = $_count - 1;
 
         for($i=0; $i<$_count; $i++)
@@ -384,10 +387,12 @@ $_html = '
         }
 	
         $_html .= '</table>'.$reportTypeDecription;
-
-		if($_count == 0 )
-			$_html .= "<div class=\"col-lg-12\">No records !</div>";
-		$_html.= '	</div>	</div>   </div>
+	}
+	else
+	{
+		$_html .= "<div class=\"col-lg-12\" style=\"text-align:center;\"><img src=\"vendor/cet/img/smiley.png\" /></div>";
+	}
+	$_html.= '	</div>	</div>   </div>
 		</div>
 </div>';	
         echo $_html;
