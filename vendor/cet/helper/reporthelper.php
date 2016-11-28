@@ -343,7 +343,7 @@ function generateTableReport($reportTypeId)
 	<div class="col-lg-12">
 		<div class="ibox float-e-margins">
 			<div class="ibox-content">';
-	if ($_count==0)
+	if ($_count>0)
 	{
 		$_html.=	'	
         <table cellpadding="2" cellspacing="1" border="0" style="width: 100%">
