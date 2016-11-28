@@ -3,8 +3,38 @@ function getColorsForCharts()
 {
 //we are using 2 types of charts - for pie chars and graph colors are defined here,
 // for chartist its in chartist.min.css - class name  ct-series-a, ct-series-b ...etc
-return "colors: [\"#FF0000\",\"#00FF00\",\"#0000FF\",\"#FFFF00\",\"#00FFFF\",\"#FF00FF\",\"#000011\",\"#EE0011\",\"#444444\",\"#444400\"],";
+//
+// see this for more http://flatuicolors.com
+//
+//#2ecc71 - emerald
+//#d35400 - punkin 
+
+return "colors: [
+	/* #3498db - peter river - ArchiveShuttle */
+	\"#3498db\",
+	/* #2980b9 - belize hole - AS .cloud */
+	\"#2980b9\",
+	/* MS .cloud & FD ??? FIX */
+	\"#d35400\",
+	/* #16a085 - green sea  - FlightDeck */
+	\"#16a085\",
+	/* #f1c40f - sun flower - MS .cloud - graph */
+	\"#f1c40f\",
+	/* #2c3e50  - midnight blue - tools */
+	\"#2c3e50\",
+	/* #c0392b - pomegranate - others */
+	\"#c0392b\",
+	/* #e67e22 - carrot - MailboxShuttle */
+	\"#e67e22\",
+	/* #8e44ad - wisteria - ADAM */
+	\"#8e44ad\",
+	/* WTF - PINK */
+	\"#FF1493\",
+	/* WTF - PINK */
+	\"#FF1493\"
+	],";
 }
+
 function generateReportWithCharts($reportTypeId)
 {
 	$i = 0;
