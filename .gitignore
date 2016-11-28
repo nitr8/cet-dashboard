@@ -5,3 +5,4 @@ config.inc.php
 config-userfrosting.php
 UserFrosting/*
 vendor/cet/scripts/*
+cet-dashboard.log

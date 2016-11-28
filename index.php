@@ -1,15 +1,23 @@
 <?php 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
- 
+
+require __DIR__ . '/vendor/autoload.php';
 include 'vendor/cet/config.inc.php'; 
 include 'vendor/cet/helper/mysql.php'; 
 include 'vendor/cet/helper/others.php';
 include 'vendor/cet/wrapper/customer.php';
 include 'vendor/cet/wrapper/link.php';
 
-error_reporting(-1);
 
-ini_set('display_errors', 'On');
+$log = new Monolog\Logger('name');
+$log->pushHandler(new Monolog\Handler\StreamHandler('cet-dashboard.log', Monolog\Logger::WARNING));
+//to add ogging simpliy use something like:
+//$log->addWarning('Foo');
+
+
 $db = Database::obtain(KSQL_SERVER, KSQL_USER, KSQL_PASS, KSQL_DB);
 $db->connect();
 
