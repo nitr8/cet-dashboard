@@ -1,5 +1,4 @@
 <?php
-require_once ("vendor/cet/helper/reporthelper.php");
 $i = 0;
 $_count = 0;
 $_result = array();

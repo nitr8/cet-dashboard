@@ -1,12 +1,42 @@
 {
 	"name": "cet/dashboard",
+	"description": "CET Dashboard",
+	"keywords": ["CET","dashboard"],
+	"homepage": "http://github.com/nitr8/cet-dashboard",
+	"type": "library",
+	"license": "MIT",
     "repositories": [
         {
-            "type": "vcs",
+			"type": "vcs",
             "url": "https://github.com/nitr8/cet-dashboard"
         }
     ],
+	"authors": [
+	    {
+			"name": "Wayne Humphrey",
+			"email": "wayne@humphrey.za.net",
+			"homepage": "http://humphrey.za.net"
+	    },
+	    {
+			"name": "Lukas Zdrahal",
+	        "email": "lukas@zdrahal.com",
+	        "homepage": "http://zdrahal.com",
+	        "role": "Developer"
+	    }
+	],
     "require": {
         "monolog/monolog": "1.0.*"
-    }
+    },
+	"autoload": {
+		"psr-0": {"Monolog": "src/"},
+		"files": [
+			"vendor/cet/helper/reporthelper.php",
+			"vendor/cet/table_gen.php",
+			"vendor/cet/config.inc.php",
+			"vendor/cet/wrapper/customer.php",
+			"vendor/cet/wrapper/link.php",
+			"vendor/cet/helper/mysql.php",
+			"vendor/cet/helper/others.php"
+		]
+	}
 }

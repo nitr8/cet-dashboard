@@ -6,12 +6,23 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitd2786bd604bc25cfa53033d6e40983e7
 {
+    public static $files = array (
+        'a0556a0383eb15eef053d30c68c46952' => __DIR__ . '/..' . '/cet/helper/reporthelper.php',
+        'd08cfc4769e49c743c7df260370910a4' => __DIR__ . '/..' . '/cet/table_gen.php',
+        '2ea4bab5e1228eb6b778c76097096f59' => __DIR__ . '/..' . '/cet/config.inc.php',
+        'a90a7926809b4a350f0d817ca2e9a676' => __DIR__ . '/..' . '/cet/wrapper/customer.php',
+        '0587144433098a42b79b7ef8c8a66182' => __DIR__ . '/..' . '/cet/wrapper/link.php',
+        'af9fdd1e0a11d22dd735386b91f8bcc3' => __DIR__ . '/..' . '/cet/helper/mysql.php',
+        'c364b930956fbf2b0310226d931662c0' => __DIR__ . '/..' . '/cet/helper/others.php',
+    );
+
     public static $prefixesPsr0 = array (
         'M' => 
         array (
             'Monolog' => 
             array (
-                0 => __DIR__ . '/..' . '/monolog/monolog/src',
+                0 => __DIR__ . '/../..' . '/src',
+                1 => __DIR__ . '/..' . '/monolog/monolog/src',
             ),
         ),
     );

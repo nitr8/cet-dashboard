@@ -1,7 +1,3 @@
-<?php 
-	require_once 'vendor/cet/table_gen.php';
-	require_once 'vendor/cet/helper/reporthelper.php';
-?>			
 <form action="index.php" method="get">
 <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">

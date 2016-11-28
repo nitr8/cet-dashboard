@@ -1,6 +1,3 @@
-<?php 
-require_once ("vendor/cet/helper/reporthelper.php");
-?>
 <div class="wrapper wrapper-content">
 <?php
 	

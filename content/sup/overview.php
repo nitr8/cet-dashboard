@@ -1,7 +1,4 @@
 <?php 
-require_once 'vendor/cet/helper/mysql.php';
-require_once 'vendor/cet/helper/others.php';
-require_once 'vendor/cet/table_gen.php';
 
 $_currentdate = datetoday();
 $_departmentid = 3;
