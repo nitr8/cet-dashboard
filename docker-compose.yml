@@ -1,0 +1,16 @@
+dashboard:
+  image: "whumphrey/docker-lamp"
+  ports:
+    - "2223:22"
+    - "80:80"
+    - "3307:3306"
+  volumes:
+    - ~/projects/cet-dashboard/:/var/www/html/
+  environment:
+    MYSQL_PASS: admin
+phpmyadmin:
+  image: "phpmyadmin/phpmyadmin"
+  ports:
+    - "8080:80"
+  links:
+    - dashboard:db
