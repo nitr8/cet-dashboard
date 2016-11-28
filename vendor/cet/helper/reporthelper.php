@@ -1,5 +1,10 @@
 <?php 
-
+function getColorsForCharts()
+{
+//we are using 2 types of charts - for pie chars and graph colors are defined here,
+// for chartist its in chartist.min.css - class name  ct-series-a, ct-series-b ...etc
+return "colors: [\"#FF0000\",\"#00FF00\",\"#0000FF\",\"#FFFF00\",\"#00FFFF\",\"#FF00FF\"],\"#000011\",\"#EE0011\",\"#444444\",\"#444400\"],";
+}
 function generateReportWithCharts($reportTypeId)
 {
 	$i = 0;
@@ -179,6 +184,7 @@ function generateReportWithCharts($reportTypeId)
 					
 					
 				},
+				<?php echo getColorsForCharts();?>
 			grid: {
 				hoverable: true,
 				margin: {
@@ -266,7 +272,7 @@ function generateReportWithCharts($reportTypeId)
 					right: 0
 				}
 				},
-				colors: ["#1ab394","#444444"],
+				<?php echo getColorsForCharts();?>
 				grid: {
 					color: "#999999",
 					hoverable: true,

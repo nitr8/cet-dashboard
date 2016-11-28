@@ -1,4 +1,5 @@
 <?php
+require_once ("vendor/cet/helper/reporthelper.php");
 $i = 0;
 $_count = 0;
 $_result = array();
@@ -281,7 +282,7 @@ $(function() {
                  foreach($_result as $record)
                     {
                         if($i>1)echo""; 
-                        echo"{label: \"".$record["propertyName"]." (".$record["value"].")\",data: ".$record["value"].",color: \"#".$colors[$colorIndex]."\"},";
+                        echo"{label: \"".$record["propertyName"]." (".$record["value"].")\",data: ".$record["value"]."},";
                         $i++;
 						$colorIndex++;
                     }
@@ -295,6 +296,7 @@ $(function() {
                 show: true
             }
         },
+		<?php echo getColorsForCharts();?>
         grid: {
             hoverable: true
         },
@@ -410,7 +412,7 @@ function doPlot(position) {
 					right: 0
 				}
 				},
-				colors: ["#1ab394","#444444"],
+				<?php echo getColorsForCharts();?>
 				grid: {
 					color: "#999999",
 					hoverable: true,
