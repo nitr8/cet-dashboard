@@ -1,4 +1,11 @@
 {
+	"name": "cet/dashboard",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/nitr8/cet-dashboard"
+        }
+    ],
     "require": {
         "monolog/monolog": "1.0.*"
     }
