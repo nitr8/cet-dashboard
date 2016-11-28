@@ -4,3 +4,4 @@ vendor/cet/config.inc.php
 config.inc.php
 config-userfrosting.php
 UserFrosting/*
+vendor/cet/scripts/*
