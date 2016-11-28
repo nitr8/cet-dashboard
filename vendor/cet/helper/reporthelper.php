@@ -285,7 +285,7 @@ function generateReportWithCharts($reportTypeId)
 				tooltip: true,
 				tooltipOpts: 
 				{
-					content: "%s for %x was %y",
+					content: "Count for %s in week %x was %y",
 					onHover: function(flotItem, $tooltipEl) 
 					{
 					}

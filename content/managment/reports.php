@@ -392,36 +392,48 @@ function doPlot(position) {
 			},	
 		
             
-            yaxes: [{
-                min: 0
-            }, {
-                // align if we are to the right
-                alignTicksWithAxis: position == "right" ? 1 : null,
-                position: position,
-               
-            }],
-            legend: {
-                position: 'ne'
-            },
-            colors: ["#1ab394","#444444"],
-            grid: {
-                color: "#999999",
-                hoverable: true,
-                clickable: true,
-                tickColor: "#D4D4D4",
-                borderWidth:0,
-                hoverable: true //IMPORTANT! this is needed for tooltip to work,
-
-            },
-            tooltip: true,
-            tooltipOpts: {
-                content: "%s for %x was %y",
-                //xDateFormat: "%Y/%m/%d %H:%M",
-
-                onHover: function(flotItem, $tooltipEl) {
-                    // console.log(flotItem, $tooltipEl);
-                }
-            }
+				yaxes: [
+				{
+					min: 0
+				}, 
+				{
+					alignTicksWithAxis: position == "right" ? 1 : null,
+					position: position,
+				}],
+				legend: 
+				{
+					position: 'nw',
+					margin: {
+					top: 0,
+					left: 0,
+					bottom: 0,
+					right: 0
+				}
+				},
+				colors: ["#1ab394","#444444"],
+				grid: {
+					color: "#999999",
+					hoverable: true,
+					clickable: true,
+					tickColor: "#D4D4D4",
+					borderWidth:0,
+					hoverable: true,
+					margin: {
+						top: 0,
+						left: 150,
+						bottom: 0,
+						right: 0
+					},
+					
+				},
+				tooltip: true,
+				tooltipOpts: 
+				{
+					content: "Count for %s in week %x was %y",
+					onHover: function(flotItem, $tooltipEl) 
+					{
+					}
+				}
 
         });
     }
