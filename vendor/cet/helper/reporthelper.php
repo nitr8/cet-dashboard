@@ -386,13 +386,13 @@ function generateTableReport($reportTypeId)
                 ';
         }
 	
-        $_html .= '</table>'.$reportTypeDecription;
+        $_html .= '</table></div>'.$reportTypeDecription;
 	}
 	else
 	{
-		$_html .= "<div class=\"col-lg-12\" style=\"text-align:center;\"><img src=\"vendor/cet/img/smiley.png\" /></div>";
+		$_html .= "</div><div class=\"col-lg-12\" style=\"text-align:center;\"><img src=\"vendor/cet/img/smiley.png\" /></div>".$reportTypeDecription;
 	}
-	$_html.= '	</div>	</div>   </div>
+	$_html.= '		</div>   </div>
 		</div>
 </div>';	
         echo $_html;
