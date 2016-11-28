@@ -373,15 +373,15 @@ function generateTableReport($reportTypeId)
             }
                 $_html .= '
                 <tr>
-                	<td style="border-left: 1px solid silver;; border-bottom: '.($_count-1==$i?"1px solid silver":"none").';text-align:center;" class="'.$_class.'">#<b>'.$_result[$i]['intValue1'].'</b></td>
-					<td style="border-left: none; border-bottom: '.($_count-1==$i?"1px solid silver":"none").'; padding-left:20px;" class="'.$_class.'">'.$_result[$i]['stringValue1'].'</td>
-					<td style="border-left: none; border-bottom: '.($_count-1==$i?"1px solid silver":"none").';" class="'.$_class.'">'.$_result[$i]['stringValue2'].'</td>
-					<td style="border-left: none; border-bottom: '.($_count-1==$i?"1px solid silver":"none").';" class="'.$_class.'">'.$_result[$i]['stringValue3'].'</td>
-					<td style="border-left: none; border-bottom: '.($_count-1==$i?"1px solid silver":"none").';text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue2']).'</td>
-					<td style="border-left: none; border-bottom: '.($_count-1==$i?"1px solid silver":"none").';text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue3']).'</td>
-					<td style="border-left: none; border-bottom: '.($_count-1==$i?"1px solid silver":"none").';text-align:center;" class="'.$_class.'">'.$_result[$i]['intValue4'].'</td>
-					<td style="border-left: none; border-bottom: '.($_count-1==$i?"1px solid silver":"none").';text-align:center;padding-left:10px;padding-right:10px;'.getColorByPriority($_result[$i]['stringValue5']).'" class="'.$_class.'">'.($_result[$i]['stringValue5']==""?"N/A":$_result[$i]['stringValue5']).'</td>
-					<td style="border-right: 1px solid silver; border-bottom: '.($_count-1==$i?"1px solid silver":"none").';text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.$_result[$i]['stringValue4'].'</td>
+                	<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">#<b>'.$_result[$i]['intValue1'].'</b></td>
+					<td style="border-left: none; border-bottom: none; padding-left:20px;" class="'.$_class.'">'.$_result[$i]['stringValue1'].'</td>
+					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue2'].'</td>
+					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue3'].'</td>
+					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue2']).'</td>
+					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue3']).'</td>
+					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.$_result[$i]['intValue4'].'</td>
+					<td style="border-left: none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;'.getColorByPriority($_result[$i]['stringValue5']).'" class="'.$_class.'">'.($_result[$i]['stringValue5']==""?"N/A":$_result[$i]['stringValue5']).'</td>
+					<td style="border-right:none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.$_result[$i]['stringValue4'].'</td>
                 </tr>
                 ';
         }
