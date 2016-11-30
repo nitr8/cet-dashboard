@@ -12,7 +12,7 @@ session_start();
 $log = new Monolog\Logger('name');
 $log->pushHandler(new Monolog\Handler\StreamHandler('cet-dashboard.log', Monolog\Logger::WARNING));
 // to add ogging simpliy use something like:
-$log->addWarning('Foo');
+//$log->addWarning('Foo');
 
 
 $db = Database::obtain(KSQL_SERVER, KSQL_USER, KSQL_PASS, KSQL_DB);
