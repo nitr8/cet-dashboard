@@ -10,7 +10,7 @@ generateTableReport(AGED_CASES);
 generateTableReport(CLOSED_CASES);
 
 generateReportWithCharts(MANAGED_MIGRATIONS);
-//generateReportWithCharts(TOP_TEN_TIME_TAKERS);
+generateReportWithCharts(TOP_TEN_TIME_TAKERS);
 
 generateReportWithCharts(QFE_FIXES_PER_PRODUCT);
 generateTableReport(QFE_CLOSED);
