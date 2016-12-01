@@ -143,11 +143,31 @@ switch ($reporttypeId)
 	break;
 	
 		case TOP_TEN_TIME_TAKERS:
-		$sqlQuery.="select svo.organizationname as val,sum(tickets.timeworked) as cnt ";
-		$sqlQuery.="FROM swtickets tickets  ";
-		$sqlQuery.="LEFT JOIN swusers svu on tickets.userid = svu.userid ";
-		$sqlQuery.="LEFT JOIN swuserorganizations svo on svu.userorganizationid = svo.userorganizationid ";
-		$sqlQuery.="group by svo.organizationname order by cnt desc";
+
+		$sqlQuery.="select cv.fieldvalue as val, sum(swt.timespent) as cnt ";
+		$sqlQuery.="from ";
+		$sqlQuery.="swtickettimetracks swt, ";
+		$sqlQuery.="swtickets t, ";
+		$sqlQuery.="swcustomfieldvalues cv ";	
+		$sqlQuery.="where ";
+		$sqlQuery.="swt.ticketid = t.ticketid and ";
+		$sqlQuery.="cv.customfieldid = 11 AND cv.typeid = t.ticketid AND ";
+		$sqlQuery.="cv.fieldvalue in ";
+		$sqlQuery.="(";
+		$sqlQuery.="SELECT cv.fieldvalue customfieldvalue ";
+		$sqlQuery.=" FROM swtickets           t, ";
+		$sqlQuery.=" 	  swcustomfieldvalues cv ";
+		$sqlQuery.="	   WHERE  cv.customfieldid = 11 ";
+        $sqlQuery.="	   AND cv.typeid = t.ticketid ";
+		$sqlQuery.="	   AND t.departmenttitle = 'OPS' ";
+		$sqlQuery.="	   AND t.tickettypetitle = 'Daily Check' ";
+		$sqlQuery.="	   AND t.ticketstatustitle <> 'Closed' ";
+		$sqlQuery.="	ORDER BY customfieldvalue desc) ";
+		$sqlQuery.=" AND ";
+		$sqlQuery.=" swt.dateline > UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')) ";
+		$sqlQuery.="AND swt.dateline < UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')) ";
+		$sqlQuery.=" group by cv.fieldvalue ";
+		$sqlQuery.=" order by cnt desc limit 10 ";
  
 
 	break;
@@ -166,7 +186,7 @@ $db->close();
 
 echo "<hr>Connecting to 139.162.176.38";
 
-$conn = @mysql_connect("localhost","root","toor");
+$conn = @mysql_connect("localhost","admin","admin");
 
 if(! $conn ) 
 {
