@@ -1,4 +1,5 @@
 <?php
+function secondsToTime($seconds, $showUnits=false)
 {
     // extract hours
     $hours = floor($seconds / (60 * 60));
@@ -15,6 +16,7 @@
         "m" => (int) $minutes,
         "s" => (int) $seconds,
     );
+	if (!$showUnits)
 		return  $hours . ":".$minutes.":".$seconds;
 	else
 	{
