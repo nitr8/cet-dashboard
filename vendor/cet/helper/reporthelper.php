@@ -339,7 +339,7 @@ function generateReportWithCharts($reportTypeId)
 	</script>	
 <?php 
 	} }
-function generateTableReport($reportTypeId)
+function generateTableReport($reportTypeId,$displayStatus = true)
 {
 	$selectedWeekNumber = date("W");
 	$selectedYearNumber = date("Y");
@@ -391,9 +391,9 @@ function generateTableReport($reportTypeId)
 			<td style=" border-left: none;" class="title">First Reponse Time</td>
 			<td style=" border-left: none;" class="title">Average Response Time</td>
 			<td style=" border-left: none;" class="title">Total replies</td>
-			<td style=" border-left: none;" class="title">Priority</td>
-			<td style=" border-left: none;" class="title">Status</td>
-        </tr>';
+			<td style=" border-left: none;" class="title">Priority</td>';
+			if ($displayStatus) $_html.='<td style=" border-left: none;" class="title">Status</td>';
+        $_html.='</tr>';
         
         $_noclass = $_count - 1;
 
@@ -416,10 +416,10 @@ function generateTableReport($reportTypeId)
 					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue2'],$showUnits=true).'</td>
 					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue3'],$showUnits=true).'</td>
 					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.$_result[$i]['intValue4'].'</td>
-					<td style="border-left: none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;'.getColorByPriority($_result[$i]['stringValue5']).'" class="'.$_class.'">'.($_result[$i]['stringValue5']==""?"N/A":$_result[$i]['stringValue5']).'</td>
-					<td style="border-right:none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.$_result[$i]['stringValue4'].'</td>
-                </tr>
-                ';
+					<td style="border-left: none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;'.getColorByPriority($_result[$i]['stringValue5']).'" class="'.$_class.'">'.($_result[$i]['stringValue5']==""?"N/A":$_result[$i]['stringValue5']).'</td>';
+					if ($displayStatus) $_html.='<td style="border-right:none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.$_result[$i]['stringValue4'].'</td>';
+               $_html .= '
+			   </tr>';
         }
 	
         $_html .= '</table></div>'.$reportTypeDecription;
