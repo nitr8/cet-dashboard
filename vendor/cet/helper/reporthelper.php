@@ -405,7 +405,10 @@ function generateTableReport($reportTypeId,$displayStatus = true,$displayOrganiz
         	<td style=" border-left: none;" class="title">Id</td>
 			<td style=" border-left: none;" class="title">Owner</td>
 			<td style=" border-left: none;" class="title">Opened</td>
-			<td style=" border-left: none;" class="title">Case</td>
+			<td style=" border-left: none;" class="title">Case</td>';
+			if ($displayOrganization) 
+				$_html.='<td style=" border-left: none;" class="title">Organization</td>';			
+		$_html .='
 			<td style=" border-left: none;" class="title">First Reponse Time</td>
 			<td style=" border-left: none;" class="title">Average Response Time</td>
 			<td style=" border-left: none;" class="title">Total replies</td>
@@ -413,8 +416,7 @@ function generateTableReport($reportTypeId,$displayStatus = true,$displayOrganiz
 
 			if ($displayStatus) 
 				$_html.='<td style=" border-left: none;" class="title">Status</td>';
-			if ($displayOrganization) 
-				$_html.='<td style=" border-left: none;" class="title">Organization</td>';
+
 							
         $_html.='</tr>';
         
@@ -440,19 +442,17 @@ function generateTableReport($reportTypeId,$displayStatus = true,$displayOrganiz
                 	<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">#<b>'.$_result[$i]['intValue1'].'</b></td>
 					<td style="border-left: none; border-bottom: none; padding-left:20px;" class="'.$_class.'">'.$_result[$i]['stringValue1'].'</td>
 					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$openedDateTime.'</td>
-					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue3'].'</td>
-					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue2'],$showUnits=true).'</td>
+					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue3'].'</td>';
+					if ($displayOrganization) 
+						$_html.='<td style="border-right:none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.($_result[$i]['stringValue6']==""?"N/A":$_result[$i]['stringValue6']).'</td>';
+							
+					$_html.='<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue2'],$showUnits=true).'</td>
 					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue3'],$showUnits=true).'</td>
 					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.$_result[$i]['intValue4'].'</td>
 					<td style="border-left: none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;'.getColorByPriority($_result[$i]['stringValue5']).'" class="'.$_class.'">'.($_result[$i]['stringValue5']==""?"N/A":$_result[$i]['stringValue5']).'</td>';
 					if ($displayStatus) 
 						$_html.='<td style="border-right:none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.$_result[$i]['stringValue4'].'</td>';
-					if ($displayOrganization) 
-						$_html.='<td style="border-right:none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.($_result[$i]['stringValue6']==""?"N/A":$_result[$i]['stringValue6']).'</td>';
-						
-					
-						
-						
+
                $_html .= '
 			   </tr>';
         }
