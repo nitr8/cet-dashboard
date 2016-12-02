@@ -1,5 +1,4 @@
 <?php
-function secondsToTime($seconds)
 {
     // extract hours
     $hours = floor($seconds / (60 * 60));
@@ -16,7 +15,12 @@ function secondsToTime($seconds)
         "m" => (int) $minutes,
         "s" => (int) $seconds,
     );
-    return  $hours . ":".$minutes.":".$seconds;
+		return  $hours . ":".$minutes.":".$seconds;
+	else
+	{
+	if($hours == 0) return $minutes."m";
+		return  $hours . "h ".$minutes."m";
+	}
 }
 
 function authenticateUser($user,$password)
