@@ -35,7 +35,7 @@ return "colors: [
 	],";
 }
 
-function generateReportWithCharts($reportTypeId, $limitWeeks = null)
+function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegend = null)
 {
 	$i = 0;
 	$_count = 0;
@@ -81,14 +81,15 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null)
 	$_count = count($_result);
 
 	$statisticsArray = array();
-	$productSQL = mysql_query( "Select distinct propertyname as product from ".MYSQL_DB.".Report r  left join ".MYSQL_DB.".ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId.$limitweekssql, $conn );
+	$productSQL = mysql_query( "Select distinct propertyname as product from ".MYSQL_DB.".Report r  left join ".MYSQL_DB.".ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId.$limitweekssql . ($limitLegend!=null?(" LIMIT ".$limitLegend ): ""), $conn );
+
 	while ($productSQLrow = mysql_fetch_array($productSQL))
 	{
 		$statistics = array();
 
 		$command = "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId.$limitweekssql." and propertyName = '".$productSQLrow['product']."' order by weeknumber";
 		$statsSQL = mysql_query($command , $conn );
-		//echo ($command . "<br />") ;
+		
 		while ($row = mysql_fetch_array($statsSQL))
 		{
 			array_push($statistics,$row);
