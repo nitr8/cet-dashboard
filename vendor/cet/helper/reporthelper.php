@@ -35,7 +35,7 @@ return "colors: [
 	],";
 }
 
-function generateReportWithCharts($reportTypeId)
+function generateReportWithCharts($reportTypeId, $limitWeeks = null)
 {
 	$i = 0;
 	$_count = 0;
@@ -44,6 +44,13 @@ function generateReportWithCharts($reportTypeId)
 	$_selectedReportId="";
 	$selectedWeekNumber = date("W");
 	$selectedYearNumber = date("Y");
+	
+			$limitweekssql = "";
+		if($limitWeeks!=null)
+		{
+		$limitweekssql = " and r.Weeknumber > ". (date("W")-$limitWeeks);
+		}
+	
 	$conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
 	mysql_select_db(MYSQL_DB);
 
@@ -74,11 +81,14 @@ function generateReportWithCharts($reportTypeId)
 	$_count = count($_result);
 
 	$statisticsArray = array();
-	$productSQL = mysql_query( "Select distinct propertyname as product from ".MYSQL_DB.".Report r  left join ".MYSQL_DB.".ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId, $conn );
+	$productSQL = mysql_query( "Select distinct propertyname as product from ".MYSQL_DB.".Report r  left join ".MYSQL_DB.".ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId.$limitweekssql, $conn );
 	while ($productSQLrow = mysql_fetch_array($productSQL))
 	{
 		$statistics = array();
-		$statsSQL = mysql_query( "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId." and propertyName = '".$productSQLrow['product']."' order by weeknumber", $conn );
+
+		$command = "SELECT * from ".MYSQL_DB.".Report r  left join ReportData rd on r.idReport= rd.IdReport  where r.reportType = ".$reportTypeId.$limitweekssql." and propertyName = '".$productSQLrow['product']."' order by weeknumber";
+		$statsSQL = mysql_query($command , $conn );
+		//echo ($command . "<br />") ;
 		while ($row = mysql_fetch_array($statsSQL))
 		{
 			array_push($statistics,$row);
@@ -158,7 +168,10 @@ function generateReportWithCharts($reportTypeId)
 				<?php }echo $reportTypeDecription;?>
 			</div>
 		</div>
-<?php if($_count>0){ ?>
+<?php if($_count>0){ 
+
+
+?>
 <script>
 	var chart =  new Chartist.Bar('#flot-bar-product-count<?php echo $reportTypeId?>', 
 	{
@@ -238,8 +251,12 @@ function generateReportWithCharts($reportTypeId)
 	$(function() {
 	$statsindex = 0;
 	<?php
+	
+
+
 	for ($statsindex=0;$statsindex < count($statisticsArray);$statsindex++)
 	{
+
 		echo "  var statistics".$statsindex." = [";
 				$i =1;
 				foreach($statisticsArray[$statsindex] as $stat)
