@@ -139,6 +139,7 @@ foreach($_staffList as $staff)
             }else{
                 $_class = 'even';
             }
+			
                 $_html .= '
                 <tr>
                 	<td style="width: 50px; border-left: none; border-bottom: none;" class="'.$_class.'">#'.$_result[$i]['ticketid'].'</td>

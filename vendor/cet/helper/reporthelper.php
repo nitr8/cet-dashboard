@@ -407,11 +407,16 @@ function generateTableReport($reportTypeId,$displayStatus = true)
 			{
                 $_class = 'even';
             }
+
+				//2016 28th September 09:12:08
+				$parsedTime = DateTime::createFromFormat("Y d???F H:i:s" , $_result[$i]['stringValue2']);
+				$openedDateTime = $parsedTime->format("jS F Y");
+		
                 $_html .= '
                 <tr>
                 	<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">#<b>'.$_result[$i]['intValue1'].'</b></td>
 					<td style="border-left: none; border-bottom: none; padding-left:20px;" class="'.$_class.'">'.$_result[$i]['stringValue1'].'</td>
-					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue2'].'</td>
+					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$openedDateTime.'</td>
 					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue3'].'</td>
 					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue2'],$showUnits=true).'</td>
 					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue3'],$showUnits=true).'</td>
