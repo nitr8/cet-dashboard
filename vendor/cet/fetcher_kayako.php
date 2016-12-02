@@ -66,8 +66,10 @@ switch ($reporttypeId)
 		$sqlQuery.="As  ";
 		$sqlQuery.="'Opened', swtickets.Subject AS 'Case', swtickets.firstresponsetime AS 'frt', swtickets.priorityTitle as 'pr',  ";
 		$sqlQuery.="swtickets.AverageResponseTime AS 'ar', swtickets.TotalReplies AS 'tr',  ";
-		$sqlQuery.="swtickets.TimeWorked AS 'tw', swtickets.ticketStatustitle AS 'Status' ";
+		$sqlQuery.="swtickets.TimeWorked AS 'tw', swtickets.ticketStatustitle AS 'Status',swuserorganizations.organizationname as 'on' ";
 		$sqlQuery.="FROM swtickets ";
+		$sqlQuery.="left join swusers on swtickets.userid = swusers.userid ";
+		$sqlQuery.="left join swuserorganizations on swusers.userorganizationid = swuserorganizations.userorganizationid ";
 		$sqlQuery.="WHERE swtickets.Departmenttitle ='CET' AND swtickets.ticketStatustitle != 'Closed'  ";
 		$sqlQuery.="AND swtickets.ticketStatustitle != 'Resolved'  ";
 		$sqlQuery.="AND swtickets.ticketStatustitle != 'On Hold'  ";
@@ -80,8 +82,10 @@ switch ($reporttypeId)
 		$sqlQuery.="As  ";
 		$sqlQuery.="'Opened', swtickets.Subject AS 'Case', swtickets.firstresponsetime AS 'frt', swtickets.priorityTitle as 'pr', ";
 		$sqlQuery.="swtickets.AverageResponseTime AS 'ar', swtickets.TotalReplies AS 'tr',  ";
-		$sqlQuery.="swtickets.TimeWorked AS 'tw', swtickets.ticketStatustitle AS 'Status' ";
+		$sqlQuery.="swtickets.TimeWorked AS 'tw', swtickets.ticketStatustitle AS 'Status',swuserorganizations.organizationname as 'on' ";
 		$sqlQuery.="FROM swtickets ";
+		$sqlQuery.="left join swusers on swtickets.userid = swusers.userid ";
+		$sqlQuery.="left join swuserorganizations on swusers.userorganizationid = swuserorganizations.userorganizationid ";		
 		$sqlQuery.="WHERE swtickets.Departmenttitle ='CET' AND swtickets.ticketStatustitle = 'Closed'  ";
 		$sqlQuery.="AND swtickets.dateline > UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')) ";
 		$sqlQuery.="AND swtickets.dateline < UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')) ";
@@ -93,7 +97,7 @@ switch ($reporttypeId)
 		$sqlQuery.="As  ";
 		$sqlQuery.="'Opened', swtickets.Subject AS 'Case', swtickets.firstresponsetime AS 'frt', swtickets.priorityTitle as 'pr',  ";
 		$sqlQuery.="swtickets.AverageResponseTime AS 'ar', swtickets.TotalReplies AS 'tr',  ";
-		$sqlQuery.="swtickets.TimeWorked AS 'tw', swtickets.ticketStatustitle AS 'Status' ";
+		$sqlQuery.="swtickets.TimeWorked AS 'tw', swtickets.ticketStatustitle AS 'Status', 'N/A' as 'on'";
 		$sqlQuery.="FROM swtickets ";
 		$sqlQuery.="WHERE swtickets.Departmenttitle ='QFE' AND swtickets.ticketStatustitle = 'Closed'  ";
 		$sqlQuery.="AND swtickets.dateline > UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')) ";
@@ -129,8 +133,10 @@ switch ($reporttypeId)
 		$sqlQuery.="As  ";
 		$sqlQuery.="'Opened', swtickets.Subject AS 'Case', swtickets.firstresponsetime AS 'frt', swtickets.priorityTitle as 'pr' , ";
 		$sqlQuery.="swtickets.AverageResponseTime AS 'ar', swtickets.TotalReplies AS 'tr',  ";
-		$sqlQuery.="swtickets.TimeWorked AS 'tw', swtickets.ticketStatustitle AS 'Status' ";
+		$sqlQuery.="swtickets.TimeWorked AS 'tw', swtickets.ticketStatustitle AS 'Status', swuserorganizations.organizationname as 'on'";
 		$sqlQuery.="FROM swtickets ";
+		$sqlQuery.="left join swusers on swtickets.userid = swusers.userid ";
+		$sqlQuery.="left join swuserorganizations on swusers.userorganizationid = swuserorganizations.userorganizationid ";		
 		$sqlQuery.="WHERE swtickets.Departmenttitle ='CET' AND swtickets.isescalated = 1   AND swtickets.ticketStatustitle <> 'Closed' ";
 		$sqlQuery.="AND swtickets.dateline > UNIX_TIMESTAMP(curdate()-INTERVAL 7 DAY) ";
 
@@ -141,8 +147,10 @@ switch ($reporttypeId)
 		$sqlQuery.="As  ";
 		$sqlQuery.="'Opened', swtickets.Subject AS 'Case', swtickets.firstresponsetime AS 'frt', swtickets.priorityTitle as 'pr' , ";
 		$sqlQuery.="swtickets.AverageResponseTime AS 'ar', swtickets.TotalReplies AS 'tr',  ";
-		$sqlQuery.="swtickets.TimeWorked AS 'tw', swtickets.ticketStatustitle AS 'Status' ";
+		$sqlQuery.="swtickets.TimeWorked AS 'tw', swtickets.ticketStatustitle AS 'Status', swuserorganizations.organizationname as 'on' ";
 		$sqlQuery.="FROM swtickets ";
+		$sqlQuery.="left join swusers on swtickets.userid = swusers.userid ";
+		$sqlQuery.="left join swuserorganizations on swusers.userorganizationid = swuserorganizations.userorganizationid ";		
 		$sqlQuery.="WHERE swtickets.Departmenttitle ='CET' AND swtickets.ticketStatustitle <> 'Closed' AND swtickets.priorityTitle = 'Urgent' ";
 	break;
 	
@@ -236,7 +244,7 @@ for($i=0; $i<$_count; $i++)
 		case SLA_BROKEN:
 		case URGENT_CASES:
 		
-		$insSQL = "INSERT INTO ReportDataForTicket (idReport,intValue1,intValue2,intValue3,intValue4,intValue5,stringValue1,stringValue2,stringValue3,stringValue4,stringValue5) ";
+		$insSQL = "INSERT INTO ReportDataForTicket (idReport,intValue1,intValue2,intValue3,intValue4,intValue5,stringValue1,stringValue2,stringValue3,stringValue4,stringValue5,stringValue6) ";
 		$insSQL .="VALUES (".$reportID.",";
 		$insSQL .=$_result[$i]['ID'].", ";
 		$insSQL .=$_result[$i]['frt'].", ";
@@ -248,12 +256,13 @@ for($i=0; $i<$_count; $i++)
 		$insSQL .="'".$_result[$i]['Opened']."', ";
 		$insSQL .="'".$_result[$i]['Case']."', ";
 		$insSQL .="'".$_result[$i]['Status']."', ";
-			$insSQL .="'".$_result[$i]['pr']."') ";
+		$insSQL .="'".$_result[$i]['pr']."', ";
+			$insSQL .="'".$_result[$i]['on']."') ";
 		break;
 	}
 	   
 	$retval = mysql_query( $insSQL, $conn );
-	print $insSQL."</br>";
+	print $insSQL."</br> </br>";
 }
 
 mysql_close($conn);

@@ -13,7 +13,7 @@ generateReportWithCharts(MANAGED_MIGRATIONS);
 generateReportWithCharts(TOP_TEN_TIME_TAKERS,$limitWeeks=6,$limitLegend=12);
 
 generateReportWithCharts(QFE_FIXES_PER_PRODUCT);
-generateTableReport(QFE_CLOSED,$displayStatus = false);
+generateTableReport(QFE_CLOSED,$displayStatus = false, $displayOrganization = false);
 
 ?>
 </div>

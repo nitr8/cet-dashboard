@@ -45,11 +45,11 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 	$selectedWeekNumber = date("W");
 	$selectedYearNumber = date("Y");
 	
-			$limitweekssql = "";
-		if($limitWeeks!=null)
-		{
+	$limitweekssql = "";
+	if($limitWeeks!=null && ((date("W")-$limitWeeks)>0))
+	{
 		$limitweekssql = " and r.Weeknumber > ". (date("W")-$limitWeeks);
-		}
+	}
 	
 	$conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
 	mysql_select_db(MYSQL_DB);
@@ -357,7 +357,7 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 	</script>	
 <?php 
 	} }
-function generateTableReport($reportTypeId,$displayStatus = true)
+function generateTableReport($reportTypeId,$displayStatus = true,$displayOrganization = true)
 {
 	$selectedWeekNumber = date("W");
 	$selectedYearNumber = date("Y");
@@ -410,7 +410,12 @@ function generateTableReport($reportTypeId,$displayStatus = true)
 			<td style=" border-left: none;" class="title">Average Response Time</td>
 			<td style=" border-left: none;" class="title">Total replies</td>
 			<td style=" border-left: none;" class="title">Priority</td>';
-			if ($displayStatus) $_html.='<td style=" border-left: none;" class="title">Status</td>';
+
+			if ($displayStatus) 
+				$_html.='<td style=" border-left: none;" class="title">Status</td>';
+			if ($displayOrganization) 
+				$_html.='<td style=" border-left: none;" class="title">Organization</td>';
+							
         $_html.='</tr>';
         
         $_noclass = $_count - 1;
@@ -440,7 +445,14 @@ function generateTableReport($reportTypeId,$displayStatus = true)
 					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue3'],$showUnits=true).'</td>
 					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.$_result[$i]['intValue4'].'</td>
 					<td style="border-left: none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;'.getColorByPriority($_result[$i]['stringValue5']).'" class="'.$_class.'">'.($_result[$i]['stringValue5']==""?"N/A":$_result[$i]['stringValue5']).'</td>';
-					if ($displayStatus) $_html.='<td style="border-right:none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.$_result[$i]['stringValue4'].'</td>';
+					if ($displayStatus) 
+						$_html.='<td style="border-right:none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.$_result[$i]['stringValue4'].'</td>';
+					if ($displayOrganization) 
+						$_html.='<td style="border-right:none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.($_result[$i]['stringValue6']==""?"N/A":$_result[$i]['stringValue6']).'</td>';
+						
+					
+						
+						
                $_html .= '
 			   </tr>';
         }
