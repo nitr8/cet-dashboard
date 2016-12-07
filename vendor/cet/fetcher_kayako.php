@@ -178,6 +178,7 @@ if ($reporttypeId > 0) {
 			$sqlQuery.="AND swt.dateline < UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')) ";
 			$sqlQuery.=" group by cv.fieldvalue ";
 			$sqlQuery.=" order by cnt desc limit 5 ";
+
 		break;
 		
 	}
@@ -208,7 +209,6 @@ if ($reporttypeId > 0) {
 
 	mysql_query( $sql, $conn );
 
-<<<<<<< HEAD
 $sql = "INSERT INTO dashboard.Report(created,reportType,dateFrom,dateTo,weekNumber,yearNumber)VALUES(CURRENT_TIMESTAMP(),".$reporttypeId.",";
 $sql .="STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')";
 $sql .=",";
@@ -218,15 +218,7 @@ $sql .=$weekNumber;
 $sql .=",";
 $sql .=$yearNumber;
 $sql .=")";
-=======
-	$sql = "INSERT INTO dashboard.Report(created,reportType,dateFrom,dateTo,weekNumber)VALUES(CURRENT_TIMESTAMP(),".$reporttypeId.",";
-	$sql .="STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')";
-	$sql .=",";
-	$sql .="STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')";
-	$sql .=",";
-	$sql .=$weekNumber;
-	$sql .=")";
->>>>>>> origin/master
+
 
 	echo "<hr>".$sql."<hr>";   
 	$retval = mysql_query( $sql, $conn );
@@ -236,8 +228,8 @@ $sql .=")";
 
 	$reportID = mysql_insert_id();
 	echo "Report Data ID: ".$reportID."<br/>";   
-	$_count = count($_result);
-	for($i=0; $i<$_count; $i++)
+	if(isset($_result))
+	for($i=0; $i<count($_result); $i++)
 	{
 		switch ($reporttypeId)
 		{

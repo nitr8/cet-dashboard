@@ -101,13 +101,13 @@ function generateTableFromResult ($_result,$displayOrganization, $displayStatus)
         $_html .= '</table>';
 		return $_html;
 }
-function generateTableForProductList($_result,$reportTypeId)
+function generateTableForProductList($_result, $reportTypeId)
 {
 	$_html = '
 	<table cellpadding="2" cellspacing="1" border="0" style="width: 100%">
 	<tr>
-		<td style="width: 50%; border-left: none;" class="title">Product</td>
-		<td style=" padding-left: 10px;" class="title">Total</td>
+		<td style="width: 50%; border-left: none;" class="title">'.(($reportTypeId)==2?"Customer":"Product").'</td>
+		<td style=" padding-left: 10px;" class="title">'.(($reportTypeId)==2?"Total Time":"Total").'</td>
 	</tr>';
 	
 	$_noclass = count($_result) - 1;
@@ -124,7 +124,7 @@ function generateTableForProductList($_result,$reportTypeId)
 			$_html .= '
 			<tr>
 				<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['propertyName'].'</td>
-				<td style="padding-left: 10px; border-bottom: none; text-align:center; " class="'.$_class.'">'.$value.'</td>
+				<td style="padding-left: 10px; border-bottom: none; text-align:center; " class="'.$_class.'">'.(($reportTypeId)==2?secondsToTime($value,true):$value).'</td>
 			</tr>
 			';
 	}
