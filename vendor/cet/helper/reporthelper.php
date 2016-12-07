@@ -1,40 +1,4 @@
 <?php 
-function getColorsForCharts()
-{
-//we are using 2 types of charts - for pie chars and graph colors are defined here,
-// for chartist its in chartist.min.css - class name  ct-series-a, ct-series-b ...etc
-//
-// see this for more http://flatuicolors.com
-//
-//#2ecc71 - emerald
-//#d35400 - punkin 
-
-return "colors: [
-	/* #3498db - peter river - ArchiveShuttle */
-	\"#3498db\",
-	/* #2980b9 - belize hole - AS .cloud */
-	\"#2980b9\",
-	/* MS .cloud & FD ??? FIX */
-	\"#d35400\",
-	/* #16a085 - green sea  - FlightDeck */
-	\"#16a085\",
-	/* #f1c40f - sun flower - MS .cloud - graph */
-	\"#f1c40f\",
-	/* #2c3e50  - midnight blue - tools */
-	\"#2c3e50\",
-	/* #c0392b - pomegranate - others */
-	\"#c0392b\",
-	/* #e67e22 - carrot - MailboxShuttle */
-	\"#e67e22\",
-	/* #8e44ad - wisteria - ADAM */
-	\"#8e44ad\",
-	/* WTF - PINK */
-	\"#FF1493\",
-	/* WTF - PINK */
-	\"#FF1493\"
-	],";
-}
-
 function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegend = null)
 {
 	$i = 0;
@@ -105,46 +69,12 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 				<div class="col-lg-4">
 					<div class="ibox float-e-margins">
 						<div class="ibox-content">
-						
-			
-					<?php 
-							$_html = '
-							<table cellpadding="2" cellspacing="1" border="0" style="width: 100%">
-							<tr>
-								<td style="width: 50%; border-left: none;" class="title">Product</td>
-								<td style=" padding-left: 10px;" class="title">Total</td>
-							</tr>';
-							
-							$_noclass = $_count - 1;
-
-							for($i=0; $i<$_count; $i++){
-							 
-								if(($i%2) == 0){
-									$_class = 'odd';
-								}else{
-									$_class = 'even';
-								}
-								
-								 $value= $_result[$i]['value'];
-									$_html .= '
-									<tr>
-										<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['propertyName'].'</td>
-										<td style="padding-left: 10px; border-bottom: none; text-align:center; " class="'.$_class.'">'.$value.'</td>
-									</tr>
-									';
-							}
-
-							$_html .= '</table>';
-							if($_count==0)
-					$_html ="No records found !";
-
-							echo $_html;
-							unset($_html);
-							unset($_noclass);
-					?>
-							</div>
+						<?php 
+						echo generateTableForProductList($_result, $reportTypeId);
+						?>
 						</div>
-				   </div>	
+					</div>
+				</div>	
 			   
 				<div class="col-lg-6" <?php if($_count==0) echo "style =\"visibility: hidden;\"";  ?>>
 					<div class="ibox-content" >
@@ -169,9 +99,8 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 				<?php }echo $reportTypeDecription;?>
 			</div>
 		</div>
-<?php if($_count>0){ 
-
-
+<?php if($_count>0)
+{ 
 ?>
 <script>
 	var chart =  new Chartist.Bar('#flot-bar-product-count<?php echo $reportTypeId?>', 
@@ -363,71 +292,6 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 	} 
 }
 
-function generateTableFromResult ($_result,$displayOrganization, $displayStatus)
-{
-	$_count = count($_result);
-		$_html=	'	
-        <table cellpadding="2" cellspacing="1" border="0" style="width: 100%">
-    	<tr>
-        	<td style=" border-left: none;" class="title">Id</td>
-			<td style=" border-left: none;" class="title">Owner</td>
-			<td style=" border-left: none;" class="title">Opened</td>
-			<td style=" border-left: none;" class="title">Case</td>';
-			if ($displayOrganization) 
-				$_html.='<td style=" border-left: none;" class="title">Organization</td>';			
-		$_html .='
-			<td style=" border-left: none;" class="title">First Reponse Time</td>
-			<td style=" border-left: none;" class="title">Average Response Time</td>
-			<td style=" border-left: none;" class="title">Total replies</td>
-			<td style=" border-left: none;" class="title">Priority</td>';
-
-			if ($displayStatus) 
-				$_html.='<td style=" border-left: none;" class="title">Status</td>';
-
-							
-        $_html.='</tr>';
-        
-        $_noclass = $_count - 1;
-
-        for($i=0; $i<$_count; $i++)
-		{
-
-            if(($i%2) == 0)
-			{
-                $_class = 'odd';
-            }else
-			{
-                $_class = 'even';
-            }
-
-				//2016 28th September 09:12:08
-				$parsedTime = DateTime::createFromFormat("Y d???F H:i:s" , $_result[$i]['stringValue2']);
-				$openedDateTime = $parsedTime->format("jS F Y");
-		
-                $_html .= '
-                <tr>
-                	<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">#<b>'.$_result[$i]['intValue1'].'</b></td>
-					<td style="border-left: none; border-bottom: none; padding-left:20px;" class="'.$_class.'">'.$_result[$i]['stringValue1'].'</td>
-					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$openedDateTime.'</td>
-					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue3'].'</td>';
-					if ($displayOrganization) 
-						$_html.='<td style="border-right:none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.($_result[$i]['stringValue6']==""?"N/A":$_result[$i]['stringValue6']).'</td>';
-							
-					$_html.='<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue2'],$showUnits=true).'</td>
-					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue3'],$showUnits=true).'</td>
-					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.$_result[$i]['intValue4'].'</td>
-					<td style="border-left: none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;'.getColorByPriority($_result[$i]['stringValue5']).'" class="'.$_class.'">'.($_result[$i]['stringValue5']==""?"N/A":$_result[$i]['stringValue5']).'</td>';
-					if ($displayStatus) 
-						$_html.='<td style="border-right:none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.$_result[$i]['stringValue4'].'</td>';
-
-               $_html .= '
-			   </tr>';
-        }
-	
-        $_html .= '</table>';
-		echo $_html;
-}
-
 function generateTableReport($reportTypeId, $displayStatus = true,$displayOrganization = true)
 {
 	$selectedWeekNumber = date("W");
@@ -471,7 +335,7 @@ function generateTableReport($reportTypeId, $displayStatus = true,$displayOrgani
 			<div class="ibox-content">';
 	if (count($_result)>0)
 	{
-		generateTableFromResult($_result,$displayOrganization, $displayStatus);
+		echo generateTableFromResult($_result,$displayOrganization, $displayStatus);
 		$_html .= '</div>';
 	}
 	else
@@ -484,6 +348,6 @@ function generateTableReport($reportTypeId, $displayStatus = true,$displayOrgani
     
 	echo $_html;
     unset($_html);
-    unset($_noclass);
+
 }
 ?>

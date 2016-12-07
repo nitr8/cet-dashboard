@@ -122,47 +122,8 @@ if(
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
 <?php 
-		if($_count>0)
-		{
-        $_html = '
-        <table cellpadding="2" cellspacing="1" border="0" style="width: 100%">
-    	<tr>
-        	<td style="width: 50%; border-left: none;" class="title">Product</td>
-            <td style=" padding-left: 10px;" class="title">Total</td>
-        </tr>';
-        
-        $_noclass = $_count - 1;
+		echo generateTableForProductList($_result,$reportTypeId);
 
-        for($i=0; $i<$_count; $i++){
-         
-            if(($i%2) == 0){
-                $_class = 'odd';
-            }else{
-                $_class = 'even';
-            }
-			
-			 $value= $_result[$i]['value'];
-			 if($reportTypeId == TOP_TEN_TIME_TAKERS)
-			 $value= secondsToTime($_result[$i]['value']);
-                $_html .= '
-                <tr>
-                	<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['propertyName'].'</td>
-                    <td style="padding-left: 10px; border-bottom: none; text-align:center; " class="'.$_class.'">'.$value.'</td>
-                </tr>
-                ';
-        }
-
-        $_html .= '</table>';
-		}
-		else
-		{
-		$_html ="<img src=\"vendor/cet/img/smiley.png\" />";
-		}
-		
-
-        echo $_html;
-        unset($_html);
-        unset($_noclass);
 ?>
                         </div>
                     </div>
@@ -471,7 +432,7 @@ if(
 					$_html = "";
 					if(count($_result) > 0 )
 					{
-						generateTableFromResult($_result, $reportTypeId != QFE_CLOSED, ($reportTypeId != CLOSED_CASES && $reportTypeId != QFE_CLOSED));
+						echo generateTableFromResult($_result, $reportTypeId != QFE_CLOSED, ($reportTypeId != CLOSED_CASES && $reportTypeId != QFE_CLOSED));
 					}
 					else
 					{
