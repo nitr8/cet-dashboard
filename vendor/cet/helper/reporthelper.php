@@ -360,50 +360,13 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 	});
 	</script>	
 <?php 
-	} }
-function generateTableReport($reportTypeId,$displayStatus = true,$displayOrganization = true)
-{
-	$selectedWeekNumber = date("W");
-	$selectedYearNumber = date("Y");
-	$_result = array();
-	$_reports = array();
-	$_selectedReportId = 0;
-	$conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
-	mysql_select_db(MYSQL_DB);
+	} 
+}
 
-	$retval = mysql_query("SELECT * FROM ".MYSQL_DB.".Report where reportType = '".$reportTypeId."' order by weekNumber", $conn );
-	while ($row = mysql_fetch_array($retval))
-	{
-		$_reports[] = $row;
-		$_selectedReportId  = $row['idReport'];
-		$selectedWeekNumber = $row['weekNumber'];
-	}
-		
-	$sql = "SELECT * from ".MYSQL_DB.".ReportType where idReportType = ".$reportTypeId;
-	$retval = mysql_query( $sql, $conn );
-	while ($row = mysql_fetch_array($retval))
-	{
-		$reportTypeName = $row['ReportTypeName'];
-		$reportTypeDecription = $row['ReportDescription'];
-	}
-	if(count($_reports) > 0)
-	{
-		$sql = "SELECT * from ".MYSQL_DB.".ReportDataForTicket where idReport = ".$_selectedReportId;
-		$retval = mysql_query( $sql, $conn );
-		while ($row = mysql_fetch_array($retval))
-		{
-			$_result[] = $row;
-		}
-	}
+function generateTableFromResult ($_result,$displayOrganization, $displayStatus)
+{
 	$_count = count($_result);
-	echo ("<div class=\"row\"><div class=\"col-lg-12 ibox-title\"><h3>". $reportTypeName."<span style=\"color:silver;font-size:12px;\"> (".$selectedWeekNumber."|".$selectedYearNumber.")</span></h3>");
-	$_html = '
-	<div class="col-lg-12">
-		<div class="ibox float-e-margins">
-			<div class="ibox-content">';
-	if ($_count>0)
-	{
-		$_html.=	'	
+		$_html=	'	
         <table cellpadding="2" cellspacing="1" border="0" style="width: 100%">
     	<tr>
         	<td style=" border-left: none;" class="title">Id</td>
@@ -461,18 +424,66 @@ function generateTableReport($reportTypeId,$displayStatus = true,$displayOrganiz
 			   </tr>';
         }
 	
-        $_html .= '</table></div>'.$reportTypeDecription;
+        $_html .= '</table>';
+		echo $_html;
+}
+
+function generateTableReport($reportTypeId, $displayStatus = true,$displayOrganization = true)
+{
+	$selectedWeekNumber = date("W");
+	$selectedYearNumber = date("Y");
+	$_result = array();
+	$_reports = array();
+	$_selectedReportId = 0;
+	$conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
+	mysql_select_db(MYSQL_DB);
+
+	$retval = mysql_query("SELECT * FROM ".MYSQL_DB.".Report where reportType = '".$reportTypeId."' order by weekNumber", $conn );
+	while ($row = mysql_fetch_array($retval))
+	{
+		$_reports[] = $row;
+		$_selectedReportId  = $row['idReport'];
+		$selectedWeekNumber = $row['weekNumber'];
+	}
+		
+	$sql = "SELECT * from ".MYSQL_DB.".ReportType where idReportType = ".$reportTypeId;
+	$retval = mysql_query( $sql, $conn );
+	while ($row = mysql_fetch_array($retval))
+	{
+		$reportTypeName = $row['ReportTypeName'];
+		$reportTypeDecription = $row['ReportDescription'];
+	}
+	
+	if(count($_reports) > 0)
+	{
+		$sql = "SELECT * from ".MYSQL_DB.".ReportDataForTicket where idReport = ".$_selectedReportId;
+		$retval = mysql_query( $sql, $conn );
+		while ($row = mysql_fetch_array($retval))
+		{
+			$_result[] = $row;
+		}
+	}
+
+	echo ("<div class=\"row\"><div class=\"col-lg-12 ibox-title\"><h3>". $reportTypeName."<span style=\"color:silver;font-size:12px;\"> (".$selectedWeekNumber."|".$selectedYearNumber.")</span></h3>");
+	$_html = '
+	<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-content">';
+	if (count($_result)>0)
+	{
+		generateTableFromResult($_result,$displayOrganization, $displayStatus);
+		$_html .= '</div>';
 	}
 	else
 	{
-		$_html .= "</div><div class=\"col-lg-12\" style=\"text-align:center;\"><img src=\"vendor/cet/img/smiley.png\" /></div>".$reportTypeDecription;
+		$_html .= "</div><div class=\"col-lg-12\" style=\"text-align:center;\"><img src=\"vendor/cet/img/smiley.png\" /></div>";
 	}
-	$_html.= '		</div>   </div>
+	$_html.= $reportTypeDecription.'</div></div>
 		</div>
-</div>';	
-        echo $_html;
-        unset($_html);
-        unset($_noclass);
-
+	</div>';	
+    
+	echo $_html;
+    unset($_html);
+    unset($_noclass);
 }
 ?>

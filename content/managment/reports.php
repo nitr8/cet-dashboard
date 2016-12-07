@@ -116,7 +116,7 @@ if(
 	$reportTypeId == QFE_FIXES_PER_PRODUCT || 
 	$reportTypeId == TOP_TEN_TIME_TAKERS)			
 {
-$_count = count($_result);
+	$_count = count($_result);
 ?>
 			<div class="col-lg-4">
 				<div class="ibox float-e-margins">
@@ -184,13 +184,13 @@ $_count = count($_result);
                         </div>
                     </div>
                </div>
-			
         </div>
 	</div>
 	<div class="row">
 	  <div class="col-lg-12 ibox-title">
-	  <h4><span style="color:silver;font-size:12px;">Overview</span></h4>
-	  
+		<h4>
+			<span style="color:silver;font-size:12px;">Overview</span>
+		</h4>
 		<div class="col-lg-4">
                 <div class="ibox-title">
                      <select name="listofProps" class="form-control m-b" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
@@ -243,9 +243,6 @@ $_count = count($_result);
 				<?php }echo $reportTypeDecription;?>
 			</div>
         </div>
-            
-
-
 <script>
 var chart =  new Chartist.Bar('#flot-bar-product-count', 
 {
@@ -467,69 +464,23 @@ if(
 	$reportTypeId == URGENT_CASES)
 {
 ?>
-<div class="col-lg-12">
+			<div class="col-lg-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content">
-<?php 
-   $_count = count($_result);
-   if($_count > 0 )
-   {
-        $_html = '
-        <table cellpadding="2" cellspacing="1" border="0" style="width: 100%">
-    	<tr>
-        	<td style=" border-left: none;" class="title">Id</td>
-			<td style=" border-left: none;" class="title">Owner</td>
-			<td style=" border-left: none;" class="title">Opened</td>
-			<td style=" border-left: none;" class="title">Case</td>
-			<td style=" border-left: none;" class="title">Organization</td>
-			<td style=" border-left: none;" class="title">First Reponse Time</td>
-			<td style=" border-left: none;" class="title">Average Response Time</td>
-			<td style=" border-left: none;" class="title">Total replies</td>
-			<td style=" border-left: none;" class="title">Priority</td>';
-			if($reportTypeId != CLOSED_CASES &&	$reportTypeId != QFE_CLOSED)
-				$_html .= '<td style=" border-left: none;" class="title">Status</td>';
-        $_html .= '</tr>';
-     
-        $_noclass = $_count - 1;
-
-        for($i=0; $i<$_count; $i++){
-         
-            if(($i%2) == 0){
-                $_class = 'odd';
-            }else{
-                $_class = 'even';
-            }
-				$parsedTime = DateTime::createFromFormat("Y d???F H:i:s" , $_result[$i]['stringValue2']);
-				$openedDateTime = $parsedTime->format("jS F Y");
-                $_html .= '
-                <tr>
-                	<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">#<b>'.$_result[$i]['intValue1'].'</b></td>
-					<td style="border-left: none; border-bottom: none; padding-left:20px;" class="'.$_class.'">'.$_result[$i]['stringValue1'].'</td>
-					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$openedDateTime.'</td>
-					<td style="border-left: none; border-bottom: none;" class="'.$_class.'">'.$_result[$i]['stringValue3'].'</td>
-					<td style="border-right:none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.($_result[$i]['stringValue6']==""?"N/A":$_result[$i]['stringValue6']).'</td>
-					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue2'], $showUnits=true).'</td>
-					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i]['intValue3'], $showUnits=true).'</td>
-					<td style="border-left: none; border-bottom: none;text-align:center;" class="'.$_class.'">'.$_result[$i]['intValue4'].'</td>
-					<td style="border-left: none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;'.getColorByPriority($_result[$i]['stringValue5']).'" class="'.$_class.'">'.($_result[$i]['stringValue5']==""?"N/A":$_result[$i]['stringValue5']).'</td>';
-					if($reportTypeId != CLOSED_CASES &&	$reportTypeId != QFE_CLOSED)
-						$_html.='<td style="border-left: none; border-bottom: none;text-align:center;padding-left:10px;padding-right:10px;" class="'.$_class.'">'.$_result[$i]['stringValue4'].'</td>';
-					
-                $_html .= ' 
-                </tr>
-                ';
-        }
-	
-        $_html .= '</table>';
-		}
-		else
-		{
-			$_html = "<div class=\"col-lg-12\" style=\"text-align:center;\"><img src=\"vendor/cet/img/smiley.png\" /></div>";
-		}
-        echo $_html;
-        unset($_html);
-        unset($_noclass);
-?>
+					<?php 
+					$_html = "";
+					if(count($_result) > 0 )
+					{
+						generateTableFromResult($_result, $reportTypeId != QFE_CLOSED, ($reportTypeId != CLOSED_CASES && $reportTypeId != QFE_CLOSED));
+					}
+					else
+					{
+						$_html = "<div class=\"col-lg-12\" style=\"text-align:center;\"><img src=\"vendor/cet/img/smiley.png\" /></div>";
+					}
+					echo $_html;
+					unset($_html);
+					unset($_noclass);
+					?>
                         </div>
                     </div>
                </div>
@@ -537,6 +488,6 @@ if(
 <?php
 }
 ?>
+		</div>
 	</div>
-</div>
 </div>
