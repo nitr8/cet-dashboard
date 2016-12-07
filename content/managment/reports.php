@@ -13,16 +13,16 @@ $conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
 mysql_select_db(MYSQL_DB);
 
 $reportTypeId=$_GET['reportTypeID'];
-$retval = mysql_query( "SELECT * FROM ".MYSQL_DB.".Report where reportType = '".$reportTypeId."' order by weekNumber", $conn );
+$retval = mysql_query( "SELECT * FROM ".MYSQL_DB.".Report where reportType = '".$reportTypeId."' order by yearNumber, weekNumber", $conn );
 while ($row = mysql_fetch_array($retval))
 {
-//if ($_selectedReportId  == 0)
-	$_selectedReportId  = $row['idReport'];
-	
-if($weekNumber == 0)	
-	$weekNumber = $row['weekNumber'];
-	
-	$_reports[] = $row;
+	//if ($_selectedReportId  == 0)
+		$_selectedReportId  = $row['idReport'];
+		
+	if($weekNumber == 0)	
+		$weekNumber = $row['weekNumber'];
+		
+		$_reports[] = $row;
 }
 if(isset($_GET['selectedReportId']))
 	$_selectedReportId = $_GET['selectedReportId'];
@@ -338,7 +338,7 @@ $(function() {
             foreach($stats1 as $stat)
             {
             if($i>1)echo","; 
-            echo "[".$stat["weekNumber"].",".$stat["value"]."]";
+            echo "[".recalculateWeekFromWeekAndYear($stat["weekNumber"],$stat["yearNumber"]).",".$stat["value"]."]";
             $i++;
             }
         ?>];
@@ -349,7 +349,7 @@ $(function() {
             foreach($stats2 as $stat)
             {
             if($i>1)echo","; 
-               echo "[".$stat["weekNumber"].",".$stat["value"]."]";
+               echo "[".recalculateWeekFromWeekAndYear($stat["weekNumber"],$stat["yearNumber"]).",".$stat["value"]."]";
             $i++;
             }
         ?>];
@@ -359,7 +359,7 @@ $(function() {
             foreach($stats3 as $stat)
             {
             if($i>1)echo","; 
-               echo "[".$stat["weekNumber"].",".$stat["value"]."]";
+               echo "[".recalculateWeekFromWeekAndYear($stat["weekNumber"],$stat["yearNumber"]).",".$stat["value"]."]";
             $i++;
             }
         ?>];
@@ -370,6 +370,8 @@ statisticsRightSide = addzeroes(statisticsLeftSide,statisticsRightSide).sort(sor
 statisticsLeftSide = addzeroes(statisticsRightSide,statisticsLeftSide).sort(sortFunction);
 statisticsmiddle = addzeroes(statisticsRightSide,statisticsmiddle).sort(sortFunction);
 statisticsmiddle = addzeroes(statisticsLeftSide,statisticsmiddle).sort(sortFunction);
+
+
 
 function doPlot(position) {
         $.plot($("#flot-line-chart-multi"), [{
@@ -397,10 +399,16 @@ function doPlot(position) {
 				{
 					min: 0
 				}, 
+				
 				{
 					alignTicksWithAxis: position == "right" ? 1 : null,
 					position: position,
 				}],
+				
+				xaxis: 
+				{
+   					tickFormatter: weekLabelGenerator 
+				},
 				legend: 
 				{
 					position: 'nw',

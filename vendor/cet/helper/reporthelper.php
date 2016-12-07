@@ -54,7 +54,7 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 	$conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
 	mysql_select_db(MYSQL_DB);
 
-	$retval = mysql_query("SELECT * FROM ".MYSQL_DB.".Report where reportType = '".$reportTypeId."' order by weekNumber", $conn );
+	$retval = mysql_query("SELECT * FROM ".MYSQL_DB.".Report where reportType = '".$reportTypeId."' order by yearNumber, weekNumber", $conn );
 	while ($row = mysql_fetch_array($retval))
 	{
 		$_reports[] = $row;
@@ -263,7 +263,7 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 				foreach($statisticsArray[$statsindex] as $stat)
 				{
 				if($i>1)echo","; 
-				echo "[".$stat["weekNumber"].",".$stat["value"]."]";
+				echo "[".recalculateWeekFromWeekAndYear($stat["weekNumber"],$stat["yearNumber"]).",".$stat["value"]."]";
 				$i++;
 				}
 		echo "];\n";
@@ -310,6 +310,10 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 					alignTicksWithAxis: position == "right" ? 1 : null,
 					position: position,
 				}],
+				xaxis: 
+				{
+   					tickFormatter: weekLabelGenerator 
+				},
 				legend: 
 				{
 					position: 'nw',

@@ -209,12 +209,14 @@ echo $sql;
 
 mysql_query( $sql, $conn );
 
-$sql = "INSERT INTO dashboard.Report(created,reportType,dateFrom,dateTo,weekNumber)VALUES(CURRENT_TIMESTAMP(),".$reporttypeId.",";
+$sql = "INSERT INTO dashboard.Report(created,reportType,dateFrom,dateTo,weekNumber,yearNumber)VALUES(CURRENT_TIMESTAMP(),".$reporttypeId.",";
 $sql .="STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')";
 $sql .=",";
 $sql .="STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')";
 $sql .=",";
 $sql .=$weekNumber;
+$sql .=",";
+$sql .=$yearNumber;
 $sql .=")";
 
 echo "<hr>".$sql."<hr>";   

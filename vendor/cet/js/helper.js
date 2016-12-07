@@ -1,3 +1,18 @@
+function weekLabelGenerator(weekNumber)
+{
+	if(weekNumber > 104)
+	{
+		weekNumber = weekNumber - 104;
+		return "2018/"+weekNumber;
+	}
+	if(weekNumber > 52)
+	{
+		weekNumber = weekNumber - 52;
+		return "2017/"+weekNumber;
+	}
+	return "2016/"+weekNumber;
+}
+
 function includes(source,k) {
   for(var i=0; i < source.length; i++){
     if( source[i][0] === k || ( source[i][0] !== source[i][0] && k !== k ) ){

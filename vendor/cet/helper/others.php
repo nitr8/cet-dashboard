@@ -1,4 +1,21 @@
 <?php
+
+function recalculateWeekFromWeekAndYear ($weekNumber, $yearNumber)
+{
+	if(!isset($yearNumber))
+		$yearNumber= 2016;
+	if($yearNumber == 2017)
+	{
+		return $weekNumber + 52;
+	}
+	
+	if($yearNumber == 2018)
+	{
+		return $weekNumber + 52 + 52;
+	}	
+	
+	return $weekNumber;
+}
 function secondsToTime($seconds, $showUnits=false)
 {
     // extract hours
