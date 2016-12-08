@@ -2,6 +2,7 @@
 $_month = getmonth();            
 $_year = getyear();
 $_lastday = getdays($_month, $_year);
+$queryLastSixWeeksNewByProductresult = array();
 //$_starttime = createfirstdayunix($_month, $_year);
 //$_endtime =createlastdayunix($_lastday, $_month, $_year);
 
