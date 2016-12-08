@@ -163,7 +163,7 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 			grid: {
 				hoverable: true,
 				margin: {
-					top: 150,
+					top: 135,
 					left: 0,
 					bottom: 0,
 					right: 0
@@ -253,21 +253,8 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 				}
 				},
 				<?php echo getColorsForCharts();?>
-				grid: {
-					color: "#999999",
-					hoverable: true,
-					clickable: true,
-					tickColor: "#D4D4D4",
-					borderWidth:0,
-					hoverable: true,
-					margin: {
-						top: 0,
-						left: 150,
-						bottom: 0,
-						right: 0
-					},
-					
-				},
+				<?php echo getGridSettings();?>
+				
 				tooltip: true,
 				tooltipOpts: 
 				{

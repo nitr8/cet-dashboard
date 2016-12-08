@@ -35,7 +35,26 @@ return "colors: [
 	\"#FF1493\"
 	],";
 }
+function getGridSettings()
+{
 
+$html = 'grid: {
+					color: "#999999",
+					hoverable: true,
+					clickable: true,
+					tickColor: "#D4D4D4",
+					borderWidth:0,
+					hoverable: true,
+					margin: {
+						top: 0,
+						left: 180,
+						bottom: 0,
+						right: 0
+					},
+					
+				},';
+return $html;				
+}
 function generateTableFromResult ($_result,$displayOrganization, $displayStatus)
 {
 	$_count = count($_result);
