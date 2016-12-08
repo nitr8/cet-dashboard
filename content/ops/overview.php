@@ -1,87 +1,86 @@
 <form action="index.php" method="get">
 <div class="wrapper wrapper-content animated fadeInRight">
-            <div class="row">
-                <div class="col-sm-8">
-				<?php 
-				require_once 'vendor/cet/helper/mysql.php';
-				$rng = 0;
-				$frmDateFrom="";
-				$frmDateTo="";
-				$dateFrom="";
-				$dateTo="";
-				
-				if (isset($_GET['dateRange']))
-					$rng= $_GET['dateRange'];
+    <div class="row">
+        <div class="col-sm-8">
+		<?php 
+		
+		$rng = 0;
+		$frmDateFrom="";
+		$frmDateTo="";
+		$dateFrom="";
+		$dateTo="";
+		
+		if (isset($_GET['dateRange']))
+			$rng= $_GET['dateRange'];
 
-				$ticketId = isset($_GET['ticketid']) ? $_GET['ticketid'] : 0;					
-				
-				if (isset($_GET['dateFrom']))
-				  $frmDateFrom = $_GET['dateFrom'];
-				if (isset($_GET['dateTo']))
-				  $frmDateTo = $_GET['dateTo'];
-				  
-				$customerCount = 0;
-				
-				$productCount = $db->fetch_array($queryProductCount);
-				
-				$dailycheckList = $db->fetch_array("SELECT ticketid,subject FROM ".KSQL_PRFX.".swtickets where ticketstatustitle = 'Daily Checks'");
+		$ticketId = isset($_GET['ticketid']) ? $_GET['ticketid'] : 0;					
+		
+		if (isset($_GET['dateFrom']))
+		  $frmDateFrom = $_GET['dateFrom'];
+		if (isset($_GET['dateTo']))
+		  $frmDateTo = $_GET['dateTo'];
+		  
+		$customerCount = 0;
+		
+		$productCount = $db->fetch_array(getQueryProductCount());
+		
+		$dailycheckList = $db->fetch_array("SELECT ticketid,subject FROM ".KSQL_PRFX.".swtickets where ticketstatustitle = 'Daily Checks'");
+	
+		if($ticketId==0)
+			$ticketId = $dailycheckList[0]['ticketid'];
+		$productSpent = $db->fetch_array("SELECT UNIX_TIMESTAMP(Date (FROM_UNIXTIME(dateline))) as dat ,sum(timespent) as ts FROM ".KSQL_PRFX.".swtickettimetracks  where ticketid = ".$ticketId."  group by dat");
+		$customerTimeSpent = $db->fetch_array(getQueryTimeWorked());
+		
+		$migrated = $db->query_first( "SELECT count(*) as cnt FROM ".KSQL_PRFX.".swtickets t, ".KSQL_PRFX.".swticketauditlogs al where t.departmenttitle = 'OPS' and t.ticketid=al.ticketid and al.actionmsg='Ticket status changed from: Daily Checks to: Closed'");
+		$migratedCustomers = $migrated['cnt'];
+		
+		foreach ($customerTimeSpent as &$customer)
+		{
+			if (isset($_GET['dateFrom']) && isset($_GET['dateTo']) && $_GET['dateFrom']!="" && $_GET['dateTo']!="")
+			{
+				$dateFrom = date_create_from_format('d/m/Y', $_GET['dateFrom'])->setTime(0,0,0)->getTimestamp();
+				$dateTo = date_create_from_format('d/m/Y', $_GET['dateTo'])->setTime(23,59,59)->getTimestamp();
+			}
+
+			$queryWithFilter = "SELECT sum(timespent) as ts FROM ".KSQL_PRFX.".swtickettimetracks where ticketid=".$customer['ticketid'];
+			if ($dateFrom!="")
+				$queryWithFilter .=" and dateline > ".$dateFrom;
+			if ($dateFrom!="")
+				$queryWithFilter .=" and dateline < ".$dateTo; 
+			$cst = $db->query_first($queryWithFilter);
+			$customer['timeworked'] = $cst['ts']==""?0:$cst['ts'];
+		}
+
+		$index=0;
+		foreach($productCount as $record)
+		{
+			$customerCount+= $record["cnt"];  
+		?>
+               <div class="dashboardcounter" style="background-color:#<?php echo $colors[$index]; ?>">
+                   <div class="dashboardcounterparent">
+                       <div class="dashboardcounterheader"><?php echo $record["product"];?></div>
+                       <div class="dashboardcounternumber"><?php echo $record["cnt"];?></div>
+                   </div>
+               </div>
+		<?php 
+			$index++;
+		}
+		?>
+               <div class="dashboardcounter" style="background-color:lightgoldenrodyellow">
+                   <div class="dashboardcounterparent">
+                       <div class="dashboardcounterheader">Migrated</div>
+                       <div class="dashboardcounternumber"><?php echo ($migratedCustomers);?></div>
+                   </div>
+               </div>
 			
-				if($ticketId==0)
-					$ticketId = $dailycheckList[0]['ticketid'];
-				$productSpent = $db->fetch_array("SELECT UNIX_TIMESTAMP(Date (FROM_UNIXTIME(dateline))) as dat ,sum(timespent) as ts FROM ".KSQL_PRFX.".swtickettimetracks  where ticketid = ".$ticketId."  group by dat");
-				$customerTimeSpent = $db->fetch_array($queryTimeWorked);
-				
-				$migrated = $db->query_first( "SELECT count(*) as cnt FROM ".KSQL_PRFX.".swtickets t, ".KSQL_PRFX.".swticketauditlogs al where t.departmenttitle = 'OPS' and t.ticketid=al.ticketid and al.actionmsg='Ticket status changed from: Daily Checks to: Closed'");
-				$migratedCustomers = $migrated['cnt'];
-				
-				foreach ($customerTimeSpent as &$customer)
-				{
-					if (isset($_GET['dateFrom']) && isset($_GET['dateTo']) && $_GET['dateFrom']!="" && $_GET['dateTo']!="")
-					{
-						$dateFrom = date_create_from_format('d/m/Y', $_GET['dateFrom'])->setTime(0,0,0)->getTimestamp();
-						$dateTo = date_create_from_format('d/m/Y', $_GET['dateTo'])->setTime(23,59,59)->getTimestamp();
-					}
-
-					$queryWithFilter = "SELECT sum(timespent) as ts FROM ".KSQL_PRFX.".swtickettimetracks where ticketid=".$customer['ticketid'];
-					if ($dateFrom!="")
-						$queryWithFilter .=" and dateline > ".$dateFrom;
-					if ($dateFrom!="")
-						$queryWithFilter .=" and dateline < ".$dateTo; 
-					$cst = $db->query_first($queryWithFilter);
-					$customer['timeworked'] = $cst['ts']==""?0:$cst['ts'];
-				}
-
-				$index=0;
-				foreach($productCount as $record)
-				{
-					$customerCount+= $record["cnt"];  
-				?>
-                    <div class="dashboardcounter" style="background-color:#<?php echo $colors[$index]; ?>">
-                        <div class="dashboardcounterparent">
-                            <div class="dashboardcounterheader"><?php echo $record["product"];?></div>
-                            <div class="dashboardcounternumber"><?php echo $record["cnt"];?></div>
-                        </div>
-                    </div>
-				<?php 
-					$index++;
-				}
-				?>
-                    <div class="dashboardcounter" style="background-color:lightgoldenrodyellow">
-                        <div class="dashboardcounterparent">
-                            <div class="dashboardcounterheader">Migrated</div>
-                            <div class="dashboardcounternumber"><?php echo ($migratedCustomers);?></div>
-                        </div>
-                    </div>
-					
-					<div class="dashboardcounter" style="background-color:#1c84c6">
-                        <div class="dashboardcounterparent">
-                            <div class="dashboardcounterheader">Customers</div>
-                            <div class="dashboardcounternumber"><?php echo ($customerCount);?></div>
-						</div>
-					</div>
-					      
-            </div>
-			<div class="col-sm-4">
+			<div class="dashboardcounter" style="background-color:#1c84c6">
+                   <div class="dashboardcounterparent">
+                       <div class="dashboardcounterheader">Customers</div>
+                       <div class="dashboardcounternumber"><?php echo ($customerCount);?></div>
+				</div>
+			</div>
+       </div>
+	<div class="col-sm-4">
 	
 					<div class="col-sm-2">
 						<select id="dateRange" name="dateRange"  onchange='onChangeSelect()'>
@@ -98,14 +97,14 @@
 								<input id="dateFrom" class="datepicker" size='11' name="dateFrom" title='DD-MM-YYYY' value="<?php echo($frmDateFrom);?>" /> 
 								<input id="dateTo" class='datepicker' size='11' name="dateTo" title='D-MMM-YYYY' value="<?php echo($frmDateTo);?>"/> 
                             </div>
-							<input type="hidden" name = "page" value = "OPS"/>
+							<input type="hidden" name = "page" value = "ops_overview"/>
 					</div>
 					<div class="col-sm-4">	
 							<input type="submit" value="Apply">
 					</div>					
 			</div>	
         </div>
-<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
 			   <div class="col-lg-4">
                     <div class="ibox float-e-margins">
