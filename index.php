@@ -103,20 +103,7 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
             </li>
 
             <li class="dropdown <?php isActive("ManagedMigrations");?>">
-              <a aria-expanded="false" role="button" href="?page=ops_overview"> OPS 
-                <span class="caret"></span>
-              </a>
-              <ul role="menu" class="dropdown-menu">
-                <li>
-                 <a href="?page=ops_list">List of Customers</a>
-                </li>
-                <?php
-                foreach(GetAllCustomers($conn) as $record)
-                {
-                  echo ("<li><a href=\"?page=ops_migration&CustomerID=".$record['CustomerId']."\">".$record['CustomerName']."</a></li>");
-                }
-                ?>
-                </ul>
+              <a aria-expanded="false" role="button" href="?page=ops_overview"> OPS </a>
             </li>
 
             <li class="dropdown <?php isActive("ManagedMigrations");?>">
