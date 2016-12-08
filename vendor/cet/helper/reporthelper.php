@@ -109,7 +109,8 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 				$i =1;
 				foreach($_result as $record)
 				{
-				if($i>1)echo","; 
+				if($i>1)
+					echo","; 
 				echo "'".$record["propertyName"]."'";
 				$i++;
 				}
@@ -118,8 +119,9 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 				$i =1;
 				foreach($_result as $record)
 				{
-				if($i>1)echo","; 
-			   echo $record["value"];
+				if($i>1)
+					echo","; 
+			    echo $record["value"];
 				$i++;
 				}
 			?>]
@@ -181,8 +183,6 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 	$(function() {
 	$statsindex = 0;
 	<?php
-	
-
 
 	for ($statsindex=0;$statsindex < count($statisticsArray);$statsindex++)
 	{
@@ -224,7 +224,6 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 			?>
 			], 
 			{	
-			
 				series: 
 				{
 					lines: { show: true },
@@ -299,6 +298,7 @@ function generateTableReport($reportTypeId, $displayStatus = true,$displayOrgani
 	$_result = array();
 	$_reports = array();
 	$_selectedReportId = 0;
+	
 	$conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
 	mysql_select_db(MYSQL_DB);
 
@@ -348,6 +348,5 @@ function generateTableReport($reportTypeId, $displayStatus = true,$displayOrgani
     
 	echo $_html;
     unset($_html);
-
 }
 ?>

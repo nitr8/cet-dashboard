@@ -36,7 +36,6 @@ return "colors: [
 	],";
 }
 
-
 function generateTableFromResult ($_result,$displayOrganization, $displayStatus)
 {
 	$_count = count($_result);
@@ -57,8 +56,7 @@ function generateTableFromResult ($_result,$displayOrganization, $displayStatus)
 
 			if ($displayStatus) 
 				$_html.='<td style=" border-left: none;" class="title">Status</td>';
-
-							
+						
         $_html.='</tr>';
         
         $_noclass = $_count - 1;
@@ -135,11 +133,12 @@ function generateTableForProductList($_result, $reportTypeId)
 
 	return $_html;
 }
-
+// week numbering starts with jan of 2016 - it is simple to add 52 week every year-and display it in chart.
 function recalculateWeekFromWeekAndYear ($weekNumber, $yearNumber)
 {
 	if(!isset($yearNumber))
 		$yearNumber= 2016;
+		
 	if($yearNumber == 2017)
 	{
 		return $weekNumber + 52;
