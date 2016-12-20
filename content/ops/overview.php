@@ -80,29 +80,7 @@
 				</div>
 			</div>
        </div>
-	<div class="col-sm-4">
-	
-					<div class="col-sm-2">
-						<select id="dateRange" name="dateRange"  onchange='onChangeSelect()'>
-							<option value="0" <?php if($rng==0) echo "selected";?>>Unlimited</option>
-							<option value="1" <?php if($rng==1) echo "selected";?>>Today</option>
-							<option value="2" <?php if($rng==2) echo "selected";?>>Last 7 days</option>
-							<option value="3" <?php if($rng==3) echo "selected";?>>This month</option>
-							<option value="4" <?php if($rng==4) echo "selected";?>>This year</option>
-							<option value="5" <?php if($rng==5) echo "selected";?>>Custom</option>
-						</select>
-					</div>				
-					<div class="col-sm-6">
-                            <div class="input-daterange input-group" id="datepicker">
-								<input id="dateFrom" class="datepicker" size='11' name="dateFrom" title='DD-MM-YYYY' value="<?php echo($frmDateFrom);?>" /> 
-								<input id="dateTo" class='datepicker' size='11' name="dateTo" title='D-MMM-YYYY' value="<?php echo($frmDateTo);?>"/> 
-                            </div>
-							<input type="hidden" name = "page" value = "ops_overview"/>
-					</div>
-					<div class="col-sm-4">	
-							<input type="submit" value="Apply">
-					</div>					
-			</div>	
+
         </div>
 	<div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
@@ -156,13 +134,37 @@
 							}
 							?>
 							</select> 
-                        </div>
+							<div class="row">
+								<div class="col-sm-4">
+									<select id="dateRange" name="dateRange"  onchange='onChangeSelect()'>
+										<option value="0" <?php if($rng==0) echo "selected";?>>Unlimited</option>
+										<option value="1" <?php if($rng==1) echo "selected";?>>Today</option>
+										<option value="2" <?php if($rng==2) echo "selected";?>>Last 7 days</option>
+										<option value="3" <?php if($rng==3) echo "selected";?>>This month</option>
+										<option value="4" <?php if($rng==4) echo "selected";?>>This year</option>
+										<option value="5" <?php if($rng==5) echo "selected";?>>Custom</option>
+									</select>
+								</div>				
+								<div class="col-sm-6">
+										<div class="input-daterange input-group" id="datepicker">
+											<input id="dateFrom" class="datepicker" size='11' name="dateFrom" title='DD-MM-YYYY' value="<?php echo($frmDateFrom);?>" /> 
+											<input id="dateTo" class='datepicker' size='11' name="dateTo" title='D-MMM-YYYY' value="<?php echo($frmDateTo);?>"/> 
+										</div>
+										<input type="hidden" name = "page" value = "ops_overview"/>
+								</div>
+								<div class="col-sm-2">	
+										<input type="submit" value="Apply">
+								</div>	
+							</div>				
+						</div>	
+						
                         <div class="ibox-content" style="height:300px">
-                         <div class="flot-chart-content" id="flot-bar-last10-count"></div>
+							<div class="flot-chart-content" id="flot-bar-last10-count"></div>
                         </div>
                     </div>
-					</div> 
-				</div>
+				</div> 
+		
+			</div>
 </form>
  <script>
 
