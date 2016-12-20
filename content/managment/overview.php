@@ -12,7 +12,7 @@ $_endtime = time();
 $_staffList =$db->fetch_array("SELECT dbwb_staffid as staffid FROM ".KSQL_TPRFX."dbwb_staffselect WHERE dbwb_staffselected = 1 ORDER BY dbwb_staffid");
 $colorIndex = 0;
 
-$queryLastSixWeeksNewByProductresult = $db->fetch_array($queryLastSixWeeksNewByProduct);
+$queryLastSixWeeksNewByProductresult = $db->fetch_array(getQueryLastSixWeeksNewByProduct());
 
 $averageResolveTime=array();
 $averageResponseTime=array();
