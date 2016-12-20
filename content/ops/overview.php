@@ -24,7 +24,7 @@
 		
 		$productCount = $db->fetch_array(getQueryProductCount());
 		
-		$dailycheckList = $db->fetch_array("SELECT ticketid,subject FROM ".KSQL_PRFX.".swtickets where ticketstatustitle = 'Daily Checks'");
+		$dailycheckList = $db->fetch_array("SELECT ticketid,subject FROM ".KSQL_PRFX.".swtickets where ticketstatustitle = 'Daily Checks' order by subject");
 	
 		if($ticketId==0)
 			$ticketId = $dailycheckList[0]['ticketid'];
