@@ -76,7 +76,7 @@ if ($reporttypeId > 0) {
 		break;
 		
 		case CLOSED_CASES: //closed cases
-			$sqlQuery.="SELECT swtickets.TicketID AS 'ID', swtickets.Ownerstaffname AS 'Owner', ";
+			$sqlQuery.="SELECT distinct swtickets.TicketID AS 'ID', swtickets.Ownerstaffname AS 'Owner', ";
 			$sqlQuery.="from_unixtime(swtickets.dateline, '%Y %D %M %h:%i:%s') ";
 			$sqlQuery.="As  ";
 			$sqlQuery.="'Opened', swtickets.Subject AS 'Case', swtickets.firstresponsetime AS 'frt', swtickets.priorityTitle as 'pr', ";
@@ -85,22 +85,25 @@ if ($reporttypeId > 0) {
 			$sqlQuery.="FROM swtickets ";
 			$sqlQuery.="left join swusers on swtickets.userid = swusers.userid ";
 			$sqlQuery.="left join swuserorganizations on swusers.userorganizationid = swuserorganizations.userorganizationid ";		
-			$sqlQuery.="WHERE swtickets.Departmenttitle ='CET' AND swtickets.ticketStatustitle = 'Closed'  ";
-			$sqlQuery.="AND swtickets.dateline > UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')) ";
-			$sqlQuery.="AND swtickets.dateline < UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')) ";
+			$sqlQuery.="LEFT JOIN swticketauditlogs on swtickets.ticketid=swticketauditlogs.ticketid ";
+			$sqlQuery.="WHERE swtickets.Departmenttitle ='CET' ";
+			$sqlQuery.="AND swticketauditlogs.dateline > UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')) ";
+			$sqlQuery.="AND swticketauditlogs.dateline < UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')) ";
+			$sqlQuery.="AND swticketauditlogs.actionmsg like 'Ticket status changed from:%to: Closed'";
 		break;
 		
 		case QFE_CLOSED: //closed cases
-			$sqlQuery.="SELECT swtickets.TicketID AS 'ID', swtickets.Ownerstaffname AS 'Owner', ";
+			$sqlQuery.="SELECT distinct swtickets.TicketID AS 'ID', swtickets.Ownerstaffname AS 'Owner', ";
 			$sqlQuery.="from_unixtime(swtickets.dateline, '%Y %D %M %h:%i:%s') ";
 			$sqlQuery.="As  ";
 			$sqlQuery.="'Opened', swtickets.Subject AS 'Case', swtickets.firstresponsetime AS 'frt', swtickets.priorityTitle as 'pr',  ";
 			$sqlQuery.="swtickets.AverageResponseTime AS 'ar', swtickets.TotalReplies AS 'tr',  ";
 			$sqlQuery.="swtickets.TimeWorked AS 'tw', swtickets.ticketStatustitle AS 'Status', 'N/A' as 'on'";
-			$sqlQuery.="FROM swtickets ";
-			$sqlQuery.="WHERE swtickets.Departmenttitle ='QFE' AND swtickets.ticketStatustitle = 'Closed'  ";
-			$sqlQuery.="AND swtickets.dateline > UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')) ";
-			$sqlQuery.="AND swtickets.dateline < UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')) ";
+			$sqlQuery.="FROM swtickets, swticketauditlogs ";
+			$sqlQuery.="WHERE swtickets.Departmenttitle ='QFE' ";
+			$sqlQuery.="AND swticketauditlogs.dateline > UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')) ";
+			$sqlQuery.="AND swticketauditlogs.dateline < UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')) ";
+			$sqlQuery.="AND swtickets.ticketid=swticketauditlogs.ticketid and swticketauditlogs.actionmsg like 'Ticket status changed from:%to: Closed'";
 		break;
 		
 		case MANAGED_MIGRATIONS:
