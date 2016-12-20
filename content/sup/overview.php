@@ -264,7 +264,16 @@ if(!empty($_custgrpoptions))
 		       generateBox($db,"Last 10 completed tickets",$query, array("ticketid","ownerstaffname","subject"),array("ID","Owner","Subject"),false,0,false,5,10) ;
             ?>
             </div>
+			
      </div>
+	 <div class="row">
+	       <div class="col-sm-12">
+            <?php
+				$query ="SELECT  kbarticleid, subject, from_unixtime(editeddateline, '%d-%m-%Y') as edited,from_unixtime(dateline, '%d-%m-%Y') as created,views FROM ".KSQL_TPRFX."kbarticles where editeddateline< UNIX_TIMESTAMP(DATE_SUB(NOW(),INTERVAL 1 YEAR)) order by editeddateline desc";
+				generateBox($db,"KB articles older than year",$query, array("kbarticleid","subject", "edited","created","views"),array("ID","Subject","Modified","Created","Views"),true,0,false,5,10) ;
+		       ?>
+            </div>
+	 </div>
 </div>
 <script>
 var chart = new Chartist.Bar('#ct-chart3', {

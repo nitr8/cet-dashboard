@@ -332,8 +332,8 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 			
 			
 			<?php
-			$query ="SELECT kbarticleid,subject, from_unixtime(dateline, '%d-%m-%Y') as created FROM ".KSQL_TPRFX."kbarticles where dateline< UNIX_TIMESTAMP(DATE_SUB(NOW(),INTERVAL 1 YEAR))";
-			generateBox($db,"KB articles older than year",$query, array("kbarticleid","subject", "created"),array("ID","Subject","Created"),true,150,false,3,5) ;
+			$query ="SELECT  kbarticleid,CONCAT(SUBSTRING(subject, 1, 60),'...') as subject, from_unixtime(editeddateline, '%d-%m-%Y') as edited FROM ".KSQL_TPRFX."kbarticles where editeddateline< UNIX_TIMESTAMP(DATE_SUB(NOW(),INTERVAL 1 YEAR)) order by editeddateline desc";
+			generateBox($db,"KB articles older than year",$query, array("kbarticleid","subject", "edited"),array("ID","Subject","Modified"),true,150,false,3,5) ;
 			?>
 			</div>
             <div class="col-sm-4" style="padding:4px">
