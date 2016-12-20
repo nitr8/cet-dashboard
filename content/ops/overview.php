@@ -138,7 +138,7 @@
 					<div class="col-sm-6">
 					<?php 
 						//$query ="SELECT Date (FROM_UNIXTIME(dateline)) as dat ,sum(timespent)  ".KSQL_TPRFX."tickettimetracks  where ticketid = 4474 and dateline > UNIX_TIMESTAMP() - 864000  group by dat ;"
-						$query ="SELECT ticketid, subject, FROM_UNIXTIME(dateline) as created, timeworked ,FROM_UNIXTIME(lastactivity) as reply from  ".KSQL_TPRFX."tickets where ticketstatustitle = 'Daily Checks' ";
+						$query ="SELECT ticketid, subject, FROM_UNIXTIME(dateline) as created, timeworked ,FROM_UNIXTIME(lastactivity) as reply from  ".KSQL_TPRFX."tickets where ticketstatustitle = 'Daily Checks' order by subject ";
 						generateBox($db,"Daily Check tickets",$query, array("ticketid","subject", "created","reply" ,"timeworked"),array("ID","Subject","Created","Last Activity","Time Spent"),true) ;
 					?>
 					</div> 
