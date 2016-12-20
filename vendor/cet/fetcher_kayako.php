@@ -154,7 +154,9 @@ if ($reporttypeId > 0) {
 			$sqlQuery.="FROM swtickets ";
 			$sqlQuery.="left join swusers on swtickets.userid = swusers.userid ";
 			$sqlQuery.="left join swuserorganizations on swusers.userorganizationid = swuserorganizations.userorganizationid ";		
-			$sqlQuery.="WHERE swtickets.Departmenttitle ='CET' AND swtickets.ticketStatustitle <> 'Closed' AND swtickets.priorityTitle = 'Urgent' ";
+			$sqlQuery.="WHERE swtickets.Departmenttitle ='CET' AND swtickets.priorityTitle = 'Urgent' ";
+			$sqlQuery.="AND swtickets.dateline > UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')) ";
+			$sqlQuery.="AND swtickets.dateline < UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')) ";
 		break;
 		
 			case TOP_TEN_TIME_TAKERS:
