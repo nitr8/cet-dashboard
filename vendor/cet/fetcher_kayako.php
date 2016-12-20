@@ -139,8 +139,9 @@ if ($reporttypeId > 0) {
 			$sqlQuery.="FROM swtickets ";
 			$sqlQuery.="left join swusers on swtickets.userid = swusers.userid ";
 			$sqlQuery.="left join swuserorganizations on swusers.userorganizationid = swuserorganizations.userorganizationid ";		
-			$sqlQuery.="WHERE swtickets.Departmenttitle ='CET' AND swtickets.isescalated = 1   AND swtickets.ticketStatustitle <> 'Closed' ";
-			$sqlQuery.="AND swtickets.dateline > UNIX_TIMESTAMP(curdate()-INTERVAL 7 DAY) ";
+			$sqlQuery.="WHERE swtickets.Departmenttitle ='CET' AND swtickets.isescalated = 1  ";
+			$sqlQuery.="AND swtickets.dateline > UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weekNumber." Monday', '%X%V %W')) ";
+			$sqlQuery.="AND swtickets.dateline < UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')) ";
 
 		break;
 			case URGENT_CASES:
