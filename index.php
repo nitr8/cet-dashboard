@@ -57,6 +57,7 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
     <link href="vendor/inspinia/css/style.min.css" rel="stylesheet">
     <link href="vendor/picker/css/datepicker.css" rel="stylesheet">
     <link href="vendor/chartist/css/chartist.min.css" rel="stylesheet">
+	<link href="vendor/d3/css/d3.css" rel="stylesheet">
   </head>
  
   <body class="top-navigation">
@@ -75,6 +76,7 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
   <script src="vendor/flot/jquery.flot.pie.js"></script>
   <script src="vendor/flot/jquery.flot.time.js"></script>
   <script src="vendor/cet/js/helper.js"></script>
+  <script src="//d3js.org/d3.v3.min.js"></script>
   <div id="page-wrapper" class="gray-bg">
  
     <div class="row white-bg">
@@ -126,6 +128,7 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
               <ul class="dropdown-menu" role="menu">
                 <?php
 				 echo ("<li><a href=\"?page=managment_lastweekreport\"</a> Full weekly report</li>");
+				 echo ("<li><a href=\"?page=managment_ticketsbyyear\"</a> Year Overview</li>");		
                   $sql = "SELECT * FROM ".MYSQL_DB.".ReportType order by `Order` asc";// Create connection
                   $retval = mysql_query( $sql, $conn );
 
@@ -133,6 +136,7 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
                   {
                     echo ("<li><a href=\"?page=managment_reports&reportTypeID=".$row['idReportType']."\">".$row['ReportTypeName']."</a></li>");
                   }
+			
                 ?>
               </ul>
             </li>
