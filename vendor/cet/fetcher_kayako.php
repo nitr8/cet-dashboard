@@ -91,7 +91,7 @@ if ($reporttypeId > 0) {
 			$sqlQuery.="AND swticketauditlogs.dateline < UNIX_TIMESTAMP(STR_TO_DATE('".$yearNumber.$weeknumberTo." Monday', '%X%V %W')) ";
 			$sqlQuery.="AND swticketauditlogs.actionmsg like 'Ticket status changed from:%to: Closed'";
 		break;
-		
+		 
 		case QFE_CLOSED: //closed cases
 			$sqlQuery.="SELECT distinct swtickets.TicketID AS 'ID', swtickets.Ownerstaffname AS 'Owner', ";
 			$sqlQuery.="from_unixtime(swtickets.dateline, '%Y %D %M %h:%i:%s') ";
