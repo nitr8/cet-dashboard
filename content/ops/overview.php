@@ -165,6 +165,21 @@
 				</div> 
 		
 			</div>
+			<div class="row">		   
+					<div class="col-sm-6">
+					<?php 
+						$query ="select '' as id, ownerstaffname, count(ownerstaffname) as cnt, coalesce(a.ts,'0') as timespent from ".KSQL_TPRFX."tickets ";
+						$query .="left join ";
+						$query .="(SELECT swtickettimetracks.workerstaffname as workerstaffname ,sum(timespent) as ts FROM ".KSQL_TPRFX."tickettimetracks  ";
+						$query .="left join ".KSQL_TPRFX."tickets on ".KSQL_TPRFX."tickettimetracks.ticketid = ".KSQL_TPRFX."tickets.ticketid ";
+						$query .="where ".KSQL_TPRFX."tickettimetracks.dateline > UNIX_TIMESTAMP(adddate(curdate(), INTERVAL 1-DAYOFWEEK(curdate()) DAY)) and ticketstatustitle='Daily Checks'  group by workerstaffname ) a ";
+						$query .="on a.workerstaffname = ".KSQL_TPRFX."tickets.ownerstaffname ";
+						$query .="where ticketstatustitle='Daily Checks' group by ownerstaffname ";
+						generateBox($db,"Time spent on tickets this week",$query, array("id","ownerstaffname","cnt","timespent",),array("","Worker name","Assigned customers","Time Spent"),true,0,false,5,100) ;
+					?>
+					</div> 
+				
+			</div>					
 </form>
  <script>
 
