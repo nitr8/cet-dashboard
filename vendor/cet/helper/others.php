@@ -1,5 +1,9 @@
 <?php
-
+function getColorForBigScreen($i)
+{
+	$arr = array("1AB394", "79D2C0","D3D3D3","BABABA","453d3f","EE3333","33EE33","3333EE");
+	return $arr[$i];
+}
 function getColorsForCharts()
 {
 //we are using 2 types of charts - for pie chars and graph colors are defined here,

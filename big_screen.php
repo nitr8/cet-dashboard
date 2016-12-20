@@ -220,7 +220,7 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 	<div class="col-sm-4" style="padding:4px">
 	    <?php
 		$query ="SELECT ticketid, subject, ownerstaffname FROM ".KSQL_TPRFX."tickets LEFT JOIN ".KSQL_TPRFX."customfieldvalues ON ".KSQL_TPRFX."tickets.ticketid = ".KSQL_TPRFX."customfieldvalues.typeid WHERE ((".KSQL_TPRFX."tickets.duetime <= ".$_currentdate." AND ".KSQL_TPRFX."tickets.duetime != '0') OR (".KSQL_TPRFX."tickets.resolutionduedateline <= ".$_currentdate." AND ".KSQL_TPRFX."tickets.resolutionduedateline != '0')) AND ".KSQL_TPRFX."tickets.isescalatedvolatile = '0' AND ".KSQL_TPRFX."tickets.isresolved = '0' AND ".KSQL_TPRFX."tickets.ticketstatustitle != 'Closed' AND ".KSQL_TPRFX."customfieldvalues.customfieldid = ".$_custfieldid." AND ".KSQL_TPRFX."tickets.departmentid = ".$_departmentid;
-     	generateBox($db,"Overdue Tickets",$query, array("ticketid","ownerstaffname","subject"),array("ID","Owner","Subject"),true,150,false,3) ;
+     	generateBox($db,"Overdue Tickets",$query, array("ticketid","ownerstaffname","subject"),array("ID","Owner","Subject"),true,150,false,3,6) ;
 
         $_startdate = time();
         $_enddate = time() + 604800; // 7 days
@@ -397,7 +397,7 @@ $(function() {
                     foreach($result as $stat)
                     {
                         if($i>1)echo","; 
-                        echo"{label: \"".$stat["Staff"]." (".$stat["Tickets"].")\",data: ".$stat["Tickets"].",color: \"#".$colors[$colorIndex]."\"},";
+                        echo"{label: \"".$stat["Staff"]." (".$stat["Tickets"].")\",data: ".$stat["Tickets"].",color: \"#".getColorForBigScreen($colorIndex)."\"},";
                         $i++;
                     }
         $colorIndex++;

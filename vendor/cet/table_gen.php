@@ -24,13 +24,13 @@ function generateBox($db,$title,$sqlQuery,$columnAliases,$columnNames,$displayco
     $displaycnt="";
     if($displaycount)
 	{
-	if ($_totalCount <= $_count)
+	if ($limit > $_totalCount)
 		{
         $displaycnt = "(".$_count.")";
 		}
 		else
 		{
-			$displaycnt = "(Displayed ".$_count." from <span style=\"color:maroon\">".$_totalCount."</span>)";
+			$displaycnt = "(Displayed ".$limit." from <span style=\"color:maroon\">".$_totalCount."</span>)";
 		}
 	}
 
@@ -71,6 +71,7 @@ function generateBox($db,$title,$sqlQuery,$columnAliases,$columnNames,$displayco
     
     for($i=0; $i<$_count; $i++)
     {
+		if($i>=$limit) break;
         if(($i%2) == 0)
     	{
             $_class = 'odd';
@@ -160,7 +161,7 @@ function generateBox($db,$title,$sqlQuery,$columnAliases,$columnNames,$displayco
 					break;
 				}
 				
-				
+			
     	 }
         $_html .= '</tr>';
     

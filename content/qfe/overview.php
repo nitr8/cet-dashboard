@@ -65,7 +65,8 @@ unset($_row);
 	 <div class="col-sm-12">
                <?php
                 $query ="SELECT ticketid, subject, ownerstaffname,prioritytitle,from_unixtime(resolutiondateline,'%d/%m/%Y')  as resDate,tickettypetitle FROM ".KSQL_TPRFX."tickets WHERE ticketstatustitle = 'Closed' AND departmentid = $_departmentid ORDER BY dateline DESC LIMIT 10";
-			    generateBox($db,"Last 10 completed tickets",$query, array("ticketid","ownerstaffname","subject", "prioritytitle","resDate","tickettypetitle"),array("ID","Owner","Subject","Priority","Resolution Date","Type"),false);
+				
+			    generateBox($db,"Last 10 completed tickets",$query, array("ticketid","ownerstaffname","subject", "prioritytitle","resDate","tickettypetitle"),array("ID","Owner","Subject","Priority","Resolution Date","Type"),false,0,false,5,10);
                ?>
            </div>
      </div>

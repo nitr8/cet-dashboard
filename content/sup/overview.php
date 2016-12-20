@@ -261,7 +261,7 @@ if(!empty($_custgrpoptions))
             <div class="col-sm-4">
             <?php
                $query ="SELECT ticketid, subject, ownerstaffname FROM ".KSQL_TPRFX."tickets WHERE ticketstatustitle = 'Closed' AND departmentid = $_departmentid ORDER BY dateline DESC LIMIT 10";
-		       generateBox($db,"Last 10 completed tickets",$query, array("ticketid","ownerstaffname","subject"),array("ID","Owner","Subject"),false) ;
+		       generateBox($db,"Last 10 completed tickets",$query, array("ticketid","ownerstaffname","subject"),array("ID","Owner","Subject"),false,0,false,5,10) ;
             ?>
             </div>
      </div>
