@@ -126,10 +126,12 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
-                <?php
+			  <?php
+						
 				 echo ("<li><a href=\"?page=managment_lastweekreport\"</a> Full weekly report</li>");
-				 echo ("<li><a href=\"?page=managment_ticketsbyyear\"</a> Year Overview</li>");		
-                  $sql = "SELECT * FROM ".MYSQL_DB.".ReportType order by `Order` asc";// Create connection
+				 echo ("<li><a href=\"?page=managment_ticketsbyyear\"</a> Year Overview</li>");
+				  echo ("<li><hr></li>");
+                  $sql = "SELECT * FROM ".MYSQL_DB.".ReportType order by `ReportTypeName` asc";// Create connection
                   $retval = mysql_query( $sql, $conn );
 
                   while ($row = mysql_fetch_array($retval))
@@ -138,7 +140,7 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
                   }
 			
                 ?>
-              </ul>
+				</ul>
             </li>
 
           </ul>

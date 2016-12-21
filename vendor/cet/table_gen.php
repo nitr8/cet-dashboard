@@ -1,6 +1,6 @@
 <?php 
 
-function generateBox($db,$title,$sqlQuery,$columnAliases,$columnNames,$displaycount,$heigthinPx=0,$displayTools= true,$Hsize=5,$limit=5) 
+function generateBox($db,$title,$sqlQuery,$columnAliases,$columnNames,$displaycount,$heigthinPx=0,$displayTools= true,$Hsize=5,$limit=5,$limitsubject = 0) 
 {
     $_result = array();
     $_count = 0;
@@ -85,8 +85,12 @@ function generateBox($db,$title,$sqlQuery,$columnAliases,$columnNames,$displayco
          $_html .= '<tr>';
     	 for($j=0; $j<count($columnNames); $j++)
     	 {
-    		if($j==0)
-    			$_html .= '<td style="width: 50px; border-left: none; border-bottom: none;" class="'.$_class.'">#'.$_result[$i][$columnAliases[$j]].'</td>';
+    		if($j==0){
+    			$_html .= '<td style="width: 50px; border-left: none; border-bottom: none;" class="'.$_class.'">';
+				if(strtoupper($columnNames[$j])=="ID")
+					$_html .='#';
+				$_html .= $_result[$i][$columnAliases[$j]].'</td>';
+				}
     		else
              if($columnNames[$j]=="Owner" && $_result[$i][$columnAliases[$j]]=="")
                 $_html .= '<td style="border-bottom: none; color:red" class="'.$_class.'">Unassigned</td>';
@@ -125,14 +129,30 @@ function generateBox($db,$title,$sqlQuery,$columnAliases,$columnNames,$displayco
 					break;
 				}
 				case "Resolution Date":
+				case "Assigned customers":
+				case "Modified":
+				case "Created":
+					case "Subject":  
+				
+					if(strlen($_result[$i][$columnAliases[$j]])>$limitsubject && $limitsubject>0)
+						$_html .= '<td style="border-bottom: none;" class="'.$_class.'">'.substr($_result[$i][$columnAliases[$j]],0,$limitsubject).'...</td>';
+					
+					else
+						$_html .= '<td style="border-bottom: none;" class="'.$_class.'">'.$_result[$i][$columnAliases[$j]].'</td>';
+					break;
+				case "Views":
 				{
 					$_html .= '<td style="border-bottom: none;text-align:center;" class="'.$_class.'">'.$_result[$i][$columnAliases[$j]].'</td>';
 					break;
 				}
+				case "Owner":
+				{
+					$_html .= '<td style="border-bottom: none;text-align:left;padding-right:10px;" class="'.$_class.'">'.$_result[$i][$columnAliases[$j]].'</td>';
+					break;
+				}
 				case "Time Spent":
 				{
-
-					$_html .= '<td style="border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i][$columnAliases[$j]]).'</td>';
+					$_html .= '<td style="border-bottom: none;text-align:center;" class="'.$_class.'">'.secondsToTime($_result[$i][$columnAliases[$j]],true).'</td>';
 					break;
 				}
 				case "Priority" :

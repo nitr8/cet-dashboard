@@ -115,8 +115,7 @@
 				<div class="row">		   
 					<div class="col-sm-6">
 					<?php 
-						//$query ="SELECT Date (FROM_UNIXTIME(dateline)) as dat ,sum(timespent)  ".KSQL_TPRFX."tickettimetracks  where ticketid = 4474 and dateline > UNIX_TIMESTAMP() - 864000  group by dat ;"
-						$query ="SELECT ticketid, subject, FROM_UNIXTIME(dateline) as created, timeworked ,FROM_UNIXTIME(lastactivity) as reply from  ".KSQL_TPRFX."tickets where ticketstatustitle = 'Daily Checks' order by subject ";
+						$query ="SELECT ticketid, subject, FROM_UNIXTIME(dateline) as created, timeworked ,FROM_UNIXTIME(lastactivity) as reply from  ".KSQL_TPRFX."tickets where ticketstatustitle = 'Daily Checks' order by subject";
 						generateBox($db,"Daily Check tickets",$query, array("ticketid","subject", "created","reply" ,"timeworked"),array("ID","Subject","Created","Last Activity","Time Spent"),true,0,false,5,100) ;
 					?>
 					</div> 
@@ -168,14 +167,14 @@
 			<div class="row">		   
 					<div class="col-sm-6">
 					<?php 
-						$query ="select '' as id, ownerstaffname, count(ownerstaffname) as cnt, coalesce(a.ts,'0') as timespent from ".KSQL_TPRFX."tickets ";
+						$query ="select '' as nr, ownerstaffname, count(ownerstaffname) as cnt, coalesce(a.ts,'0') as timespent from ".KSQL_TPRFX."tickets ";
 						$query .="left join ";
 						$query .="(SELECT swtickettimetracks.workerstaffname as workerstaffname ,sum(timespent) as ts FROM ".KSQL_TPRFX."tickettimetracks  ";
 						$query .="left join ".KSQL_TPRFX."tickets on ".KSQL_TPRFX."tickettimetracks.ticketid = ".KSQL_TPRFX."tickets.ticketid ";
 						$query .="where ".KSQL_TPRFX."tickettimetracks.dateline > UNIX_TIMESTAMP(adddate(curdate(), INTERVAL 1-DAYOFWEEK(curdate()) DAY)) and ticketstatustitle='Daily Checks'  group by workerstaffname ) a ";
 						$query .="on a.workerstaffname = ".KSQL_TPRFX."tickets.ownerstaffname ";
 						$query .="where ticketstatustitle='Daily Checks' group by ownerstaffname ";
-						generateBox($db,"Time spent on tickets this week",$query, array("id","ownerstaffname","cnt","timespent",),array("","Worker name","Assigned customers","Time Spent"),true,0,false,5,100) ;
+						generateBox($db,"Time spent on tickets this week",$query, array("nr","ownerstaffname","cnt","timespent",),array("","Worker name","Assigned customers","Time Spent"),true,0,false,5,100) ;
 					?>
 					</div> 
 				

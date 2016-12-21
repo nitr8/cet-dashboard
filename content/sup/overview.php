@@ -153,9 +153,10 @@ if(!empty($_custgrpoptions))
      </div>
     <div class="row">
           <div class="col-sm-4">
-            <?php                      
+            <?php                     
+	
             $query ="SELECT ticketid, subject FROM ".KSQL_TPRFX."tickets WHERE ticketstatustitle = 'Open' AND departmenttitle='CET' ORDER BY dateline DESC LIMIT 5";
-			generateBox($db,"New Tickets",$query, array("ticketid","subject"),array("ID","Subject"),true) ;
+			generateBox($db,"New Tickets",$query, array("ticketid","subject"),array("ID","Subject"),true,0,true,5,5, 60) ;
             $_startdate = time();
             $_enddate = time() + 604800; // 7 days
             $_startdate = date('d/m/Y', $_startdate);
@@ -255,13 +256,13 @@ if(!empty($_custgrpoptions))
                $query ="SELECT ticketid, subject FROM ".KSQL_TPRFX."tickets WHERE ownerstaffid = 0 AND ticketstatustitle = 'Open' AND departmentid = $_departmentid ORDER BY dateline DESC LIMIT 5";
 			   generateBox($db,"Unassigned Tickets",$query, array("ticketid","subject"),array("ID","Subject"),true) ;
                $query ="SELECT ticketid, subject, ownerstaffname FROM " . KSQL_TPRFX . "tickets WHERE ((duetime <= '" . datetoday() . "' AND duetime != '0') OR (resolutionduedateline <= '" . datetoday() . "' AND resolutionduedateline != '0')) AND isescalatedvolatile = '0' AND isresolved = '0' AND ticketstatustitle = 'Open'  AND departmentid = $_departmentid ORDER BY `dateline` DESC LIMIT 5";
-			   generateBox($db,"Overdue Tickets",$query, array("ticketid","ownerstaffname","subject"),array("ID","Owner","Subject"),true) ;
+			   generateBox($db,"Overdue Tickets",$query, array("ticketid","ownerstaffname","subject"),array("ID","Owner","Subject"),true,0,true,5,5, 60) ;
             ?>
             </div>
             <div class="col-sm-4">
             <?php
                $query ="SELECT ticketid, subject, ownerstaffname FROM ".KSQL_TPRFX."tickets WHERE ticketstatustitle = 'Closed' AND departmentid = $_departmentid ORDER BY dateline DESC LIMIT 10";
-		       generateBox($db,"Last 10 completed tickets",$query, array("ticketid","ownerstaffname","subject"),array("ID","Owner","Subject"),false,0,false,5,10) ;
+		       generateBox($db,"Last 10 completed tickets",$query, array("ticketid","ownerstaffname","subject"),array("ID","Owner","Subject"),false,0,false,5,10,60) ;
             ?>
             </div>
 			
@@ -269,7 +270,7 @@ if(!empty($_custgrpoptions))
 	 <div class="row">
 	       <div class="col-sm-12">
             <?php
-				$query ="SELECT  kbarticleid, subject, from_unixtime(editeddateline, '%d-%m-%Y') as edited,from_unixtime(dateline, '%d-%m-%Y') as created,views FROM ".KSQL_TPRFX."kbarticles where editeddateline< UNIX_TIMESTAMP(DATE_SUB(NOW(),INTERVAL 1 YEAR)) order by editeddateline desc";
+				$query ="SELECT  kbarticleid, subject, from_unixtime(editeddateline, '%D %M %Y') as edited,from_unixtime(dateline, '%D %M %Y') as created,views FROM ".KSQL_TPRFX."kbarticles where editeddateline< UNIX_TIMESTAMP(DATE_SUB(NOW(),INTERVAL 1 YEAR)) order by editeddateline desc";
 				generateBox($db,"KB articles older than year",$query, array("kbarticleid","subject", "edited","created","views"),array("ID","Subject","Modified","Created","Views"),true,0,false,5,10) ;
 		       ?>
             </div>
