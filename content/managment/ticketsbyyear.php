@@ -25,6 +25,8 @@ if(isset($_GET['department']))
 $sqlQueryCET = "SELECT DATE_FORMAT(from_unixtime(t.dateline),'%Y-%m-%d') as date, count(DATE_FORMAT(from_unixtime(t.dateline),'%Y-%m-%d')) as cnt FROM ".KSQL_TPRFX."tickets t where t.departmenttitle='CET' group by date";
 $sqlQueryQFE = "SELECT DATE_FORMAT(from_unixtime(t.dateline),'%Y-%m-%d') as date, count(DATE_FORMAT(from_unixtime(t.dateline),'%Y-%m-%d')) as cnt FROM ".KSQL_TPRFX."tickets t where t.departmenttitle='QFE' group by date";
 $sqlQueryIT = "SELECT DATE_FORMAT(from_unixtime(t.dateline),'%Y-%m-%d') as date, count(DATE_FORMAT(from_unixtime(t.dateline),'%Y-%m-%d')) as cnt FROM ".KSQL_TPRFX."tickets t where t.departmenttitle='IT' group by date";
+$sqlQueryFE = "SELECT DATE_FORMAT(from_unixtime(t.dateline),'%Y-%m-%d') as date, count(DATE_FORMAT(from_unixtime(t.dateline),'%Y-%m-%d')) as cnt FROM ".KSQL_TPRFX."tickets t where t.departmenttitle='FE' group by date";
+
 	$sqlQuery = $sqlQueryCET;
 switch ($department)	
 {
@@ -36,6 +38,9 @@ switch ($department)
 		break;
 	case "QFE" : 
 		$sqlQuery = $sqlQueryQFE;
+		break;
+	case "FE" : 
+		$sqlQuery = $sqlQueryFE;
 		break;
 }
 ?>
@@ -51,6 +56,7 @@ switch ($department)
 					<option value ="?page=managment_ticketsbyyear&department=CET" <?php echo $department=="CET"?"SELECTED":"";?>>CET</option>
 					<option value ="?page=managment_ticketsbyyear&department=QFE" <?php echo $department=="QFE"?"SELECTED":"";?>>QFE</option>
 					<option value ="?page=managment_ticketsbyyear&department=IT" <?php echo $department=="IT"? "SELECTED":"";?>>IT</option>
+					<option value ="?page=managment_ticketsbyyear&department=FE" <?php echo $department=="FE"? "SELECTED":"";?>>FE</option>
 					</select>
 				</div>
 			</div>

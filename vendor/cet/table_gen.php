@@ -130,6 +130,8 @@ function generateBox($db,$title,$sqlQuery,$columnAliases,$columnNames,$displayco
 				}
 				case "Resolution Date":
 				case "Assigned customers":
+					$_html .= '<td style="border-bottom: none;text-align:center;" class="'.$_class.'">'.$_result[$i][$columnAliases[$j]].'</td>';
+					break;
 				case "Modified":
 				case "Created":
 					case "Subject":  
