@@ -130,6 +130,7 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
 						
 				 echo ("<li><a href=\"?page=managment_lastweekreport\"</a> Full weekly report</li>");
 				 echo ("<li><a href=\"?page=managment_ticketsbyyear\"</a> Year Overview</li>");
+				 echo ("<li><a href=\"?page=managment_staffload\"</a> Staff load</li>");
 				  echo ("<li><hr></li>");
                   $sql = "SELECT * FROM ".MYSQL_DB.".ReportType order by `ReportTypeName` asc";// Create connection
                   $retval = mysql_query( $sql, $conn );
