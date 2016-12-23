@@ -333,12 +333,12 @@ $(function() {
         <?php
         $colorIndex = 0;
         
-            $queryLastSixWeeksNewByProductresult = $db->fetch_array($queryLastSixWeeksNewByProduct);
+            $queryLastSixWeeksNewByProductresult = $db->fetch_array(getQueryLastSixWeeksNewByProduct());
 			$i =0;
                     foreach($queryLastSixWeeksNewByProductresult as $stat)
                     {
                        
-                        echo"{label: \"".$stat["prd"]." (".$stat["cnt"].")\",data: ".$stat["cnt"].",color: \"#".$colors[$colorIndex]."\"},";
+                        echo"{label: \"".$stat["prd"]." (".$stat["cnt"].")\",data: ".$stat["cnt"].",color: \"#".getColorForBigScreen($colorIndex)."\"},";
                         $colorIndex++;
                     }
         
