@@ -112,8 +112,9 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
                 <li>
                  <a href="?page=ops_list">List of Customers</a>
                 </li>
+				<li><hr></li>
                 <?php
-                foreach(GetAllCustomers($conn) as $record)
+                foreach(GetAllCustomers($conn,$userName) as $record)
                 {
                   echo ("<li><a href=\"?page=ops_migration&CustomerID=".$record['CustomerId']."\">".$record['CustomerName']."</a></li>");
                 }
