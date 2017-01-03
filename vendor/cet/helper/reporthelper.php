@@ -24,6 +24,8 @@ function generateReportWithCharts($reportTypeId, $limitWeeks = null, $limitLegen
 		$_reports[] = $row;
 		$_selectedReportId  = $row['idReport'];
 		$selectedWeekNumber = $row['weekNumber'];
+		$selectedYearNumber = $row['yearNumber'];
+		
 	}
 		
 	$sql = "SELECT * from ".MYSQL_DB.".ReportType where idReportType = ".$reportTypeId;
@@ -295,6 +297,7 @@ function generateTableReport($reportTypeId, $displayStatus = true,$displayOrgani
 		$_reports[] = $row;
 		$_selectedReportId  = $row['idReport'];
 		$selectedWeekNumber = $row['weekNumber'];
+		$selectedYearNumber = $row['yearNumber'];
 	}
 		
 	$sql = "SELECT * from ".MYSQL_DB.".ReportType where idReportType = ".$reportTypeId;
