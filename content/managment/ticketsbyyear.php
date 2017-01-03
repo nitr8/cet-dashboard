@@ -93,7 +93,7 @@ var color = d3.scale.quantize()
 
 //CET////////////////////////////////////////////////////////////////////////
 var svg = d3.select("body").select("#tpy").selectAll("svg")
-    .data(d3.range( <?php echo $department=="QFE"?"2015":"2013";?>, 2017)) 
+    .data(d3.range( <?php echo $department=="QFE"?"2015":"2013";?>, 2018)) 
   .enter().append("svg")
     .attr("width", width)
     .attr("height", height)
