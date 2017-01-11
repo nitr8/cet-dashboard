@@ -248,7 +248,7 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 			$_startdate = date('d/m/Y', $_startdate);
 			$_enddate = date('d/m/Y', $_enddate);
 			?>
-			  <div class="ibox float-e-margins" >
+			 <div class="ibox float-e-margins" >
 				<div class="ibox-title">
 				<h3>Approved time off (CET only) (<?php echo ($dateFromBamboo." - ".$dateToBamboo );?>)</h3>
 				
@@ -258,9 +258,9 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 					echo generateDayOffBoxFromResponse($response);
 				?>
                   </div>
-				</div>
-            </div>
-            <div class="col-sm-4" style="padding:4px"> 
+			</div>
+        </div>
+        <div class="col-sm-4" style="padding:4px"> 
 			<?php
 			$query ="SELECT ticketid, subject FROM ".KSQL_TPRFX."tickets WHERE ticketstatustitle = 'Open' AND departmenttitle='CET' ORDER BY dateline DESC";
 			generateBox($db,"New Tickets",$query, array("ticketid","subject"),array("ID","Subject"),true,150,false,3,5,60) ;

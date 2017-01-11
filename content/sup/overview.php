@@ -1,4 +1,21 @@
 <?php 
+/////////////////////////////////////////////
+//Bamboo HR stuff 
+
+include "BambooHR/API/API.php";
+use \BambooHR\API\BambooAPI as BHR;
+
+$api = new BHR(BAMBOO_COMPANY);
+$api->setSecretKey(BAMBOO_SECRET);
+$authenticated = $api->login(BAMBOO_SECRET, BAMBOO_LOGIN,BAMBOO_PWD);
+$dateFromBamboo = date("Y-m-d");
+$dateToBamboo = date("Y-m-d", strtotime("+120 day", time()));
+//$plus7days =  strtotime("+7 day", time()); //use this later
+
+$parameter=array("status" => "approved","start"=>date("Y-m-d"),"end"=>$dateToBamboo);
+$response = $api->getTimeOffRequestsArr($parameter);
+/////////////////////////////////////////////
+
 
 $_currentdate = datetoday();
 $_departmentid = 3;
@@ -162,95 +179,17 @@ if(!empty($_custgrpoptions))
             $_startdate = date('d/m/Y', $_startdate);
             $_enddate = date('d/m/Y', $_enddate);
             ?>
-				  <div class="ibox float-e-margins">
-					<div class="ibox-title">
-					<h5>Whos off (<?php echo ($_startdate." - ".$_enddate );?>)</h5>
-					<div class="ibox-tools">
-							<a class="collapse-link">
-								<i class="fa fa-chevron-up"></i>
-							</a>
-					</div>
-					</div>
-					<div class="ibox-content">
-                   <?php
-                     $_whosoffapi = '';
-                     $_whosoffapiurl = '';
-                     $_startdate = '';
-                     $_enddate = '';
-                     $_headers = array();
-                     $firstname = '';
-                     $lastname = '';
-                     $_whosresp = '';
-                     $_whosoffapi = "7452c587c7a8";
-                     $_whosoffapiurl = "http://publicapi.whosoff.com/WhosOffPublic.asmx";
-
-                     $xml_post_string = '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><WhosOffByCompany xmlns="http://publicapi.whosoff.com/WhosOffPublic.asmx/"><APIKEY>'.$_whosoffapi.'</APIKEY><Start_Date>'.$_startdate.'</Start_Date><End_Date>'.$_enddate.'</End_Date></WhosOffByCompany></soap:Body></soap:Envelope>';
-                     
-                     $_headers = array(
-                     "POST /WhosOffPublic.asmx HTTP/1.1",
-                     "Host: publicapi.whosoff.com",
-                     "Content-Type: text/xml; charset=utf-8",
-                     "Content-Length: ".strlen($xml_post_string),
-                     "SOAPAction: ".$_whosoffapiurl."/WhosOffByCompany"
-                     ); 
-
-                     $ch = curl_init();
-                     curl_setopt($ch, CURLOPT_URL, $_whosoffapiurl);
-                     curl_setopt($ch, CURLOPT_POST, true);
-                     curl_setopt($ch, CURLOPT_POSTFIELDS, $xml_post_string);
-                     curl_setopt($ch, CURLOPT_HTTPHEADER, $_headers);
-                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);        
-                     $response = curl_exec($ch); 
-                     curl_close($ch);
-                     
-                     if(!empty($response)){
-                         
-                         $response1 = str_replace("<soap:Body>","",$response);
-                         $response2 = str_replace("</soap:Body>","",$response1);
-                         
-                         $xml = simplexml_load_string($response2);
-
-                         $_whosresp = $xml->WhosOffByCompanyResponse->WhosOffByCompanyResult->WHOSOFF->REASON;
-                        // echo  $_whosresp;
-                   
-                         if($_whosresp == "OK"){
-                             foreach($xml->children() as $whosoffresp) {
-                                 
-                                 foreach($whosoffresp->children() as $result){
-                                     
-                                     foreach($result->children() as $whosoff){
-                                         
-                                         foreach($whosoff->children() as $data){
-                                             
-                                             foreach($data->children() as $leavedata){
-                                                 
-                                                 $firstname = $leavedata->Staff_First_Name;
-                                                 $lastname = $leavedata->Staff_Last_Name;
-                                                 $from = $leavedata->StartDate;
-                                                 $from = mb_substr($from, 0, 2);
-                                                 $end = $leavedata->EndDate;
-                                                 $end = mb_substr($end, 0, 2);
-                                                 
-                                                 echo "<div class='col-md-4' style='display:inline-table; padding-bottom: 10px;'>".$firstname." ".$lastname." (".$from."/".$end.")</div>";
-                                                 
-                                             }
-                                         }
-                                     }     
-                                 }  
-                             }
-                          }else{
-                             echo "No staff on leave for this week.";
-                         }
-                     }else{
-                         
-                         echo "No data loaded";
-                         
-                     }
-
-?>
-                  </div>
+			<div class="ibox float-e-margins" >
+				<div class="ibox-title">
+				<h5>Approved time off (CET only) (<?php echo ($dateFromBamboo." - ".$dateToBamboo );?>)</5>
+				
 				</div>
-            </div>
+				<div class="ibox-content">
+                <?php
+					echo generateDayOffBoxFromResponse($response);
+				?>
+                  </div>
+			</div></div>
             <div class="col-sm-4">
             <?php
                $query ="SELECT ticketid, subject FROM ".KSQL_TPRFX."tickets WHERE ownerstaffid = 0 AND ticketstatustitle = 'Open' AND departmentid = $_departmentid ORDER BY dateline DESC LIMIT 5";
