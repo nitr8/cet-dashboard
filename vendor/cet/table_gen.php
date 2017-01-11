@@ -1,4 +1,37 @@
 <?php 
+function generateDayOffBoxFromResponse($response)
+{
+
+if($response->isError()) {
+   return "Error communicating with BambooHR: " . $response->getErrorMessage();
+}
+else{
+$xml = $response->getContent();
+	$returnvalue = "";
+	$returnvalue .= "<table width =\"100%\">";
+	
+	foreach ($xml->request as $value)
+			{
+				$returnvalue .= "<tr><td><img src=\"vendor/cet/img/";
+				switch($value->type)
+				{
+					case "Doctor Appointment Family":
+						$returnvalue .= "doctor.jpg";
+						break;
+					case "Doctor Appointment":
+						$returnvalue .= "doctor.jpg";
+						break;
+					case "Holiday":
+						$returnvalue .= "holiday.jpg";
+					break;
+				}
+				$returnvalue .="\" alt=\"\"/></td><td>";
+				$returnvalue .= "<b>".$value->employee."</b> </td><td>(".$value->start."/".$value->end.") </td></tr>";
+			}
+	$returnvalue .= "</table>";				
+	return $returnvalue;
+	}
+}   
 
 function generateBox($db,$title,$sqlQuery,$columnAliases,$columnNames,$displaycount,$heigthinPx=0,$displayTools= true,$Hsize=5,$limit=5,$limitsubject = 0) 
 {

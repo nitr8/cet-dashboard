@@ -17,6 +17,12 @@ define('KSQL_DB', 'kayako');
 define('KSQL_PRFX', 'kayako');
 define('KSQL_TPRFX', KSQL_PRFX.".sw");
 
+//Bamboo HR credentials 
+define('BAMBOO_SECRET', '');
+define('BAMBOO_LOGIN', '');
+define('BAMBOO_PWD', '');
+define('BAMBOO_COMPANY', '');
+
 define('TICKETS_PER_PRODUCT','1');
 define('TOP_TEN_TIME_TAKERS','2');
 define('AGED_CASES','3');
