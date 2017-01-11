@@ -250,7 +250,7 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 			?>
 			 <div class="ibox float-e-margins" >
 				<div class="ibox-title">
-				<h3>Approved time off (CET only) (<?php echo ($dateFromBamboo." - ".$dateToBamboo );?>)</h3>
+				<h3>Approved time off (<?php echo ($dateFromBamboo." - ".$dateToBamboo );?>)</h3>
 				
 				</div>
 				<div class="ibox-content" style="height:150px">
