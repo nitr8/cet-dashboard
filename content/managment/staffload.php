@@ -19,7 +19,7 @@ function generateDataString($sql,$db)
 }
 
 $listOfUsers = array();
-$listOfUsersSQL = "SELECT staffid,staffgroupid, fullname FROM ".KSQL_TPRFX."staff where staffgroupid in(1,4) and staffid NOT IN (1,36)";
+$listOfUsersSQL = "SELECT staffid,staffgroupid, fullname FROM ".KSQL_TPRFX."staff where staffgroupid in(1,4) and staffid NOT IN (1,36) order by firstname";
 $rows = $db->query($listOfUsersSQL);
 $index = 0;
 while ($record = $db->fetch($rows))
