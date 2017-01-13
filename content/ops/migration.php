@@ -101,7 +101,7 @@ foreach($allLinks as $record)
               </div>
      </div>
 	
-	   <div class="row">
+	   <!--div class="row">
            <div class="col-lg-12">
                <div class="ibox float-e-margins">
                    <div class="ibox-title">
@@ -131,7 +131,7 @@ foreach($allLinks as $record)
                    </div>
                </div>
            </div>
-	</div>
+	</div -->
 </div>
 <?php
 }
@@ -211,95 +211,6 @@ $(function() {
 
 
 
-<?php
-	$stats = array ();
-
-	$retval = mysql_query( "SELECT ItemCount, ItemSize, UNIX_TIMESTAMP(Timestamp) as TimeStamp FROM ".MYSQL_DB.".CustomerStats where  LinkInfoId='". $record['LinkInfoId']."' order by timestamp desc limit 1440  ", $conn );
-	while ($row = mysql_fetch_array($retval))
-	{
-		array_push($stats,$row);
-	}
-
-
-?>
-$(function() {
-    var oilprices = [
-    <?php
-            $i =1;
-            foreach($stats as $stat)
-            {
-            if($i>1)echo","; 
-            echo "[".$stat["TimeStamp"]."000,".$stat["ItemCount"]."]";
-            $i++;
-            }
-        ?>];
-
-    var exchangerates = [
-    <?php
-            $i =1;
-            foreach($stats as $stat)
-            {
-            if($i>1)echo","; 
-            echo "[".$stat["TimeStamp"]."000,".$stat["ItemSize"]."]";
-            $i++;
-            }
-        ?>];
-
-
-
-   function doPlot(position) {
-        $.plot($("#flot-line-chart-multi<?php echo $record['LinkInfoId'];?>"), [{
-            data: oilprices,
-            label: "Item count"
-        }, {
-            data: exchangerates,
-            label: "ItemSize",
-            yaxis: 2
-        }], {
-            xaxes: [{
-                mode: 'time',
-                timeformat:"%Y/%m/%d %H:%M"
-            }],
-            yaxes: [{
-                min: 0
-            }, {
-                // align if we are to the right
-                alignTicksWithAxis: position == "right" ? 1 : null,
-                position: position,
-               
-            }],
-            legend: {
-                position: 'ne'
-            },
-            colors: ["#1ab394","#444444"],
-            grid: {
-                color: "#999999",
-                hoverable: true,
-                clickable: true,
-                tickColor: "#D4D4D4",
-                borderWidth:0,
-                hoverable: true //IMPORTANT! this is needed for tooltip to work,
-
-            },
-            tooltip: true,
-            tooltipOpts: {
-                content: "%s for %x was %y",
-                xDateFormat: "%Y/%m/%d %H:%M",
-
-                onHover: function(flotItem, $tooltipEl) {
-                    // console.log(flotItem, $tooltipEl);
-                }
-            }
-
-        });
-    }
-
-    doPlot("right");
-
-    $("button").click(function() {
-        doPlot($(this).text());
-    });
-});
 <?php
 }
 ?>
