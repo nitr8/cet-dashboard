@@ -1,7 +1,7 @@
 <?php
 $listOfcustomers= array();
 
-$retval = mysql_query( "SELECT c.*,cu.displayed  FROM ".MYSQL_DB.".Customer c  left join CustomersToUser cu on c.CustomerId = cu.customerId  ", $conn );
+$retval = mysql_query( "SELECT distinct c.*,cu.displayed  FROM ".MYSQL_DB.".Customer c  left join CustomersToUser cu on c.CustomerId = cu.customerId  ", $conn );
 while ($row = mysql_fetch_array($retval))
 {
 	array_push($listOfcustomers,$row);
