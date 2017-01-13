@@ -15,7 +15,8 @@ function generateTable($collection,$from,$to)
             <td style="text-align: center; width: 150px; padding-left: 10px;" class="title">Customer Name</td>
             <td style="text-align: center; width: 200px; padding-left: 10px;" class="title">Cloud Db Name</td>
             <td style="text-align: center; padding-left: 10px;" class="title">Updated</td>
-            <td style="text-align: center; width: 50px; padding-left: 10px;" class="title">Enabled</td>
+            <td style="text-align: center; width: 50px; padding-left: 10px;" class="title">Enabled (UI)</td>
+			<td style="text-align: center; width: 50px; padding-left: 10px;" class="title">Enabled For Sync</td>
         </tr>
         ';
 
@@ -33,6 +34,7 @@ function generateTable($collection,$from,$to)
                     <td style="text-align: left; padding-left: 10px; border-bottom: none;" class="'.$_class.'">'.$collection[$i]['CloudDbName'].'</td>
 					<td style="text-align: center; padding-left: 10px; border-bottom: none;" class="'.$_class.'">'.($collection[$i]['Updated']==""?"N/A":$collection[$i]['Updated']).'</td>
 					<td style="text-align: center; padding-left: 10px; border-bottom: none;" class="'.$_class.'"><input type="checkbox" name="CID'.$collection[$i]['CustomerId'].'" '.(($collection[$i]['displayed']=="1")?"checked":"").'></> </td>
+					<td style="text-align: center; padding-left: 10px; border-bottom: none;" class="'.$_class.'"><input disabled="disabled" type="checkbox" name="SyncCID'.$collection[$i]['EnabledForSync'].'" '.(($collection[$i]['EnabledForSync']=="1")?"checked":"").'></> </td>
                 </tr>
                 ';
         }
@@ -47,15 +49,13 @@ function generateTable($collection,$from,$to)
           <div class="col-lg-12 ibox-title">
               <h2> List of customers for user "<?php echo $userName;?>" </h2>
 			  <form action="index.php" method="get">
-			  <div class="col-lg-4">
-                    <?php echo generateTable($listOfcustomers,0,count($listOfcustomers)/3);?>
+			  <div class="col-lg-6">
+                    <?php echo generateTable($listOfcustomers,0,count($listOfcustomers)/2);?>
 			  </div>
-			  <div class="col-lg-4">
-                    <?php echo generateTable($listOfcustomers,count($listOfcustomers)/3,(count($listOfcustomers)/3)*2);?>
+			  <div class="col-lg-6">
+                    <?php echo generateTable($listOfcustomers,count($listOfcustomers)/2,count($listOfcustomers));?>
 			  </div>	
-			  <div class="col-lg-4">
-                    <?php echo generateTable($listOfcustomers,(count($listOfcustomers)/3)*2,count($listOfcustomers));?>
-			  </div>
+
 			  <div class="row">	
 				<div class="col-lg-12 ibox-title" style="text-align:center">			
 					<input type="hidden" name = "page" value = "ops_updating"/>
