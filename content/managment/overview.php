@@ -300,7 +300,7 @@ $(function() {
                     foreach($result as $stat)
                     {
                         if($i>1)echo","; 
-                        echo"{label: \"".$stat["Staff"]." (".$stat["Tickets"].")\",data: ".$stat["Tickets"].",color: \"#".$getColorForBigScreen($colorIndex)."\"},";
+                        echo"{label: \"".$stat["Staff"]." (".$stat["Tickets"].")\",data: ".$stat["Tickets"].",color: \"#".getColorForBigScreen($colorIndex)."\"},";
                         $i++;
                     }
         $colorIndex++;
