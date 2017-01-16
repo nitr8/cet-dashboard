@@ -181,7 +181,7 @@ if(!empty($_custgrpoptions))
             ?>
 			<div class="ibox float-e-margins" >
 				<div class="ibox-title">
-				<h5>Approved time off (CET only) (<?php echo ($dateFromBamboo." - ".$dateToBamboo );?>)</5>
+					<h5>Approved time off from <?php echo (date("d-m-Y", strtotime($dateFromBamboo))." to ".date("d-m-Y", strtotime($dateToBamboo) ));?></h5>
 				
 				</div>
 				<div class="ibox-content">

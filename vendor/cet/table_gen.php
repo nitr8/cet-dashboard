@@ -7,26 +7,30 @@ if($response->isError()) {
 }
 else{
 $xml = $response->getContent();
+//var_dump($xml);
 	$returnvalue = "";
 	$returnvalue .= "<table width =\"100%\">";
 	
 	foreach ($xml->request as $value)
 			{
-				$returnvalue .= "<tr><td><img src=\"vendor/cet/img/";
+				$returnvalue .= "<tr><td width=\"28px\"><img src=\"vendor/cet/img/";
 				switch($value->type)
 				{
 					case "Doctor Appointment Family":
-						$returnvalue .= "doctor.jpg";
+						$returnvalue .= "doctor.png";
 						break;
 					case "Doctor Appointment":
-						$returnvalue .= "doctor.jpg";
+						$returnvalue .= "doctor.png";
 						break;
 					case "Holiday":
-						$returnvalue .= "holiday.jpg";
+						$returnvalue .= "holiday.png";
 					break;
 				}
 				$returnvalue .="\" alt=\"\"/></td><td>";
-				$returnvalue .= "<b>".$value->employee."</b> </td><td>(".$value->start."/".$value->end.") </td></tr>";
+				
+				
+				
+				$returnvalue .= "<b>".$value->employee."</b> </td><td>(".$value->amount." days from ".date("d-m-Y", strtotime($value->start))." to ".date("d-m-Y", strtotime($value->end)).") </td></tr>";
 			}
 	$returnvalue .= "</table>";				
 	return $returnvalue;
