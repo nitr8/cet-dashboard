@@ -32,10 +32,10 @@ function generateOverviewTable($collection , $conn)
 			$_html .= '</td></tr>';
 			$_html .= '<tr><td>';
 			
-			$_html .= '<table  width="100%"><tr style="font-size:8px">';
+			$_html .= '<table  width="95%" style="margin:4px"><tr style="font-size:8px;">';
 			
 				$_html .= '<td>Name</td>';
-				$_html .= '<td>GUIS</td>';
+				$_html .= '<td>GUID</td>';
 				$_html .= '<td>Upd</td>';
 				$_html .= '<td>LWM</td>';
 				$_html .= '<td>HWM</td>';
@@ -65,18 +65,18 @@ function generateOverviewTable($collection , $conn)
 				$_html .= '<tr style="border:1px solid silver;"><td>'.$row["LinkName"].'</td>';
 				$_html .= '<td>'.$row["LinkInfoGuid"].'</td>';
 				$_html .= '<td>'.$row["Updated"].'</td>';
-				$_html .= '<td>'.$row["LowWaterMark"].'</td>';
-				$_html .= '<td>'.$row["HighWaterMark"].'</td>';
-				$_html .= '<td>'.$row["FreeDiskSpace"].'</td>';
+				$_html .= '<td>'.formatBytes($row["LowWaterMark"]).'</td>';
+				$_html .= '<td>'.formatBytes($row["HighWaterMark"]).'</td>';
+				$_html .= '<td>'.formatBytes($row["FreeDiskSpace"]).'</td>';
 				$_html .= '<td>'.$row["STGPath"].'</td>';
 				$_html .= '<td>'.$row["percentUsed"].'</td>';
 				
 				$_html .= '<td>'.$row["FailedExported"].'</td>';
 				$_html .= '<td>'.$row["Failedimported"].'</td>';
-				$_html .= '<td>'.$row["Last7DImportedSize"].'</td>';
-				$_html .= '<td>'.$row["Last7DExportedSize"].'</td>';
-				$_html .= '<td>'.$row["Last24HExportedSize"].'</td>';
-				$_html .= '<td>'.$row["Last24HImportedSize"].'</td>';
+				$_html .= '<td>'.formatBytes($row["Last7DImportedSize"]).'</td>';
+				$_html .= '<td>'.formatBytes($row["Last7DExportedSize"]).'</td>';
+				$_html .= '<td>'.formatBytes($row["Last24HExportedSize"]).'</td>';
+				$_html .= '<td>'.formatBytes($row["Last24HImportedSize"]).'</td>';
 				$_html .= '<td>'.$row["Last7DImportedItemCount"].'</td>';
 				$_html .= '<td>'.$row["Last7DExportedItemCount"].'</td>';
 				$_html .= '<td>'.$row["Last24HImportedItemCount"].'</td>';
