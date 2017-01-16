@@ -32,8 +32,19 @@ function generateOverviewTable($collection , $conn)
 			$_html .= '</td></tr>';
 			$_html .= '<tr><td>';
 			
-			$_html .= '<table  width="95%" style="margin:4px"><tr style="font-size:8px;">';
+			$_html .= '<table  width="95%" style="margin:4px">';
+
+		
+		
+		
+		
+			$retval = mysql_query( "SELECT *  FROM ".MYSQL_DB.".LinkInfo where CustomerId='".$collection[$i]['CustomerId']."' ", $conn );
 			
+			
+			$rowCount = mysql_num_rows($retval);
+			if($rowCount>0)
+			{
+				$_html .= '<tr style="font-size:8px;">';
 				$_html .= '<td>Name</td>';
 				$_html .= '<td>GUID</td>';
 				$_html .= '<td>Upd</td>';
@@ -42,7 +53,6 @@ function generateOverviewTable($collection , $conn)
 				$_html .= '<td>FDS</td>';
 				$_html .= '<td>STGPath</td>';
 				$_html .= '<td>%</td>';
-				
 				$_html .= '<td>F_EXP</td>';
 				$_html .= '<td>F_IMP</td>';
 				$_html .= '<td>7D_IS</td>';
@@ -53,13 +63,9 @@ function generateOverviewTable($collection , $conn)
 				$_html .= '<td>7DEIC</td>';
 				$_html .= '<td>24HIIC</td>';
 				$_html .= '<td>24HEIC</td>';
-			
-			$_html .= '</tr>';
-		
-		
-		
-		
-			$retval = mysql_query( "SELECT *  FROM ".MYSQL_DB.".LinkInfo where CustomerId='".$collection[$i]['CustomerId']."' ", $conn );
+				$_html .= '</tr>';
+			}
+			else{$_html .= '<tr style="font-size:8px;"><td>No links synced !</td></tr>';}
 			while ($row = mysql_fetch_array($retval))
 			{
 				$_html .= '<tr style="border:1px solid silver;"><td>'.$row["LinkName"].'</td>';
