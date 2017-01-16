@@ -112,6 +112,9 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
                 <li>
                  <a href="?page=ops_list">List of Customers</a>
                 </li>
+				<li>
+                 <a href="?page=ops_detailedlist">Ops overview</a>
+                </li>				
 				<li><hr></li>
                 <?php
                 foreach(GetAllCustomers($conn,$userName) as $record)
