@@ -7,7 +7,7 @@ if($response->isError()) {
 }
 else{
 $xml = $response->getContent();
-//var_dump($xml);
+
 	$returnvalue = "";
 	$returnvalue .= "<table width =\"100%\">";
 	
@@ -19,7 +19,7 @@ $xml = $response->getContent();
 					case "Doctor Appointment Family":
 						$returnvalue .= "doctor.png";
 						break;
-					case "Doctor Appointment":
+					case "Doctor Appointments":
 						$returnvalue .= "doctor.png";
 						break;
 					case "Holiday":
