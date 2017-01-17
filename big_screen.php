@@ -1,5 +1,5 @@
 <?php 
-
+  
 // Enable error reporting
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -133,6 +133,7 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	 <meta http-equiv="refresh" content="180">
     <title>QUADROtech dashboard
     </title>
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -152,8 +153,8 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 	<script src="vendor/flot/jquery.flot.pie.js"></script>
 	<script src="vendor/flot/jquery.flot.time.js"></script>
 	
-<div id="page-wrapper" class="gray-bg">
-    <div class="row">
+<div id="page-wrapper" class="gray-bg" >
+    <div class="row" style="margin-top:100px">
         <div class="col-sm-10">
              <div class="dashboardcounter" style="background-color:#1c84c6 ">
                  <div class="dashboardcounterparent">
@@ -241,7 +242,7 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 		<div class="col-sm-4" style="padding:4px">
 			<?php
 			$query ="SELECT ticketid, subject, ownerstaffname FROM ".KSQL_TPRFX."tickets LEFT JOIN ".KSQL_TPRFX."customfieldvalues ON ".KSQL_TPRFX."tickets.ticketid = ".KSQL_TPRFX."customfieldvalues.typeid WHERE ((".KSQL_TPRFX."tickets.duetime <= ".$_currentdate." AND ".KSQL_TPRFX."tickets.duetime != '0') OR (".KSQL_TPRFX."tickets.resolutionduedateline <= ".$_currentdate." AND ".KSQL_TPRFX."tickets.resolutionduedateline != '0')) AND ".KSQL_TPRFX."tickets.isescalatedvolatile = '0' AND ".KSQL_TPRFX."tickets.isresolved = '0' AND ".KSQL_TPRFX."tickets.ticketstatustitle != 'Closed' AND ".KSQL_TPRFX."customfieldvalues.customfieldid = ".$_custfieldid." AND ".KSQL_TPRFX."tickets.departmentid = ".$_departmentid;
-			generateBox($db,"Overdue tickets",$query, array("ticketid","ownerstaffname","subject"),array("ID","Owner","Subject"),true,150,false,3,5,60) ;
+			generateBox($db,"Overdue tickets",$query, array("ticketid","ownerstaffname","subject"),array("ID","Owner","Subject"),true,220,false,3,9,60) ;
 	
 			$_startdate = time();
 			$_enddate = time() + 604800; // 7 days
@@ -253,7 +254,7 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 				<h3>Approved time off from <?php echo (date("d-m-Y", strtotime($dateFromBamboo))." to ".date("d-m-Y", strtotime($dateToBamboo) ));?></h3>
 				
 				</div>
-				<div class="ibox-content" style="height:150px">
+				<div class="ibox-content" style="height:280px">
                 <?php
 					echo generateDayOffBoxFromResponse($response);
 				?>
@@ -263,16 +264,16 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
         <div class="col-sm-4" style="padding:4px"> 
 			<?php
 			$query ="SELECT ticketid, subject FROM ".KSQL_TPRFX."tickets WHERE ticketstatustitle = 'Open' AND departmenttitle='CET' ORDER BY dateline DESC";
-			generateBox($db,"New tickets",$query, array("ticketid","subject"),array("ID","Subject"),true,150,false,3,5,60) ;
+			generateBox($db,"New tickets",$query, array("ticketid","subject"),array("ID","Subject"),true,220,false,3,9,60) ;
 
 			$query ="SELECT  kbarticleid, subject, from_unixtime(editeddateline, '%d-%m-%Y') as edited FROM ".KSQL_TPRFX."kbarticles where editeddateline< UNIX_TIMESTAMP(DATE_SUB(NOW(),INTERVAL 1 YEAR)) order by editeddateline desc";
-			generateBox($db,"KB articles older than year",$query, array("kbarticleid","subject", "edited"),array("ID","Subject","Modified"),true,150,false,3,5,60) ;
+			generateBox($db,"KB articles older than year",$query, array("kbarticleid","subject", "edited"),array("ID","Subject","Modified"),true,280,false,3,13,60) ;
 			?>
 			</div>
             <div class="col-sm-4" style="padding:4px">
 			<?php 
 			$query ="SELECT ticketid, subject FROM ".KSQL_TPRFX."tickets WHERE ownerstaffid = 0 AND ticketstatustitle = 'Open' AND departmentid = $_departmentid ORDER BY dateline DESC";
-			generateBox($db,"Unassigned tickets",$query, array("ticketid","subject"),array("ID","Subject"),true,150,false,3,5,60);
+			generateBox($db,"Unassigned tickets",$query, array("ticketid","subject"),array("ID","Subject"),true,220,false,3,9,60);
 			?>
 
 				<div class="ibox float-e-margins" >
@@ -281,7 +282,7 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 					</div>
 			               <div class="ibox-content" >
                          
-                                <div class="flot-chart-pie-content" style="width:300px;height:115px;" id="flot-pie-chart"></div>
+                                <div class="flot-chart-pie-content" style="width:300px;height:243px;" id="flot-pie-chart"></div>
                          
                         </div>
 				</div>
@@ -355,7 +356,7 @@ $(function() {
         grid: {
             hoverable: true
         },
-		legend:{ margin:[-50,0]},
+		legend:{ margin:[-100,0]},
         tooltip: true,
         tooltipOpts: {
             content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
