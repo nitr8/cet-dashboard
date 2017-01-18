@@ -17,8 +17,7 @@ $api = new BHR(BAMBOO_COMPANY);
 $api->setSecretKey(BAMBOO_SECRET);
 $authenticated = $api->login(BAMBOO_SECRET, BAMBOO_LOGIN,BAMBOO_PWD);
 $dateFromBamboo = date("Y-m-d");
-$dateToBamboo = date("Y-m-d", strtotime("+120 day", time()));
-//$plus7days =  strtotime("+7 day", time()); //use this later
+$dateToBamboo = date("Y-m-d", strtotime("+30 day", time()));
 
 $parameter=array("status" => "approved","start"=>date("Y-m-d"),"end"=>$dateToBamboo);
 $response = $api->getTimeOffRequestsArr($parameter);
@@ -264,10 +263,10 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
         <div class="col-sm-4" style="padding:4px"> 
 			<?php
 			$query ="SELECT ticketid, subject FROM ".KSQL_TPRFX."tickets WHERE ticketstatustitle = 'Open' AND departmenttitle='CET' ORDER BY dateline DESC";
-			generateBox($db,"New tickets",$query, array("ticketid","subject"),array("ID","Subject"),true,220,false,3,9,60) ;
+			generateBox($db,"Open tickets",$query, array("ticketid","subject"),array("ID","Subject"),true,220,false,3,9,60) ;
 
 			$query ="SELECT  kbarticleid, subject, from_unixtime(editeddateline, '%d-%m-%Y') as edited FROM ".KSQL_TPRFX."kbarticles where editeddateline< UNIX_TIMESTAMP(DATE_SUB(NOW(),INTERVAL 1 YEAR)) order by editeddateline desc";
-			generateBox($db,"KB articles older than year",$query, array("kbarticleid","subject", "edited"),array("ID","Subject","Modified"),true,280,false,3,13,60) ;
+			generateBox($db,"KB articles older than year",$query, array("kbarticleid","subject", "edited"),array("ID","Subject","Modified"),true,280,false,3,12,60) ;
 			?>
 			</div>
             <div class="col-sm-4" style="padding:4px">
