@@ -30,7 +30,12 @@ $xml = $response->getContent();
 				
 				
 				
-				$returnvalue .= "<b>".$value->employee."</b> </td><td>(".$value->amount." days from ".date("d-m-Y", strtotime($value->start))." to ".date("d-m-Y", strtotime($value->end)).") </td></tr>";
+				$returnvalue .= "<b>".$value->employee."</b> </td><td>";
+				if($value->amount > 1) 
+					$returnvalue .= "from ".date("D jS F", strtotime($value->start))." to ".date("D jS F", strtotime($value->end))." </td><td>(".$value->amount." days)";	
+				else 
+					$returnvalue .= "on ".date("D jS F", strtotime($value->start)). " </td><td>(".$value->amount." day)";	
+				$returnvalue .="</td></tr>";
 			}
 	$returnvalue .= "</table>";				
 	return $returnvalue;
