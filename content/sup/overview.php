@@ -9,8 +9,7 @@ $api = new BHR(BAMBOO_COMPANY);
 $api->setSecretKey(BAMBOO_SECRET);
 $authenticated = $api->login(BAMBOO_SECRET, BAMBOO_LOGIN,BAMBOO_PWD);
 $dateFromBamboo = date("Y-m-d");
-$dateToBamboo = date("Y-m-d", strtotime("+120 day", time()));
-//$plus7days =  strtotime("+7 day", time()); //use this later
+$dateToBamboo = date("Y-m-d", strtotime("+30 day", time()));
 
 $parameter=array("status" => "approved","start"=>date("Y-m-d"),"end"=>$dateToBamboo);
 $response = $api->getTimeOffRequestsArr($parameter);

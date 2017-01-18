@@ -1,4 +1,7 @@
 <?php 
+
+
+
 function generateDayOffBoxFromResponse($response)
 {
 
@@ -6,15 +9,20 @@ if($response->isError()) {
    return "Error communicating with BambooHR: " . $response->getErrorMessage();
 }
 else{
-$xml = $response->getContent();
-
+	$xml = $response->getContent();
 	$returnvalue = "";
 	$returnvalue .= "<table width =\"100%\">";
-	
+	$dayoffArray = array();
 	foreach ($xml->request as $value)
+	{
+		$dayoffArray[ strtotime($value->start)]= array(date("D jS F", strtotime($value->start)),date("D jS F", strtotime($value->end)),$value->amount,$value->type,$value->employee);
+	}
+			ksort($dayoffArray);
+//print_r($dayoffArray);
+	foreach ($dayoffArray as $value)
 			{
 				$returnvalue .= "<tr><td width=\"28px\"><img src=\"vendor/cet/img/";
-				switch($value->type)
+				switch($value[3])
 				{
 					case "Doctor Appointment Family":
 						$returnvalue .= "doctor.png";
@@ -30,11 +38,11 @@ $xml = $response->getContent();
 				
 				
 				
-				$returnvalue .= "<b>".$value->employee."</b> </td><td>";
-				if($value->amount > 1) 
-					$returnvalue .= "from ".date("D jS F", strtotime($value->start))." to ".date("D jS F", strtotime($value->end))." </td><td>(".$value->amount." days)";	
+				$returnvalue .= "<b>".$value[4]."</b> </td><td>";
+				if($value[2] > 1) 
+					$returnvalue .= "from ".$value[0]." to ".$value[1]." </td><td>(".$value[2]." days)";	
 				else 
-					$returnvalue .= "on ".date("D jS F", strtotime($value->start)). " </td><td>(".$value->amount." day)";	
+					$returnvalue .= "on ".$value[1]. " </td><td>(".$value[2]." day)";	
 				$returnvalue .="</td></tr>";
 			}
 	$returnvalue .= "</table>";				
