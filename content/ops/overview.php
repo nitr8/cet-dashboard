@@ -49,6 +49,8 @@
 				$queryWithFilter .=" and dateline < ".$dateTo; 
 			$cst = $db->query_first($queryWithFilter);
 			$customer['timeworked'] = $cst['ts']==""?0:$cst['ts'];
+			
+		//	echo $queryWithFilter."<hr />";
 		}
 
 		$index=0;
@@ -106,33 +108,6 @@
 							?></h5>
                         </div>
                         <div class="ibox-content"  style="height:300px">
-                             
-                                    <div class="flot-chart-content" id="flot-bar-time-spent"></div>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-				<div class="row">		   
-					<div class="col-sm-6">
-					<?php 
-						$query ="SELECT ticketid, subject, FROM_UNIXTIME(dateline) as created, timeworked ,FROM_UNIXTIME(lastactivity) as reply from  ".KSQL_TPRFX."tickets where ticketstatustitle = 'Daily Checks' order by subject";
-						generateBox($db,"Daily Check tickets",$query, array("ticketid","subject", "created","reply" ,"timeworked"),array("ID","Subject","Created","Last Activity","Time Spent"),true,0,false,5,100) ;
-					?>
-					</div> 
-				<div class="col-sm-6">
-					<div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>Daily time spent for </small></h5>
-							<select name="ticketid" class="form-control m-b">
-							<?php 
-							foreach($dailycheckList as $t)
-							{
-							echo ("<option ");
-								if ($t['ticketid']==$ticketId) echo "selected";
-							echo (" value =".$t['ticketid'].">".$t['subject']."</option>");
-							}
-							?>
-							</select> 
 							<div class="row">
 								<div class="col-sm-4">
 									<select id="dateRange" name="dateRange"  onchange='onChangeSelect()'>
@@ -154,7 +129,33 @@
 								<div class="col-sm-2">	
 										<input type="submit" value="Apply">
 								</div>	
-							</div>				
+							</div>  
+                                    <div class="flot-chart-content" id="flot-bar-time-spent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row">		   
+				<div class="col-sm-6">
+					<?php 
+						$query ="SELECT ticketid, subject, FROM_UNIXTIME(dateline) as created, timeworked ,FROM_UNIXTIME(lastactivity) as reply from  ".KSQL_TPRFX."tickets where ticketstatustitle = 'Daily Checks' order by subject";
+						generateBox($db,"Daily Check tickets",$query, array("ticketid","subject", "created","reply" ,"timeworked"),array("ID","Subject","Created","Last Activity","Time Spent"),true,0,false,5,100) ;
+					?>
+				</div> 
+				<div class="col-sm-6">
+					<div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Daily time spent for </small></h5>
+							<select name="ticketid" class="form-control m-b" onchange="this.form.submit()">
+							<?php 
+							foreach($dailycheckList as $t)
+							{
+							echo ("<option ");
+								if ($t['ticketid']==$ticketId) echo "selected";
+							echo (" value =".$t['ticketid'].">".$t['subject']."</option>");
+							}
+							?>
+							</select> 
 						</div>	
 						
                         <div class="ibox-content" style="height:300px">
@@ -365,7 +366,7 @@ function dateDiff(d1, d2) {
 
 
 $(function() {
-    var oilprices = [
+    var statisticsValues = [
     <?php
             $i =1;
             foreach($productSpent as $stat)
@@ -376,10 +377,10 @@ $(function() {
             }
         ?>];
 
-oilprices = newDataArray(oilprices);
+statisticsValues = newDataArray(statisticsValues);
    function doPlot(position) {
         $.plot($("#flot-bar-last10-count"), [{
-            data: oilprices,
+            data: statisticsValues,
             label: "Time spent"
         }], {	
 			series: {
