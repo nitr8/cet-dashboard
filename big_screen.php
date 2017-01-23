@@ -132,7 +132,7 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	 <meta http-equiv="refresh" content="180">
+	 <meta http-equiv="refresh" content="60">
     <title>QUADROtech dashboard
     </title>
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -153,7 +153,7 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 	<script src="vendor/flot/jquery.flot.time.js"></script>
 	
 <div id="page-wrapper" class="gray-bg" >
-    <div class="row" style="margin-top:100px">
+    <div class="row" >
         <div class="col-sm-10">
              <div class="dashboardcounter" style="background-color:#1c84c6 ">
                  <div class="dashboardcounterparent">
