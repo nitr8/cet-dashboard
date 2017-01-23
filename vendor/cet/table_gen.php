@@ -13,12 +13,14 @@ else{
 	$returnvalue = "";
 	$returnvalue .= "<table width =\"100%\">";
 	$dayoffArray = array();
+	$i=1;
 	foreach ($xml->request as $value)
 	{
-		$dayoffArray[ strtotime($value->start)]= array(date("D jS F", strtotime($value->start)),date("D jS F", strtotime($value->end)),$value->amount,$value->type,$value->employee);
+		$dayoffArray[ strtotime($value->start).$i]= array(date("D jS F", strtotime($value->start)),date("D jS F", strtotime($value->end)),$value->amount,$value->type,$value->employee);
+		$i++;
 	}
 			ksort($dayoffArray);
-//print_r($dayoffArray);
+
 	foreach ($dayoffArray as $value)
 			{
 				$returnvalue .= "<tr><td width=\"28px\"><img src=\"vendor/cet/img/";
@@ -31,6 +33,12 @@ else{
 						$returnvalue .= "doctor.png";
 						break;
 					case "Holiday":
+						$returnvalue .= "holiday.png";
+					break;
+					case "Birthday":
+						$returnvalue .= "birthday.png";
+					break;					
+					default:
 						$returnvalue .= "holiday.png";
 					break;
 				}
