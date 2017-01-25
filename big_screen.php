@@ -24,17 +24,21 @@ date_format($datetime, 'H:i')."</b>";
 }
 /////////////////////////////////////////////
 //Bamboo HR stuff 
-include "BambooHR/API/API.php";
-use \BambooHR\API\BambooAPI as BHR;
-
-$api = new BHR(BAMBOO_COMPANY);
-$api->setSecretKey(BAMBOO_SECRET);
-$authenticated = $api->login(BAMBOO_SECRET, BAMBOO_LOGIN,BAMBOO_PWD);
+$displayBamboo = true;
 $dateFromBamboo = date("Y-m-d");
 $dateToBamboo = date("Y-m-d", strtotime("+30 day", time()));
 
+include "BambooHR/API/API.php";
+use \BambooHR\API\BambooAPI as BHR;
+if($displayBamboo){
+$api = new BHR(BAMBOO_COMPANY);
+$api->setSecretKey(BAMBOO_SECRET);
+$authenticated = $api->login(BAMBOO_SECRET, BAMBOO_LOGIN,BAMBOO_PWD);
+
+
 $parameter=array("status" => "approved","start"=>date("Y-m-d"),"end"=>$dateToBamboo);
 $response = $api->getTimeOffRequestsArr($parameter);
+}
 /////////////////////////////////////////////
 
 $_currentdate = datetoday();
@@ -195,10 +199,10 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 		</div>
 		  <div class="col-sm-7" style="text-align:center;"> 
 			<div style="padding-top:20px">
-				<div class="col-sm-2"><?php echo showTimeZone("Eastern","America/New_York");?></div>
-				<div class="col-sm-2"><?php echo showTimeZone("Central","America/Chicago");?></div>
+				<div class="col-sm-2"><?php echo showTimeZone("Pacific","America/Los_Angeles");?></div>				
 				<div class="col-sm-2"><?php echo showTimeZone("Mountain","America/Denver");?></div>
-				<div class="col-sm-2"><?php echo showTimeZone("Pacific","America/Los_Angeles");?></div>
+				<div class="col-sm-2"><?php echo showTimeZone("Central","America/Chicago");?></div>
+				<div class="col-sm-2"><?php echo showTimeZone("Eastern","America/New_York");?></div>
 				<div class="col-sm-2"><?php echo showTimeZone("Eastern","Australia/Sydney");?></div>
 				<div class="col-sm-2"><?php echo showTimeZone("Eastern","Asia/Hong_Kong");?></div>
 
@@ -278,6 +282,7 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 				</div>
 				<div class="ibox-content" style="height:280px">
                 <?php
+				if($displayBamboo)	
 					echo generateDayOffBoxFromResponse($response);
 				?>
                   </div>
