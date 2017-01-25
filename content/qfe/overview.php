@@ -75,7 +75,7 @@ unset($_row);
            <div class="col-sm-6">
            	<?php 
                 $query ="SELECT ticketid,prioritytitle, subject FROM ".KSQL_TPRFX."tickets WHERE ticketstatustitle = 'Open' AND departmentid = $_departmentid ORDER BY dateline DESC LIMIT 5";
-			    generateBox($db,"New Tickets",$query, array("ticketid","subject", "prioritytitle"),array("ID","Subject","Priority"),true) ;
+			    generateBox($db,"Open Tickets",$query, array("ticketid","subject", "prioritytitle"),array("ID","Subject","Priority"),true) ;
                 $query ="SELECT ticketid,ownerstaffname,ticketstatustitle,subject FROM ".KSQL_TPRFX."tickets WHERE ownerstaffname <> '' AND ticketstatustitle <> 'Closed' AND departmentid = $_departmentid ORDER BY dateline DESC LIMIT 5";
 			    generateBox($db,"Assigned Tickets",$query, array("ticketid","ownerstaffname","subject","ticketstatustitle"),array("ID","Owner","Subject","Status"),true);
                ?>

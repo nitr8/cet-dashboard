@@ -172,7 +172,7 @@ if(!empty($_custgrpoptions))
             <?php                     
 	
             $query ="SELECT ticketid, subject FROM ".KSQL_TPRFX."tickets WHERE ticketstatustitle = 'Open' AND departmenttitle='CET' ORDER BY dateline DESC LIMIT 5";
-			generateBox($db,"New Tickets",$query, array("ticketid","subject"),array("ID","Subject"),true,0,true,5,5, 60) ;
+			generateBox($db,"Open Tickets",$query, array("ticketid","subject"),array("ID","Subject"),true,0,true,5,5, 60) ;
             $_startdate = time();
             $_enddate = time() + 604800; // 7 days
             $_startdate = date('d/m/Y', $_startdate);
