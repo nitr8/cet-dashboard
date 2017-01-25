@@ -203,13 +203,9 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 				<div class="col-sm-2"><?php echo showTimeZone("Mountain","America/Denver");?></div>
 				<div class="col-sm-2"><?php echo showTimeZone("Central","America/Chicago");?></div>
 				<div class="col-sm-2"><?php echo showTimeZone("Eastern","America/New_York");?></div>
-				<div class="col-sm-2"><?php echo showTimeZone("Eastern","Australia/Sydney");?></div>
 				<div class="col-sm-2"><?php echo showTimeZone("Eastern","Asia/Hong_Kong");?></div>
-
-
-				</div>
-  
- 
+				<div class="col-sm-2"><?php echo showTimeZone("Eastern","Australia/Sydney");?></div>
+			</div>
 		  </div>
 		<div class="col-sm-2" >
             <div class="dashboardcounter" style="background-color:gold;float:right;">
