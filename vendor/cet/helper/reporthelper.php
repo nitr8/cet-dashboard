@@ -291,7 +291,7 @@ function generateTableReport($reportTypeId, $displayStatus = true,$displayOrgani
 	$conn = @mysql_connect(MYSQL_SERVER,MYSQL_USER,MYSQL_PASS);
 	mysql_select_db(MYSQL_DB);
 
-	$retval = mysql_query("SELECT * FROM ".MYSQL_DB.".Report where reportType = '".$reportTypeId."' order by weekNumber", $conn );
+	$retval = mysql_query("SELECT * FROM ".MYSQL_DB.".Report where reportType = '".$reportTypeId."' order by yearNumber,weekNumber", $conn );
 	while ($row = mysql_fetch_array($retval))
 	{
 		$_reports[] = $row;
