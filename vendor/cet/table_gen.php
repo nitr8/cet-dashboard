@@ -123,6 +123,9 @@ function generateBox($db,$title,$sqlQuery,$columnAliases,$columnNames,$displayco
         if($columnNames[$j]=="Owner")
             $_html .='<td style="width: 100px;" class="title">'.$columnNames[$j].'</td>';
             else
+        if($columnNames[$j]=="PriorityIconSmall")
+            $_html .='<td style="width: 16px;" class="title"></td>';
+            else			
     		$_html .='<td  class="title">'.$columnNames[$j].'</td>';
     }
     $_html .='</tr>';
@@ -149,6 +152,9 @@ function generateBox($db,$title,$sqlQuery,$columnAliases,$columnNames,$displayco
 					$_html .='#';
 				$_html .= $_result[$i][$columnAliases[$j]].'</td>';
 				}
+				
+				
+				
     		else
              if($columnNames[$j]=="Owner" && $_result[$i][$columnAliases[$j]]=="")
                 $_html .= '<td style="border-bottom: none; color:red" class="'.$_class.'">Unassigned</td>';
@@ -236,6 +242,27 @@ function generateBox($db,$title,$sqlQuery,$columnAliases,$columnNames,$displayco
 
 					}
 					break;
+			case "PriorityIconSmall" :
+					switch	($_result[$i][$columnAliases[$j]])
+					{
+						case "Low":
+							$_html .= '<td style="border:1px solid silver;text-align:center;color:#1AB394;" class="'.$_class.'">L</td>';
+							break;
+						case "Medium":
+							$_html .= '<td style="border:1px solid silver;text-align:center;color:#1c84c6;" class="'.$_class.'">M</td>';
+							break;
+						case "High":
+							$_html .= '<td style="border:1px solid silver;text-align:center;color:orange;" class="'.$_class.'">H</td>';
+							break;
+						case "Urgent":
+							$_html .= '<td style="border:1px solid silver;text-align:center;color:red;" class="'.$_class.'">U</td>';
+							break;
+						case "Critical":
+							$_html .= '<td style="border:1px solid silver;text-align:center;color:red;" class="'.$_class.'">E</td>';
+							break;
+
+					}
+					break;					
 				default : 
 					$_html .= '<td style="border-bottom: none;" class="'.$_class.'">'.$_result[$i][$columnAliases[$j]].'</td>';
 					break;

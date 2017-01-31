@@ -263,8 +263,8 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
     <div class="row">
 		<div class="col-sm-4" style="padding:4px">
 			<?php
-			$query ="SELECT ticketid, subject, ownerstaffname FROM ".KSQL_TPRFX."tickets LEFT JOIN ".KSQL_TPRFX."customfieldvalues ON ".KSQL_TPRFX."tickets.ticketid = ".KSQL_TPRFX."customfieldvalues.typeid WHERE ((".KSQL_TPRFX."tickets.duetime <= ".$_currentdate." AND ".KSQL_TPRFX."tickets.duetime != '0') OR (".KSQL_TPRFX."tickets.resolutionduedateline <= ".$_currentdate." AND ".KSQL_TPRFX."tickets.resolutionduedateline != '0')) AND ".KSQL_TPRFX."tickets.isescalatedvolatile = '0' AND ".KSQL_TPRFX."tickets.isresolved = '0' AND ".KSQL_TPRFX."tickets.ticketstatustitle != 'Closed' AND ".KSQL_TPRFX."customfieldvalues.customfieldid = ".$_custfieldid." AND ".KSQL_TPRFX."tickets.departmentid = ".$_departmentid;
-			generateBox($db,"Overdue tickets",$query, array("ticketid","ownerstaffname","subject"),array("ID","Owner","Subject"),true,220,false,3,9,60) ;
+			$query ="SELECT ticketid, subject, ownerstaffname, prioritytitle FROM ".KSQL_TPRFX."tickets LEFT JOIN ".KSQL_TPRFX."customfieldvalues ON ".KSQL_TPRFX."tickets.ticketid = ".KSQL_TPRFX."customfieldvalues.typeid WHERE ((".KSQL_TPRFX."tickets.duetime <= ".$_currentdate." AND ".KSQL_TPRFX."tickets.duetime != '0') OR (".KSQL_TPRFX."tickets.resolutionduedateline <= ".$_currentdate." AND ".KSQL_TPRFX."tickets.resolutionduedateline != '0')) AND ".KSQL_TPRFX."tickets.isescalatedvolatile = '0' AND ".KSQL_TPRFX."tickets.isresolved = '0' AND ".KSQL_TPRFX."tickets.ticketstatustitle != 'Closed' AND ".KSQL_TPRFX."customfieldvalues.customfieldid = ".$_custfieldid." AND ".KSQL_TPRFX."tickets.departmentid = ".$_departmentid;
+			generateBox($db,"Overdue tickets",$query, array("ticketid","ownerstaffname","subject","prioritytitle"),array("ID","Owner","Subject","PriorityIconSmall"),true,220,false,3,9,60) ;
 	
 			$_startdate = time();
 			$_enddate = time() + 604800; // 7 days
@@ -286,8 +286,8 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
         </div>
         <div class="col-sm-4" style="padding:4px"> 
 			<?php
-			$query ="SELECT ticketid, subject FROM ".KSQL_TPRFX."tickets WHERE ticketstatustitle = 'Open' AND departmenttitle='CET' ORDER BY dateline DESC";
-			generateBox($db,"Open tickets",$query, array("ticketid","subject"),array("ID","Subject"),true,220,false,3,9,60) ;
+			$query ="SELECT ticketid, subject,prioritytitle FROM ".KSQL_TPRFX."tickets WHERE ticketstatustitle = 'Open' AND departmenttitle='CET' ORDER BY dateline DESC";
+			generateBox($db,"Open tickets",$query, array("ticketid","subject","prioritytitle"),array("ID","Subject","PriorityIconSmall"),true,220,false,3,9,60) ;
 
 			$query ="SELECT  kbarticleid, subject, from_unixtime(editeddateline, '%d-%m-%Y') as edited FROM ".KSQL_TPRFX."kbarticles where editeddateline< UNIX_TIMESTAMP(DATE_SUB(NOW(),INTERVAL 1 YEAR)) order by editeddateline desc";
 			generateBox($db,"KB articles older than year",$query, array("kbarticleid","subject", "edited"),array("ID","Subject","Modified"),true,280,false,3,12,60) ;
@@ -295,8 +295,8 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 			</div>
             <div class="col-sm-4" style="padding:4px">
 			<?php 
-			$query ="SELECT ticketid, subject FROM ".KSQL_TPRFX."tickets WHERE ownerstaffid = 0 AND ticketstatustitle = 'Open' AND departmentid = $_departmentid ORDER BY dateline DESC";
-			generateBox($db,"Unassigned tickets",$query, array("ticketid","subject"),array("ID","Subject"),true,220,false,3,9,60);
+			$query ="SELECT ticketid, subject, prioritytitle FROM ".KSQL_TPRFX."tickets WHERE ownerstaffid = 0 AND ticketstatustitle = 'Open' AND departmentid = $_departmentid ORDER BY dateline DESC";
+			generateBox($db,"Unassigned tickets",$query, array("ticketid","subject","prioritytitle"),array("ID","Subject","PriorityIconSmall"),true,220,false,3,9,60);
 			?>
 
 				<div class="ibox float-e-margins" >
