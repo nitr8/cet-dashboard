@@ -199,12 +199,16 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
 		</div>
 		  <div class="col-sm-7" style="text-align:center;"> 
 			<div style="padding-top:20px">
-				<div class="col-sm-2"><?php echo showTimeZone("Pacific","America/Los_Angeles");?></div>				
-				<div class="col-sm-2"><?php echo showTimeZone("Mountain","America/Denver");?></div>
-				<div class="col-sm-2"><?php echo showTimeZone("Central","America/Chicago");?></div>
-				<div class="col-sm-2"><?php echo showTimeZone("Eastern","America/New_York");?></div>
-				<div class="col-sm-2"><?php echo showTimeZone("Eastern","Asia/Hong_Kong");?></div>
-				<div class="col-sm-2"><?php echo showTimeZone("Eastern","Australia/Sydney");?></div>
+			<table width="100%">
+			<tr>
+				<td width="13%"><?php echo showTimeZone("Pacific","America/Los_Angeles");?></td>				
+				<td width="13%"><?php echo showTimeZone("Mountain","America/Denver");?></td>
+				<td width="13%"><?php echo showTimeZone("Central","America/Chicago");?></td>
+				<td width="13%"><?php echo showTimeZone("Eastern","America/New_York");?></td>
+				<td width="13%"><?php echo showTimeZone("CET","Europe/Bratislava");?></td>
+				<td width="13%"><?php echo showTimeZone("Eastern","Asia/Hong_Kong");?></td>
+				<td width="13%"><?php echo showTimeZone("Eastern","Australia/Sydney");?></td>
+				</table>
 			</div>
 		  </div>
 		<div class="col-sm-2" >

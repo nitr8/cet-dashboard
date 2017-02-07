@@ -109,7 +109,9 @@ function generateBox($db,$title,$sqlQuery,$columnAliases,$columnNames,$displayco
 	echo (">");
      if($_count==0)
 	 {
-	 $_html .="<h2>No tickets !</h2>";
+	 $_html .="<h2>";
+	 $_html .=($title=="KB articles older than year")?"No KB articles !":"No tickets !";
+	 $_html .="</h2>";
 	 }
 	 else
 	 
