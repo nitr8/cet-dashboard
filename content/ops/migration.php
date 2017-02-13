@@ -1,5 +1,54 @@
 <div class="wrapper wrapper-content animated fadeInRight">
 <?php
+
+function generateModuleTable($customerId , $conn)
+{
+
+			$_html = '<table  width="98%" style="margin:4px">';
+			$retval = mysql_query( "SELECT * FROM ".MYSQL_DB.".InstalledModules where customerId='".$customerId."'", $conn );
+			
+			
+			$rowCount = mysql_num_rows($retval);
+			if($rowCount>0)
+			{
+		
+				$_html .= '<tr style="font-size:8px;">';
+				$_html .= '<td >Computer Name</td>';
+				$_html .= '<td >Service Name</td>';
+				$_html .= '<td >Version</td>';
+				$_html .= '<td >Enabled</td>';
+				$_html .= '<td >Last SenDate</td>';
+				$_html .= '</tr>';
+			}
+			else{
+			
+			$_html .= '<tr style="font-size:8px;"><td>No links synced !</td></tr>';
+			}
+			while ($row = mysql_fetch_array($retval))
+			{
+				$_html .= '<tr style="border:1px solid silver;"><td>'.$row["ComputerName"].'</td>';
+				$_html .= '<td>'.$row["ServiceName"].'</td>';
+				$_html .= '<td>'.$row["Version"].'</td>';
+				$_html .= '<td><img src="vendor/cet/img/'.(($row["IsEnabled"]=="0")?"cross":"tick").'.png"/></td>';
+				
+				$_html .= '<td>'.$row["LastSeenDateUTC"].'</td>';
+				$_html.='</tr>';
+			}
+			$_html .= '</table>';		
+
+		
+	return $_html;
+}?>
+
+<div class="row border-bottom white-bg dashboard-header">
+	<div class="col-lg-12">
+         <h5><span class="label label-primary"></span>Installed Modules</h5>
+		 <div class="col-lg-6 centered">
+				<?php echo generateModuleTable( $_GET['CustomerID'],$conn);?>
+		</div>
+	</div>
+</div>
+<?php
 $allLinks = GetAllLinkInforForCustomerID($conn, $_GET['CustomerID']);
 foreach($allLinks as $record)
 {
@@ -7,7 +56,7 @@ foreach($allLinks as $record)
     <div class="row border-bottom white-bg dashboard-header">
 		<div class="col-lg-12">
               <h2> <?php echo $record['LinkName'];?>(<?php echo $record['LinkInfoGuid'];?>)</small></h2>
-              <div class="col-lg-3">
+              <div class="col-lg-4">
 				 <h5><span class="label label-success">1</span>Basic info </h5>
                  <ul class="list-group clear-list m-t">
                        <li class="list-group-item fist-item"><span class="pull-right"><?php echo $record['Updated'];?></span>Updated</li>
@@ -18,22 +67,27 @@ foreach($allLinks as $record)
                        <li class="list-group-item"><span class="pull-right"><?php echo $record['STGPath'];?></span>Link Path</li>
                    </ul>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-4">
                 <h5><span class="label label-info">2</span>Staging Area</h5>
                    <ul class="list-group clear-list m-t">
                        <li class="list-group-item fist-item"><span class="pull-right"><?php echo formatBytes($record['LowWaterMark']);?></span>LowWaterMark</li>
                        <li class="list-group-item "><span class="pull-right"><?php echo formatBytes($record['HighWaterMark']);?></span>HighWaterMark</li>
                        <li class="list-group-item "><span class="pull-right"><?php echo formatBytes( $record['FreeDiskSpace']);?></span>FreediskSpace</li>
+					    <li class="list-group-item"><span class="pull-right"><?php echo $record['percentUsed'];?> %</span>Percent Used </li>
         </ul>
+		</div>
+		<div class="col-lg-4">
 				 <div>
                   <div class="flot-chart">
                       <div class="flot-chart-pie-content" style="width:150px;height:150px;" id="flot-pie-stg<?php echo $record['LinkInfoId'];?>"></div>
                   </div>
-                 </div><ul class="list-group clear-list m-t">
-				   <li class="list-group-item fist-item"><span class="pull-right"><?php echo $record['percentUsed'];?> %</span>Percent Used </li>
-                 </ul>
+                 </div>
                </div>
-               <div class="col-lg-3">
+			   
+			   
+	
+			   
+               <!--div class="col-lg-3">
                 <h5><span class="label label-primary">3</span>Import/export stats</h5>
 				 <div class="col-lg-6 centered">
 				 Last 24 Hours
@@ -98,7 +152,7 @@ foreach($allLinks as $record)
                       <div class="flot-chart-pie-content" style="width:150px;height:150px;" id="flot-pie-failed<?php echo $record['LinkInfoId'];?>"></div>
                   </div>
                    </div>
-              </div>
+              </div-->
      </div>
 	
 	   <!--div class="row">
