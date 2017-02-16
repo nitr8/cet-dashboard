@@ -132,9 +132,9 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
               <ul class="dropdown-menu" role="menu">
 			  <?php
 						
-				 echo ("<li><a href=\"?page=managment_lastweekreport\"</a> Full weekly report</li>");
-				 echo ("<li><a href=\"?page=managment_ticketsbyyear\"</a> Year Overview</li>");
-				 echo ("<li><a href=\"?page=managment_staffload\"</a> Staff load</li>");
+				 echo ("<li><a href=\"?page=managment_lastweekreport\"> Full weekly report</a></li>");
+				 echo ("<li><a href=\"?page=managment_ticketsbyyear\"> Year Overview</a></li>");
+				 echo ("<li><a href=\"?page=managment_staffload\" Staff load</a></li>");
 				  echo ("<li><hr></li>");
                   $sql = "SELECT * FROM ".MYSQL_DB.".ReportType order by `ReportTypeName` asc";// Create connection
                   $retval = mysql_query( $sql, $conn );
@@ -147,7 +147,16 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
                 ?>
 				</ul>
             </li>
-
+			<li class="dropdown <?php isActive("Goals");?>">
+              <a aria-expanded="false" role="button" href="?page=goals_overview"> Goals  <span class="caret"></span></a>
+			   <ul class="dropdown-menu" role="menu">
+			   <?php
+			    echo ("<li><a href=\"?page=goals_overview\" > My goals</a></li>");
+				 echo ("<li><a href=\"?page=goals_list\" > List of users goals</a></li>");
+				 echo ("<li><a href=\"?page=goals_new\" > Create a new goal</a></li>");
+                ?>
+				</ul>
+            </li>
           </ul>
 
           <ul class="nav navbar-top-links navbar-right">
