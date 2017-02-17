@@ -1,10 +1,24 @@
-<?php
+<script>
+function confirmDelete(delUrl) {
+  if (confirm("Are you sure you want to delete")) {
+   document.location = delUrl;
+  }
+}
+</script>
 
+<?php
 $retval = mysql_query( "SELECT id FROM ".MYSQL_DB.".uf_user where user_name='".$userName."'", $conn );
 while ($row = mysql_fetch_array($retval))
 {
-$userid = $row['id'];
+	$userid = $row['id'];
 }
+
+if(isset($_GET['removeCondition'])&& is_numeric($_GET['removeCondition']))
+{
+	$updatesql ="delete from ".MYSQL_DB.".GoalCondition where idGoalCondition=".$_GET['removeCondition'];
+	mysql_query( $updatesql, $conn );
+}
+
 if(isset($_GET['updateConditions'])&& $_GET['updateConditions']=="true")
 {
 	$prc_lit="";
@@ -22,19 +36,13 @@ if(isset($_GET['updateConditions'])&& $_GET['updateConditions']=="true")
 
 if(isset($_GET['adjustGoal'])&& $_GET['adjustGoal']=="true")
 {
-
-$private = 0;
-
+	$private = 0;
 	if(isset($_GET['private'])&&$_GET['private']=="on")
 		$private="1";
-	
-	
 	
 	$updatesql ="Update ".MYSQL_DB.".Goals set name ='".$_GET['name']."', private ='".$private."',startDate ='".date( 'Y-m-d H:i:s',strtotime($_GET['startDate']))."',description ='".$_GET['description']."',enddate='".date( 'Y-m-d H:i:s',strtotime($_GET['endDate']))."',priority='".$_GET['priority']."',recurrence='".$_GET['reccurence']."',linkedgoal='6' where idGoals=".$_GET['idGoal'];
 	mysql_query( $updatesql, $conn );
 }
-
-
 
 if(isset($_GET['addConditions'])&& $_GET['addConditions']=="true")
 {
@@ -53,8 +61,6 @@ if(isset($_GET['addConditions'])&& $_GET['addConditions']=="true")
 	mysql_query( $updatesql, $conn );
 }
 
-
-
 function getPriorityButton($id)
 {
 	switch($id)
@@ -72,13 +78,10 @@ function getPriorityButton($id)
 		return     "<button class=\"btn btn-outline btn-danger\" type=\"button\">High</button>";
 		break;
 	}
-
 }
+
 function formatPercentCompleted($i)
 {
-
-echo "";
-
 	if($i!=null &&$i < 25 )
 		return "<div class=\"col-lg-3\"><p class=\"text-danger\">".$i."</p></div><div class=\"progress progress-mini\"><div class=\"progress-bar progress-bar-danger\" style=\"width: ".$i."%;\"></div></div>";
 	else
@@ -96,8 +99,8 @@ echo "";
 	else
 		if($i!=null &&$i > 100 )
 	return "<div class=\"col-lg-3\"><p class=\"text-success\">".$i."</p></div><div class=\"progress progress-mini\"><div class=\"progress-bar progress-bar-success\" style=\"width: ".$i."%;\"></div></div>";
-	
 }
+
 function formatDateForCondition($i)
 {
 	if($i==null ||$i=="" )
@@ -123,8 +126,8 @@ function getRecurrenceButton($id)
 		return      "<button class=\"btn btn-outline btn-warning\" type=\"button\">Yearly</button>";
 		break;
 	}
-
 }
+
 $listOfgoals= array();
 
 $retval = mysql_query( "SELECT *  FROM ".MYSQL_DB.".Goals g left join uf_user u on g.userid = u.id where u.user_name='".$userName."'", $conn );
@@ -132,8 +135,6 @@ while ($row = mysql_fetch_array($retval))
 {
 	array_push($listOfgoals,$row);
 }
-
-
 ?>
 <div class="gray-bg wrapper wrapper-content">
   <div class="row">
@@ -355,7 +356,7 @@ for($i=0;$i<count($listOfgoals);$i++)
 							<th class="text-center">Created</th>
 							<th class="text-center">Updated</th>
 							<th class="text-center">Completed</th>
-	
+							<th></th><th></th>
 							</tr>
 	
 							<?php 
@@ -377,9 +378,9 @@ for($i=0;$i<count($listOfgoals);$i++)
 							?><td>
 	
 								<div class="text-center">
-								<a class="btn btn-primary btn-xs" href="#modal-form<?php echo $listOfgoals[$i]["idGoals"]."_". $listOfconditions[$c]["idGoalCondition"];?>" data-toggle="modal">&gt;&gt;</a>
-								</div>
-								<div class="modal fade" id="modal-form<?php echo $listOfgoals[$i]["idGoals"]."_".$listOfconditions[$c]["idGoalCondition"];?>" aria-hidden="true" style="display: none;">
+									<a class="btn btn-primary btn-xs" href="#modal-form<?php echo $listOfgoals[$i]["idGoals"]."_". $listOfconditions[$c]["idGoalCondition"];?>" data-toggle="modal">&gt;&gt;</a>
+									
+									<div class="modal fade" id="modal-form<?php echo $listOfgoals[$i]["idGoals"]."_".$listOfconditions[$c]["idGoalCondition"];?>" aria-hidden="true" style="display: none;">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-body">
@@ -408,7 +409,11 @@ for($i=0;$i<count($listOfgoals);$i++)
 										</div>
 									</div>
 							</div>
-					
+								</div>
+							</td>
+							<td>
+							<a onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-xs" href="index.php?page=goals_overview&removeCondition=<?php echo $listOfconditions[$c]["idGoalCondition"];?>">X</a>
+
 							</td>
 							<?php
 							echo "</tr>";
