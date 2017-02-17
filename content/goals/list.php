@@ -26,7 +26,7 @@ while ($row = mysql_fetch_array($retval))
 				array_push($listOfGoals,$row);
 			}
 		?>
-			<div class="ibox float-e-margins collapsed">
+			<div class="ibox collapsed">
                 <div class="ibox-title ">
                     <h5><?php echo $listOfUsers[$i]["display_name"]; ?> 
 					 (<?php echo count($listOfGoals);?> goals)</h5>
@@ -36,7 +36,7 @@ while ($row = mysql_fetch_array($retval))
                         </a>
                     </div>
                 </div>
-                <div class="ibox-content no-padding collapsed">
+                <div class="ibox-content  no-padding">
 				<?php 
 				for($g=0;$g<count($listOfGoals);$g++)
 				{
@@ -64,9 +64,20 @@ while ($row = mysql_fetch_array($retval))
                                         </div>
                                         <div class="panel-collapse collapse" id="collapseOne<?php echo $index;?>">
                                             <div class="panel-body">
-                                                <p class="text-info"><?php echo $listOfGoals[$g]["description"];?></p>
-									<?php echo getPriorityButton($listOfGoals[$i]["priority"]);?>
-									<?php echo getRecurrenceButton($listOfGoals[$i]["recurrence"]);?>
+                                            <p class="text-info text-center"><?php echo $listOfGoals[$g]["description"];?></p>
+											<div class="hr-line-dashed"></div>
+												 <div class="text-center">
+									<?php echo getPriorityButton($listOfGoals[$g]["priority"]);?>
+									<?php echo getRecurrenceButton($listOfGoals[$g]["recurrence"]);?>
+													<?php
+	
+					if($listOfGoals[$g]["private"]=="1") echo "<button class=\"btn btn-w-sm btn-warning\" type=\"button\">Private</button>";
+					else
+					echo "<button class=\"btn btn-w-sm btn-primary\" type=\"button\">Public</button>";
+				
+					?>
+									</div>
+									    <div class="hr-line-dashed"></div>
 									<div class="panel-group" >
 									<?php
 									if(count($listOfConditions)==0)
