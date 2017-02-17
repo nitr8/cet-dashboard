@@ -19,6 +19,14 @@ if(isset($_GET['removeCondition'])&& is_numeric($_GET['removeCondition']))
 	mysql_query( $updatesql, $conn );
 }
 
+if(isset($_GET['removeGoal'])&& is_numeric($_GET['removeGoal']))
+{
+	$updatesql ="delete from ".MYSQL_DB.".Goals where idGoals=".$_GET['removeGoal'];
+	mysql_query( $updatesql, $conn );
+		$updatesql ="delete from ".MYSQL_DB.".GoalCondition where idGoals=".$_GET['removeGoal'];
+	mysql_query( $updatesql, $conn );
+}
+
 if(isset($_GET['updateConditions'])&& $_GET['updateConditions']=="true")
 {
 	$prc_lit="";
@@ -243,7 +251,7 @@ for($i=0;$i<count($listOfgoals);$i++)
 					?>
 					</div>
 					<div class="col-sm-1">
-					<a class="btn btn-w-sm btn-primary" href="#modal-adjust-goal<?php echo $listOfgoals[$i]["idGoals"];?>" data-toggle="modal">&gt;&gt;</a>
+					<a class="btn btn-sm btn-primary" href="#modal-adjust-goal<?php echo $listOfgoals[$i]["idGoals"];?>" data-toggle="modal">&gt;&gt;</a>
 					<div class="modal fade" id="modal-adjust-goal<?php echo $listOfgoals[$i]["idGoals"];?>" aria-hidden="true" style="display: none;">
 									<div class="modal-dialog">
 										<div class="modal-content">
@@ -329,7 +337,8 @@ for($i=0;$i<count($listOfgoals);$i++)
 									</div>
 							</div>
 					
-					
+					<a onclick="return confirm('Are you sure you want to delete?')" class="btn btn-sm btn-danger" href="index.php?page=goals_overview&removeGoal=<?php echo $listOfgoals[$i]["idGoals"];?>">X</a>
+
 					</div>
 					</div>
 				</form>
