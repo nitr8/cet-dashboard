@@ -36,8 +36,6 @@ $private = 0;
 
 
 
-
-
 if(isset($_GET['addConditions'])&& $_GET['addConditions']=="true")
 {
 	$prc_lit="''";
@@ -157,7 +155,7 @@ for($i=0;$i<count($listOfgoals);$i++)
 	}
 	
 	$listOfconditions= array();
-	$retval = mysql_query( "SELECT *  FROM ".MYSQL_DB.".GoalCondition where goalid='".$listOfgoals[$i]["idGoals"]."' order by percentCompleted,completed  asc", $conn );
+	$retval = mysql_query( "SELECT *  FROM ".MYSQL_DB.".GoalCondition where goalid='".$listOfgoals[$i]["idGoals"]."' order by idGoalCondition asc", $conn );
 	$totalcompletion =0;
 	
 	while ($row = mysql_fetch_array($retval))
@@ -169,14 +167,14 @@ for($i=0;$i<count($listOfgoals);$i++)
 	if(count($listOfconditions) == 0)
 		$totalcompletion = 0;
 	else
-	$totalcompletion = $totalcompletion / count($listOfconditions);
+	$totalcompletion = round ($totalcompletion / count($listOfconditions),1);
 	?>
 	</div>
 	<div class="col-lg-12 ibox-title">
 		<div class="ibox float-e-margins col-lg-12">
 		
 			<span class="label label-success">
-				<?php echo "#".$listOfgoals[$i]["idGoals"]." </span> <h5>- ". $listOfgoals[$i]["name"]."</h5>&nbsp;<small>(".$totalcompletion."% conditions fullfilled)</small>";?>
+				<?php echo "#".$listOfgoals[$i]["idGoals"]." </span><h5> ". $listOfgoals[$i]["name"]."</h5>&nbsp;<small>(".$totalcompletion."% conditions fullfilled)</small>";?>
 				<?php echo "<span class=\"pull-right\">assigned by <b>".$goalAssignedBy."</b></span><br/>";?>
 				<div class="ibox-tools">
 				
@@ -379,9 +377,9 @@ for($i=0;$i<count($listOfgoals);$i++)
 							?><td>
 	
 								<div class="text-center">
-								<a class="btn btn-primary btn-xs" href="#modal-form<?php echo $listOfconditions[$c]["idGoalCondition"];?>" data-toggle="modal">&gt;&gt;</a>
+								<a class="btn btn-primary btn-xs" href="#modal-form<?php echo $listOfgoals[$i]["idGoals"]."_". $listOfconditions[$c]["idGoalCondition"];?>" data-toggle="modal">&gt;&gt;</a>
 								</div>
-								<div class="modal fade" id="modal-form<?php echo $listOfconditions[$c]["idGoalCondition"];?>" aria-hidden="true" style="display: none;">
+								<div class="modal fade" id="modal-form<?php echo $listOfgoals[$i]["idGoals"]."_".$listOfconditions[$c]["idGoalCondition"];?>" aria-hidden="true" style="display: none;">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-body">
@@ -389,7 +387,7 @@ for($i=0;$i<count($listOfgoals);$i++)
 													<div class="col-sm-12"><h3 class="m-t-none m-b">Adjust goal condition</h3>
 	
 														<p>Please adjust description, completion or percentage. </p>
-														<form role="form" action="index.php" method="get" name ="IDGOALFORM<?php echo $listOfconditions[$c]["idGoalCondition"];?>">
+														<form role="form" action="index.php" method="get" name ="IDGOALFORM<?php echo $listOfgoals[$i]["idGoals"]."_".$listOfconditions[$c]["idGoalCondition"];?>">
 															<div class="form-group"><label>Description</label> <input class="form-control" name="description" type="text" value="<?php echo $listOfconditions[$c]["description"];?>" placeholder="Enter description"></div>
 															<div class="form-group"><div class="col-sm-4"><label>Percent completed</label></div>
 															<div class="col-sm-2"> <input class="form-control" type="text" name="percentCompleted" value="<?php echo $listOfconditions[$c]["percentCompleted"];?>">

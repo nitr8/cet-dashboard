@@ -1,5 +1,4 @@
 <?php 
-
 // Enable error reporting
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -131,19 +130,15 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
               </a>
               <ul class="dropdown-menu" role="menu">
 			  <?php
-						
 				 echo ("<li><a href=\"?page=managment_lastweekreport\"> Full weekly report</a></li>");
 				 echo ("<li><a href=\"?page=managment_ticketsbyyear\"> Year Overview</a></li>");
 				 echo ("<li><a href=\"?page=managment_staffload\" Staff load</a></li>");
-				  echo ("<li><hr></li>");
-                  $sql = "SELECT * FROM ".MYSQL_DB.".ReportType order by `ReportTypeName` asc";// Create connection
-                  $retval = mysql_query( $sql, $conn );
-
-                  while ($row = mysql_fetch_array($retval))
-                  {
-                    echo ("<li><a href=\"?page=managment_reports&reportTypeID=".$row['idReportType']."\">".$row['ReportTypeName']."</a></li>");
-                  }
-			
+				 echo ("<li><hr></li>");
+                 $retval = mysql_query("SELECT * FROM ".MYSQL_DB.".ReportType order by `ReportTypeName` asc", $conn );
+                 while ($row = mysql_fetch_array($retval))
+                 {
+                   echo ("<li><a href=\"?page=managment_reports&reportTypeID=".$row['idReportType']."\">".$row['ReportTypeName']."</a></li>");
+                 }
                 ?>
 				</ul>
             </li>
@@ -151,8 +146,8 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
               <a aria-expanded="false" role="button" href="?page=goals_overview"> Goals  <span class="caret"></span></a>
 			   <ul class="dropdown-menu" role="menu">
 			   <?php
-			    echo ("<li><a href=\"?page=goals_overview\" > My goals</a></li>");
-				 echo ("<li><a href=\"?page=goals_list\" > List of users goals</a></li>");
+	 		     echo ("<li><a href=\"?page=goals_overview\" > My goals (".mysql_num_rows(mysql_query("SELECT * FROM ".MYSQL_DB.".Goals g left join uf_user u on g.userid = u.id where u.user_name='".$userName."'",$conn)).") </a></li>");
+				 echo ("<li><a href=\"?page=goals_list\" > List of users goals (".mysql_num_rows(mysql_query("SELECT * FROM ".MYSQL_DB.".Goals g left join uf_user u on g.userid = u.id",$conn)).")</a></li>");
 				 echo ("<li><a href=\"?page=goals_new\" > Create a new goal</a></li>");
                 ?>
 				</ul>

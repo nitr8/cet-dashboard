@@ -11,15 +11,24 @@ while ($row = mysql_fetch_array($retval))
 	 $myuserId = $row["id"];
 }
 
-
+$userid= $myuserId;
 $dateFrom= date("d-m-Y");
 $dateTo=date('d-m-Y"', strtotime('+1 years'));
-$creatorId= $_GET["userid"];
+if(isset($_GET['userid'])&& is_numeric($_GET['userid']))
+{
+	$creatorId= $_GET["userid"];
+	}
+else	
+	$creatorId= $myuserId;
+	
+$private = "0";
+
+$name="New Goal";
+$linkedGoal=null;
+$private="0";
 if(isset($_GET['addNew'])&& $_GET['addNew']=="true")
 {
-	$name="New Goal";
-	$linkedGoal=null;
-	$private="0";
+	$updating=true;
 	if(isset($_GET['name']))
 		$name=$_GET['name'];
 
@@ -36,7 +45,7 @@ if(isset($_GET['addNew'])&& $_GET['addNew']=="true")
 		$dateTo = date( 'Y-m-d H:i:s',strtotime($_GET['dateEnd']));
 		
 	$updatesql ="Insert into ".MYSQL_DB.".Goals (description,name,userid,private,linkedgoal,priority,recurrence,startdate,enddate,assignedBy)VALUES";
-	$updatesql.="('".$_GET['description']."','".$name."',".$creatorId.",".$private.",".$linkedGoal.",".$_GET['priority'].",".$_GET['reccurence'].",'".$dateFrom."','".$dateTo."',".$myuserId.")";
+	$updatesql.="('".$_GET['description']."','".$name."',".$creatorId.",".$private.",".($linkedGoal==null?"null":$linkedGoal).",".$_GET['priority'].",".$_GET['reccurence'].",'".$dateFrom."','".$dateTo."',".$myuserId.")";
 	
 	mysql_query( $updatesql, $conn );
 }
@@ -47,14 +56,14 @@ if(isset($_GET['addNew'])&& $_GET['addNew']=="true")
   <div class="row">
     <div class="col-lg-12 ibox-title">
       <h2>
-        Create a new goal <?php echo $updatesql;?>
+        Create a new goal <?php //echo $updatesql;?>
       </h2>
     </div>
     <div class="ibox-content">
 	<?php 
 	if ($validForm&& $updating)
 	{
-	echo "<meta http-equiv=\"refresh\" content=\"0; url=\"index.php?page=goals_overview\"\" />";
+	echo "<h5>Updating ...</h5><meta http-equiv=\"refresh\" content=\"0; url=?page=goals_overview\" />";
 	}
 	else
 	{
@@ -63,12 +72,12 @@ if(isset($_GET['addNew'])&& $_GET['addNew']=="true")
 	  <div class="form-group">
           <label class="col-sm-1 control-label">User</label>
           <div class="col-sm-5">
-			<select name="username" class="form-control m-b">
+			<select name="userid" class="form-control m-b">
 			<?php
 			for ($i=0;$i<count($listOfUsers);$i++)
 			{
-			echo "<option value = \"".$listOfUsers[$i]["id"]."\"";
-			if($listOfUsers[$i]["user_name"] == $userName)
+			echo "<option name=\"userid\" value = \"".$listOfUsers[$i]["id"]."\"";
+			if($listOfUsers[$i]["id"] == $creatorId)
 			echo " SELECTED";
 			echo ">";
 			echo $listOfUsers[$i]["user_name"] . " - " . $listOfUsers[$i]["display_name"];
@@ -131,7 +140,7 @@ if(isset($_GET['addNew'])&& $_GET['addNew']=="true")
 
 			<input type="hidden" name = "page" value = "goals_new"/>
 			<input type="hidden" name = "addNew" value="true"/> 
-			<input type="hidden" name = "userid" value = "<?php echo $creatorId?>"/> 
+		
        
         </div>
 		                             <div class="form-group">
