@@ -13,7 +13,7 @@ while ($row = mysql_fetch_array($retval))
 
 ?>
 
-<div class="gray-bg wrapper wrapper-content">
+<div class="wrapper wrapper-content">
 	<div class="row">
 		<?php 
 		for($i=0;$i<count($listOfUsers);$i++)
@@ -36,7 +36,7 @@ while ($row = mysql_fetch_array($retval))
                         </a>
                     </div>
                 </div>
-                <div class="ibox-content no-padding ">
+                <div class="ibox-content no-padding collapsed">
 				<?php 
 				for($g=0;$g<count($listOfGoals);$g++)
 				{
@@ -52,21 +52,22 @@ while ($row = mysql_fetch_array($retval))
 											
 										
 						<div class="col-lg-6">
-							<div class="ibox float-e-margins">
-								<div class="ibox-title">
-								<h5>#<?php echo $listOfGoals[$g]["idGoals"]." ".$listOfGoals[$g]["name"]."</h5>";?>
-									<div class="ibox-tools">
-										<a class="collapse-link">
-											<i class="fa fa-chevron-up"></i>
-										</a>
-									</div>
-								</div>
-								<div class="ibox-content">
-									<div class="panel-body">
-									<p class="text-info"><?php echo $listOfGoals[$g]["description"];?></p>
+						
+						
+						<div class="panel-group" id="accordion<?php echo $index;?>">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h6 class="panel-title">
+                                                <a href="#collapseOne<?php echo $index;?>" data-toggle="collapse" data-parent="#accordion<?php echo $index;?>">#
+												<?php echo $listOfGoals[$g]["idGoals"]." - ".$listOfGoals[$g]["name"]. "(".count($listOfConditions)." conditions)";?></a>
+                                            </h6>
+                                        </div>
+                                        <div class="panel-collapse collapse" id="collapseOne<?php echo $index;?>">
+                                            <div class="panel-body">
+                                                <p class="text-info"><?php echo $listOfGoals[$g]["description"];?></p>
 									<?php echo getPriorityButton($listOfGoals[$i]["priority"]);?>
 									<?php echo getRecurrenceButton($listOfGoals[$i]["recurrence"]);?>
-									<div class="panel-group" id="accordion">
+									<div class="panel-group" >
 									<?php
 									if(count($listOfConditions)==0)
 									{
@@ -78,7 +79,7 @@ while ($row = mysql_fetch_array($retval))
 											<tr>
 											<th></th>
 											<th class="text-center">Description</th>
-											<th class="text-center"> % completed</th>
+											<th class="text-center"> % of task completed</th>
 											<th class="text-center">Completed</th>
 											</tr>
 										<?php 
@@ -102,11 +103,14 @@ while ($row = mysql_fetch_array($retval))
 										?>
 									
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+
                 </div>							
 				<?php 
+				$index++;
 			}
 			?>
                                  
