@@ -1,12 +1,45 @@
 <?php
+$updating = false;
+$validForm = true;
 $listOfUsers= array();
 
 $retval = mysql_query("SELECT * FROM ".MYSQL_DB.".uf_user", $conn );
 while ($row = mysql_fetch_array($retval))
 {
 	array_push($listOfUsers,$row);
+	if($row["user_name"]==$userName)
+	 $myuserId = $row["id"];
 }
 
+
+$dateFrom= date("d-m-Y");
+$dateTo=date('d-m-Y"', strtotime('+1 years'));
+$creatorId= $_GET["userid"];
+if(isset($_GET['addNew'])&& $_GET['addNew']=="true")
+{
+	$name="New Goal";
+	$linkedGoal=null;
+	$private="0";
+	if(isset($_GET['name']))
+		$name=$_GET['name'];
+
+	if(isset($_GET['linkedGoal'])&& is_numeric($_GET['linkedGoal']))
+		$linkedGoal="".$_GET['linkedGoal']."";
+
+	if(isset($_GET['private'])&&$_GET['private']=="on")
+		$private ="1";
+		
+	if(isset($_GET['dateFrom']))
+		$dateFrom = date( 'Y-m-d H:i:s',strtotime($_GET['dateFrom']));
+		
+	if(isset($_GET['dateEnd']))
+		$dateTo = date( 'Y-m-d H:i:s',strtotime($_GET['dateEnd']));
+		
+	$updatesql ="Insert into ".MYSQL_DB.".Goals (description,name,userid,private,linkedgoal,priority,recurrence,startdate,enddate,assignedBy)VALUES";
+	$updatesql.="('".$_GET['description']."','".$name."',".$creatorId.",".$private.",".$linkedGoal.",".$_GET['priority'].",".$_GET['reccurence'].",'".$dateFrom."','".$dateTo."',".$myuserId.")";
+	
+	mysql_query( $updatesql, $conn );
+}
 
 
 ?>
@@ -14,14 +47,18 @@ while ($row = mysql_fetch_array($retval))
   <div class="row">
     <div class="col-lg-12 ibox-title">
       <h2>
-        Create a new goal
+        Create a new goal <?php echo $updatesql;?>
       </h2>
     </div>
-
-
     <div class="ibox-content">
-
-
+	<?php 
+	if ($validForm&& $updating)
+	{
+	echo "<meta http-equiv=\"refresh\" content=\"0; url=\"index.php?page=goals_overview\"\" />";
+	}
+	else
+	{
+	?>
       <form class="form-horizontal" method="get">
 	  <div class="form-group">
           <label class="col-sm-1 control-label">User</label>
@@ -37,69 +74,83 @@ while ($row = mysql_fetch_array($retval))
 			echo $listOfUsers[$i]["user_name"] . " - " . $listOfUsers[$i]["display_name"];
 			echo "</option>";
 			}
-			
-			
+
 			?>
-                                    </select>
+          </select>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-1 control-label">Name</label>
           <div class="col-sm-5">
-            <input class="form-control" type="text" />
+            <input class="form-control" name ="name" type="text" placeholder="Enter goal name"/>
           </div>
         </div>
 
         <div class="form-group">
           <label class="col-sm-1 control-label">Description</label>
           <div class="col-sm-11">
-            <input class="form-control" type="text" />
+            <input class="form-control" name="description" type="text" placeholder="Enter goal description"/>
 
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-1 control-label">Start date </label>
           <div class="col-sm-2">
-            <input class="form-control" type="text" />
+            <input class="form-control" type="text"name="dateFrom" value="<?php echo $dateFrom;?>" placeholder="Enter start date" />
 
           </div>
           <label class="col-sm-1 control-label">End date </label>
           <div class="col-sm-2">
-            <input class="form-control" type="text"  />
+            <input class="form-control" type="text" name="dateEnd" value="<?php echo $dateTo;?>"placeholder="Enter end date" />
           </div>
+		  
           <label class="col-sm-1 control-label">Priority</label>
           <div class="col-sm-1">
-
             <div>
 				<label>
-                <input name="priority"  type="radio" checked="" value="1"> Low </label>
+                <input name="priority"  type="radio"  value="1"> Low </label>
 				<label>
-				<input name="priority"  type="radio" checked="" value="2" SELECTED> Medium </label>
+				<input name="priority"  type="radio"  value="2" CHECKED> Medium </label>
 				<label>
-				<input name="priority"  type="radio" checked="" value="3"> High </label>
+				<input name="priority"  type="radio"  value="3"> High </label>
             </div>
-
           </div>
           <label class="col-sm-1 control-label">Reccurence</label>
           <div class="col-sm-1">
-        <div>
+			<div>
 				<label>
-                <input name="reccurence"  type="radio" checked="" value="1"> Weekly </label>
+				<input name="reccurence"  type="radio" value="1"> Weekly </label>
 				<label>
-				<input name="reccurence"  type="radio" checked="" value="2"> Monthly </label>
+				<input name="reccurence"  type="radio" value="2"> Monthly </label>
 				<label>
-				<input name="reccurence"  type="radio" checked="" value="3"> Yearly </label>
+				<input name="reccurence"  type="radio" value="3" CHECKED> Yearly </label>
 				<label>
-				<input name="reccurence"  type="radio" checked="" value="4" SELECTED> Not set </label>
+				<input name="reccurence"  type="radio" value="4"> Not set </label>
             </div>
           </div>
-          <label class="col-sm-1 control-label">Linked goal </label>
-          <div class="col-sm-1">
-            <input class="form-control" type="text" />
 
-          </div>
+			<input type="hidden" name = "page" value = "goals_new"/>
+			<input type="hidden" name = "addNew" value="true"/> 
+			<input type="hidden" name = "userid" value = "<?php echo $creatorId?>"/> 
+       
         </div>
+		                             <div class="form-group">
+														<label class="col-sm-2 control-label">Linked goal</label> 
+														 <div class="col-sm-3">
+														<input class="form-control" name="linkedGoal" type="text" value ="<?php echo $linkedGoal;?>" placeholder="Enter goal number or leave empty">
+														</div>
+														<label class="col-sm-2 control-label">Private</label> 
+														 <div class="col-sm-1">
+														 <input type="checkbox" name="isPrivate" <?php echo $private=="1"?"CHECKED":"";?>/>
+														 </div>
+														</div>
+		<div class="form-group">
+                                                            <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Add new Goal</strong></button>
+                                                            </div></
          </form>
+		 <?php
+		 }
+		 ?>
       </div>
   </div>
 </div>
