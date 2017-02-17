@@ -1,4 +1,70 @@
 <?php
+function getPriorityButton($id)
+{
+	switch($id)
+	{
+		case "0":
+		return      "<button class=\"btn btn-outline btn-primary\" type=\"button\">LOW</button>";
+		break;
+		case "1":
+		return      "<button class=\"btn btn-outline btn-info\" type=\"button\">LOW</button>";
+		break;
+		case "2":
+		return     "<button class=\"btn btn-outline btn-warning\" type=\"button\">Medium</button>";
+		break;
+		case "3":
+		return     "<button class=\"btn btn-outline btn-danger\" type=\"button\">High</button>";
+		break;
+	}
+}
+
+function formatPercentCompleted($i)
+{
+	if($i!=null &&$i < 25 )
+		return "<div class=\"col-lg-3\"><p class=\"text-danger\">".$i."</p></div><div class=\"progress progress-mini\"><div class=\"progress-bar progress-bar-danger\" style=\"width: ".$i."%;\"></div></div>";
+	else
+	if($i!=null &&$i < 50 )
+
+	return "<div class=\"col-lg-3\"><p class=\"text-warning\">".$i."</p></div><div class=\"progress progress-mini\"><div class=\"progress-bar progress-bar-warning\" style=\"width: ".$i."%;\"></div></div>";
+	else
+		if($i!=null &&$i <75 )
+
+	return "<div class=\"col-lg-3\"><p class=\"text-info\">".$i."</p></div><div class=\"progress progress-mini\"><div class=\"progress-bar progress-bar-info\" style=\"width: ".$i."%;\"></div></div>";
+	else
+		if($i!=null &&$i <= 100 )
+
+	return "<div class=\"col-lg-3\"><p class=\"text-success\">".$i."</p></div><div class=\"progress progress-mini\"><div class=\"progress-bar progress-bar-success\" style=\"width: ".$i."%;\"></div></div>";
+	else
+		if($i!=null &&$i > 100 )
+	return "<div class=\"col-lg-3\"><p class=\"text-success\">".$i."</p></div><div class=\"progress progress-mini\"><div class=\"progress-bar progress-bar-success\" style=\"width: ".$i."%;\"></div></div>";
+}
+
+function formatDateForCondition($i)
+{
+	if($i==null ||$i=="" )
+		return "<p class=\"text-danger\">N/A</p>";
+	else
+		return date('d.m.Y H:i',strtotime($i));
+}
+
+function getRecurrenceButton($id)
+{
+	switch($id)
+	{
+		case "0":
+		return      "<button class=\"btn btn-outline btn-default\" type=\"button\">Not set</button>";
+		break;
+		case "1":
+		return      "<button class=\"btn btn-outline btn-primary\" type=\"button\">Weekly</button>";
+		break;
+		case "2":
+		return      "<button class=\"btn btn-outline btn-info\" type=\"button\">Monthly</button>";
+		break;
+		case "3":
+		return      "<button class=\"btn btn-outline btn-warning\" type=\"button\">Yearly</button>";
+		break;
+	}
+}
 function getColorForBigScreen($i)
 {
 	$arr = array("1AB394", "79D2C0","D3D3D3","BABABA","453d3f","EE3333","33EE33","3333EE");
