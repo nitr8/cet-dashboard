@@ -146,8 +146,9 @@ if (isset($_GET['page']) && $_GET['page'] =="logout")
               <a aria-expanded="false" role="button" href="?page=goals_overview"> Goals  <span class="caret"></span></a>
 			   <ul class="dropdown-menu" role="menu">
 			   <?php
-	 		     echo ("<li><a href=\"?page=goals_overview\" > My goals (".mysql_num_rows(mysql_query("SELECT * FROM ".MYSQL_DB.".Goals g left join uf_user u on g.userid = u.id where u.user_name='".$userName."'",$conn)).") </a></li>");
-				 echo ("<li><a href=\"?page=goals_list\" > List of users goals (".mysql_num_rows(mysql_query("SELECT * FROM ".MYSQL_DB.".Goals g left join uf_user u on g.userid = u.id",$conn)).")</a></li>");
+				echo ("<li><a href=\"?page=goals_my\" > My goals (".mysql_num_rows(mysql_query("SELECT * FROM ".MYSQL_DB.".Goals g left join uf_user u on g.userid = u.id where u.user_name='".$userName."'",$conn)).") </a></li>");
+	 		     //echo ("<li><a href=\"?page=goals_overview\" > My goals (".mysql_num_rows(mysql_query("SELECT * FROM ".MYSQL_DB.".Goals g left join uf_user u on g.userid = u.id where u.user_name='".$userName."'",$conn)).") </a></li>");
+				 //echo ("<li><a href=\"?page=goals_list\" > List of users goals (".mysql_num_rows(mysql_query("SELECT * FROM ".MYSQL_DB.".Goals g left join uf_user u on g.userid = u.id",$conn)).")</a></li>");
 				 echo ("<li><a href=\"?page=goals_new\" > Create a new goal</a></li>");
                 ?>
 				</ul>
