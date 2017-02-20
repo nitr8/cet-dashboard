@@ -74,13 +74,29 @@ while ($row = mysql_fetch_array($retval))
 			?>
                 
                           <div class="well well-lg">
+						
                               <h3>
-						    <a href="index.php?page=goals_my&recurrence=<?php echo $recurrence;?>&complete=<?php echo $listOfGoals[$i]['idGoals'];?>"> <button class="btn btn-info btn-circle btn-lg pull-left" type="button"><i class="fa fa-check"></i></button></a>
+						    <a href="index.php?page=goals_my&recurrence=<?php echo $recurrence;?>&complete=<?php echo $listOfGoals[$i]['idGoals'];?>"> 
+							<button class="btn btn-info btn-circle btn-lg pull-left" type="button"><i class="fa fa-check"></i></button></a>
+							
+							<?php 
+							$completedprc=0;
+							if($listOfGoals[$i]['completionAmount']!=0)
+								$completedprc	= $completed / $listOfGoals[$i]['completionAmount'] * 100;
+							?>
+							
                                   <?php echo "#".$listOfGoals[$i]['idGoals'] ." - ".$listOfGoals[$i]['name']?><button class="btn btn-outline btn-lg btn-danger pull-right" type="button"><?php echo $completed . "/".$listOfGoals[$i]['completionAmount']?></button>
                         
 						</h3>
+				
+						<!--div class="progress progress-striped active">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $completedprc;?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $completedprc;?>%">
+                                    <span class="sr-only">40% Complete (success)</span>
+                                </div>
+                            </div-->
+						
                               <?php echo $listOfGoals[$i]['description']?>
-                          </div>
+                          </div> 
                   
 			<?php 
 			}
