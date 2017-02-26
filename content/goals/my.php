@@ -1,10 +1,11 @@
 <?php $listOfGoals= array();
 $recurrence = "1";
-
-$retval = mysql_query( "SELECT id FROM ".MYSQL_DB.".uf_user where user_name='".$userName."'", $conn );
+$userPassword ="";
+$retval = mysql_query( "SELECT id,password FROM ".MYSQL_DB.".uf_user where user_name='".$userName."'", $conn );
 while ($row = mysql_fetch_array($retval))
 {
 	$userid = $row['id'];
+	$userPassword =$row['password'];;
 }
 
 if(isset($_GET['recurrence']))
@@ -25,7 +26,6 @@ while ($row = mysql_fetch_array($retval))
 	array_push($listOfGoals,$row);
 }
 ?>
-
 
 <div class="gray-bg wrapper wrapper-content">
   <div class="row">
@@ -71,11 +71,16 @@ while ($row = mysql_fetch_array($retval))
 						break;
 					}
 					$completed = mysql_num_rows(mysql_query("SELECT * FROM ".MYSQL_DB.".GoalCompletion where idGoal ='".$listOfGoals[$i]['idGoals']."' AND submitted > ".$recSQL,$conn));
+					$listOfSubmissions = array ();
+					$ret = mysql_query( "SELECT *  FROM ".MYSQL_DB.".GoalCompletion where idGoal=".$listOfGoals[$i]["idGoals"] , $conn );
+					while ($row = mysql_fetch_array($ret))
+					{	
+						array_push($listOfSubmissions,$row);
+						}
 			?>
-                
                           <div class="well well-lg">
 						
-                              <h3>
+                            <h3>
 						    <a href="index.php?page=goals_my&recurrence=<?php echo $recurrence;?>&complete=<?php echo $listOfGoals[$i]['idGoals'];?>"> 
 							<button class="btn btn-info btn-circle btn-lg pull-left" type="button"><i class="fa fa-check"></i></button></a>
 							
@@ -83,18 +88,49 @@ while ($row = mysql_fetch_array($retval))
 							$completedprc=0;
 							if($listOfGoals[$i]['completionAmount']!=0)
 								$completedprc	= $completed / $listOfGoals[$i]['completionAmount'] * 100;
-							?>
-							
-                                  <?php echo "#".$listOfGoals[$i]['idGoals'] ." - ".$listOfGoals[$i]['name']?><button class="btn btn-outline btn-lg btn-danger pull-right" type="button"><?php echo $completed . "/".$listOfGoals[$i]['completionAmount']?></button>
-                        
+							echo "#".$listOfGoals[$i]['idGoals'] ." - ".$listOfGoals[$i]['name']?>
+							  
+							 <a class="btn btn-primary btn-circle btn-lg pull-right" href="#modal-form<?php echo $listOfGoals[$i]["idGoals"];?>" data-toggle="modal">&gt;&gt;</a>
+							<div class="modal fade" id="modal-form<?php echo $listOfGoals[$i]["idGoals"];?>" aria-hidden="true" style="display: none;">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-body">
+											<div class="row">
+												<div class="col-sm-12"><h3 class="m-t-none m-b">Date/time of submission</h3>
+												<?php 
+												for($s=0;$s<count($listOfSubmissions);$s++)
+												{
+													echo "<p>#".($s+1)." - [".$listOfSubmissions[$s]['submitted']. "]</p>";
+												}
+												?>			
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<a class="btn btn-success btn-circle btn-lg pull-right" href="#modal-formURL<?php echo $listOfGoals[$i]["idGoals"];?>" data-toggle="modal"><i class="fa fa-link"></i></a>
+							<div class="modal fade" id="modal-formURL<?php echo $listOfGoals[$i]["idGoals"];?>" aria-hidden="true" style="display: none;">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-body">
+											<div class="row">
+												<div class="col-sm-12"><h3 class="m-t-none m-b">URL for updating goal from outside</h3>
+	
+													<p><?php echo "goals.php?updategoal=".$listOfGoals[$i]["idGoals"]."&token=".$userPassword;?> </p>
+													
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<button class="btn btn-outline btn-lg btn-danger pull-right" type="button"><?php echo $completed . "/".$listOfGoals[$i]['completionAmount']?></button>
+                       
 						</h3>
 				
-						<!--div class="progress progress-striped active">
-                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $completedprc;?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $completedprc;?>%">
-                                    <span class="sr-only">40% Complete (success)</span>
-                                </div>
-                            </div-->
-						
+                        </button>
+					
                               <?php echo $listOfGoals[$i]['description']?>
                           </div> 
                   
