@@ -146,14 +146,13 @@ $_nondue = ($tmp['asc_nd'] + $tmp['as_nd']).", ".$_nondue;
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	 <meta http-equiv="refresh" content="60">
     <title>QUADROtech dashboard
     </title>
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="vendor/chartist/css/chartist.min.css" rel="stylesheet">
     <link href="vendor/bigscreendisplay/bsd.min.css" rel="stylesheet">
   </head>
-  <body class="top-navigation" onload="startTimer()">
+  <body class="top-navigation"  onload="setTimeout('document.location.reload();', 60000);">
     <script src="vendor/jquery/jquery-2.1.1.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="vendor/metisMenu/jquery.metisMenu.js"></script>
